@@ -62,18 +62,47 @@ class EventController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+    // Controller: EventController.php
     public function edit(string $id)
     {
-        //
+        $event = Event::findOrFail($id);
+        return view('events.edit', compact('event'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $event = Event::findOrFail($id);
+
+        // Validasi data
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'date' => 'required|date',
+            'location' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'capacity' => 'required|integer|min:1',
+            'status' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+        ]);
+
+        // Update data
+        $event->name = $validated['name'];
+        $event->date = $validated['date'];
+        $event->location = $validated['location'];
+        $event->description = $validated['description'];
+        $event->capacity = $validated['capacity'];
+        $event->status = $validated['status'];
+
+        // Handle file upload if present
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $event->image = $imagePath;
+        }
+
+        $event->save();  // Simpan perubahan
+
+        return redirect()->route('events.index')->with('success', 'Event updated successfully!');
     }
+
 
     /**
      * Remove the specified resource from storage.
