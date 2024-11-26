@@ -5,7 +5,7 @@
     <h1 class="mb-4">Create Event</h1>
 
     <!-- Form Pembuatan Event -->
-    <form action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data" class="shadow p-4 rounded">
         @csrf
 
         <!-- Nama Event -->
@@ -13,7 +13,7 @@
             <label for="name" class="form-label">Event Name</label>
             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Enter event name" value="{{ old('name') }}" required>
             @error('name')
-                <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
@@ -22,7 +22,7 @@
             <label for="date" class="form-label">Event Date</label>
             <input type="date" class="form-control @error('date') is-invalid @enderror" id="date" name="date" value="{{ old('date') }}" required>
             @error('date')
-                <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
@@ -31,7 +31,7 @@
             <label for="image" class="form-label">Event Image</label>
             <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept=".jpeg, .png, .jpg, .gif">
             @error('image')
-                <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
@@ -40,7 +40,7 @@
             <label for="location" class="form-label">Location</label>
             <input type="text" class="form-control @error('location') is-invalid @enderror" id="location" name="location" placeholder="Enter event location" value="{{ old('location') }}" required>
             @error('location')
-                <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
@@ -49,7 +49,7 @@
             <label for="description" class="form-label">Description</label>
             <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3" placeholder="Enter event description (optional)">{{ old('description') }}</textarea>
             @error('description')
-                <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
@@ -58,7 +58,7 @@
             <label for="capacity" class="form-label">Capacity</label>
             <input type="number" class="form-control @error('capacity') is-invalid @enderror" id="capacity" name="capacity" placeholder="Enter event capacity" value="{{ old('capacity') }}" min="1" required>
             @error('capacity')
-                <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
@@ -72,7 +72,7 @@
                 <option value="Done" {{ old('status') == 'Done' ? 'selected' : '' }}>Done</option>
             </select>
             @error('status')
-                <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
