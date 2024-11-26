@@ -9,3 +9,4 @@ Route::prefix('admin')->group(function () {
 });
 
 Route::resource('events', EventController::class);
+Route::delete('/events/{id}', [EventController::class, 'destroy'])->name('events.destroy');
