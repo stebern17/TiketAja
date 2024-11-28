@@ -41,10 +41,10 @@
                             <a class="nav-link text-white-50 fs-5 mb-5" href="#">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white-50 fs-5 mb-2" href="#">Events</a>
+                            <a class="nav-link text-white-50 fs-5 mb-2" href="{{ route('events.index') }}">Events</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white-50 fs-5 mb-2" href="#">Create Event</a>
+                            <a class="nav-link text-white-50 fs-5 mb-2" href="{{ route('events.create') }}">Create Event</a>
                         </li>
                     </ul>
                 </div>
