@@ -3,6 +3,12 @@
 @section('content')
 <div class="container">
     <h1 style="margin-bottom:70px">List Events</h1>
+
+    <!-- Search Form -->
+    <form method="GET" action="{{ route('events.index') }}" class="mb-3">
+        <input type="text" name="search" class="form-control" placeholder="Search events..." value="{{ request()->get('search') }}">
+    </form>
+
     <table class="table table-striped mt-3 shadow rounded">
         <thead>
             <tr>
@@ -11,13 +17,15 @@
                 <th>Date</th>
                 <th>Location</th>
                 <th>Status</th>
-                <th></th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($events as $event)
+            @if($events->count() > 0)
+            @foreach ($events as $key => $event)
             <tr>
-                <td>{{ $event->id_event }}</td>
+
+                <td>{{ $events->firstItem() + $key }}</td>
                 <td>{{ $event->name }}</td>
                 <td>{{ $event->date }}</td>
                 <td>{{ $event->location }}</td>
@@ -33,8 +41,15 @@
                 </td>
             </tr>
             @endforeach
+            @else
+            <tr>
+                <td colspan="6" class="text-center">No events found matching your search.</td>
+            </tr>
+            @endif
         </tbody>
+
     </table>
+
     <!-- Pagination -->
     <div class="d-flex justify-content-center">
         {{ $events->links() }}
