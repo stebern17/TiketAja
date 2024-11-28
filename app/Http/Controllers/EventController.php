@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
+use Illuminate\Support\Facades\Storage;
+
 
 class EventController extends Controller
 {
@@ -34,37 +36,39 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi form
+        // Validate the form data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'date' => 'required|date',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'location' => 'required|string',
-            'venue' => 'required|string',
+            'venue' => 'required|string',  // Ensure venue is required as well
             'description' => 'nullable|string',
             'capacity' => 'required|integer|min:1',
             'status' => 'required|string',
         ]);
 
-        // Simpan gambar jika ada
+        // Combine location and venue into one field before storing
+        $locationAndVenue = $request->input('location') . ', ' . $request->input('venue');
+
+        // If there's an image, handle the upload
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
         }
 
-        // Menyimpan data event ke database
+        // Save the event to the database
         Event::create([
             'name' => $validatedData['name'],
             'date' => $validatedData['date'],
-            'image' => $imagePath, // Menyimpan path gambar
-            'location' => $validatedData['location'],
-            'venue' => $validatedData['venue'],
+            'image' => $imagePath,
+            'location' => $locationAndVenue, // Save combined location and venue
             'description' => $validatedData['description'],
             'capacity' => $validatedData['capacity'],
             'status' => $validatedData['status'],
         ]);
 
-        // Redirect setelah sukses
+        // Redirect with success message
         return redirect()->route('events.index')->with('success', 'Event created successfully!');
     }
 
@@ -89,12 +93,13 @@ class EventController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validate the input data
+        // Validate the form data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'date' => 'required|date',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image if uploaded
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'location' => 'required|string|max:255',
+            'venue' => 'required|string|max:255', // Validate venue as well
             'description' => 'nullable|string',
             'capacity' => 'required|integer|min:1',
             'status' => 'required|string',
@@ -118,10 +123,13 @@ class EventController extends Controller
             $event->image = $imageName;
         }
 
-        // Update the rest of the event data
+        // Combine location and venue into one field
+        $locationAndVenue = $request->input('location') . ', ' . $request->input('venue');
+
+        // Update the event data
         $event->name = $request->input('name');
         $event->date = $request->input('date');
-        $event->location = $request->input('location');
+        $event->location = $locationAndVenue; // Update with combined location and venue
         $event->description = $request->input('description');
         $event->capacity = $request->input('capacity');
         $event->status = $request->input('status');
@@ -132,6 +140,7 @@ class EventController extends Controller
         // Redirect or return response
         return redirect()->route('events.index')->with('success', 'Event updated successfully!');
     }
+
 
     /**
      * Remove the specified resource from storage.
