@@ -1,5 +1,7 @@
 @extends('layouts.adminLayout')
 
+@section('title', 'Events Tiketku')
+
 @section('content')
 <div class="container mt-5">
   <h1 class="mb-4">Edit Event</h1>
@@ -16,7 +18,7 @@
         placeholder="Enter event name" value="{{ old('name', $event->name) }}" required>
       @error('name')
       <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
+      @enderror
     </div>
 
     <!-- Tanggal Event -->
@@ -26,7 +28,7 @@
         value="{{ old('date', $event->date) }}" required>
       @error('date')
       <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
+      @enderror
     </div>
 
     <!-- Upload Gambar -->
@@ -36,10 +38,10 @@
         accept=".jpeg, .png, .jpg, .gif">
       @if($event->image)
       <img src="{{ asset('storage/images/' . $event->image) }}" alt="Event Image" class="mt-2" width="100">
-    @endif
+      @endif
       @error('image')
       <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
+      @enderror
     </div>
 
     <!-- Lokasi -->
@@ -49,7 +51,7 @@
         placeholder="Enter event location" value="{{ old('location', $event->location) }}" required>
       @error('location')
       <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
+      @enderror
     </div>
 
     <!-- Deskripsi -->
@@ -60,7 +62,7 @@
         placeholder="Enter event description (optional)">{{ old('description', $event->description) }}</textarea>
       @error('description')
       <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
+      @enderror
     </div>
 
     <!-- Kapasitas -->
@@ -70,7 +72,7 @@
         placeholder="Enter event capacity" value="{{ old('capacity', $event->capacity) }}" min="1" required>
       @error('capacity')
       <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
+      @enderror
     </div>
 
     <!-- Status -->
@@ -84,7 +86,7 @@
       </select>
       @error('status')
       <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
+      @enderror
     </div>
 
     <!-- Tombol Submit -->

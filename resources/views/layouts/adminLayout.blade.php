@@ -14,16 +14,34 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid d-flex">
+            <!-- Kiri: Brand & Sidebar Toggle -->
             <div>
-                <a class="navbar-brand" href="#">Admin Dashboard</a>
-                <button class="btn btn-primary" id="sidebarToggle">
-                    <i class="bi bi-list"></i>
-                </button>
-
+                <div>
+                    <a class="navbar-brand" href="#">Admin Dashboard</a>
+                    <button class="btn btn-primary" id="sidebarToggle">
+                        <i class="bi bi-list"></i>
+                    </button>
+                </div>
             </div>
 
+            <!-- Kanan: Dropdown User Settings -->
+            <div class="ms-auto">
+                <ul class="navbar-nav">
+                    <!-- Dropdown Menu for User Settings -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i> <!-- User Icon -->
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Settings</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
+
 
     <div class="container-fluid">
         <div class="row">

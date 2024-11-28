@@ -1,5 +1,7 @@
 @extends('layouts.adminLayout')
 
+@section('title', 'Events Tiketku')
+
 @section('content')
 <div class="container">
     <h1 style="margin-bottom:70px">List Events</h1>
