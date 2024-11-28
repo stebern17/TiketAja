@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
+use Illuminate\Support\Facades\Storage;
+
 
 class EventController extends Controller
 {
@@ -34,35 +36,40 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the incoming data
-        $request->validate([
-            'name' => 'required|max:255',
+        // Validate the form data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
             'date' => 'required|date',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'location' => 'required|max:255',
-            'venue' => 'required|max:255',  // Added venue validation
-            'description' => 'nullable',
-            'capacity' => 'required|integer',
-            'status' => 'required|in:Ongoing,Upcoming,Done',
+            'location' => 'required|string',
+            'venue' => 'required|string',  // Ensure venue is required as well
+            'description' => 'nullable|string',
+            'capacity' => 'required|integer|min:1',
+            'status' => 'required|string',
         ]);
 
-        // Combine location and venue into a single string
-        $locationAndVenue = $request->location . ', ' . $request->venue;
+        // Combine location and venue into one field before storing
+        $locationAndVenue = $request->input('location') . ', ' . $request->input('venue');
 
-        // Prepare the data to store in the database
-        $data = $request->all();
-        $data['location'] = $locationAndVenue; // Store the combined location and venue in the location column
-
-        // Handle image upload
+        // If there's an image, handle the upload
+        $imagePath = null;
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('event_images', 'public');
+            $imagePath = $request->file('image')->store('images', 'public');
         }
 
-        // Create the event
-        Event::create($data);
+        // Save the event to the database
+        Event::create([
+            'name' => $validatedData['name'],
+            'date' => $validatedData['date'],
+            'image' => $imagePath,
+            'location' => $locationAndVenue, // Save combined location and venue
+            'description' => $validatedData['description'],
+            'capacity' => $validatedData['capacity'],
+            'status' => $validatedData['status'],
+        ]);
 
         // Redirect with success message
-        return redirect()->route('events.index')->with('success', 'Event created successfully.');
+        return redirect()->route('events.index')->with('success', 'Event created successfully!');
     }
 
 
@@ -84,46 +91,55 @@ class EventController extends Controller
         return view('events.edit', compact('event'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        $event = Event::findOrFail($id);
-
-        // Validate the incoming data
-        $validated = $request->validate([
+        // Validate the form data
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'date' => 'required|date',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'location' => 'required|string|max:255',
-            'venue' => 'required|string|max:255',  // Added venue validation
+            'venue' => 'required|string|max:255', // Validate venue as well
             'description' => 'nullable|string',
             'capacity' => 'required|integer|min:1',
             'status' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
-        // Combine location and venue into a single string
-        $locationAndVenue = $validated['location'] . ', ' . $validated['venue'];
+        // Find the event by ID
+        $event = Event::findOrFail($id);
 
-        // Update the event with the new data
-        $event->name = $validated['name'];
-        $event->date = $validated['date'];
-        $event->location = $locationAndVenue; // Store the combined location and venue in the location column
-        $event->description = $validated['description'];
-        $event->capacity = $validated['capacity'];
-        $event->status = $validated['status'];
-
-        // Handle file upload if present
+        // If there's an image, handle the upload
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-            $event->image = $imagePath;
+            // Delete the old image if exists
+            if ($event->image && Storage::exists('public/images/' . $event->image)) {
+                Storage::delete('public/images/' . $event->image);
+            }
+
+            // Store the new image
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->storeAs('public/images', $imageName);
+
+            // Update the image field in the database
+            $event->image = $imageName;
         }
 
-        // Save the changes to the event
+        // Combine location and venue into one field
+        $locationAndVenue = $request->input('location') . ', ' . $request->input('venue');
+
+        // Update the event data
+        $event->name = $request->input('name');
+        $event->date = $request->input('date');
+        $event->location = $locationAndVenue; // Update with combined location and venue
+        $event->description = $request->input('description');
+        $event->capacity = $request->input('capacity');
+        $event->status = $request->input('status');
+
+        // Save the updated event
         $event->save();
 
-        // Redirect with success message
+        // Redirect or return response
         return redirect()->route('events.index')->with('success', 'Event updated successfully!');
     }
-
 
 
     /**

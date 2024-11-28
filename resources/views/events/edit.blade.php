@@ -16,7 +16,7 @@
         placeholder="Enter event name" value="{{ old('name', $event->name) }}" required>
       @error('name')
       <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
+      @enderror
     </div>
 
     <!-- Tanggal Event -->
@@ -26,7 +26,7 @@
         value="{{ old('date', $event->date) }}" required>
       @error('date')
       <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
+      @enderror
     </div>
 
     <!-- Upload Gambar -->
@@ -35,22 +35,40 @@
       <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image"
         accept=".jpeg, .png, .jpg, .gif">
       @if($event->image)
-      <img src="{{ asset('storage/images/' . $event->image) }}" alt="Event Image" class="mt-2" width="100">
-    @endif
+      <div class="mt-2">
+        <p>Current Image:</p>
+        <img src="{{ asset('storage/images/' . $event->image) }}" alt="Event Image" class="mt-2" width="100">
+      </div>
+      @endif
       @error('image')
       <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
+      @enderror
     </div>
 
     <!-- Lokasi -->
     <div class="mb-3">
       <label for="location" class="form-label">Location</label>
-      <input type="text" class="form-control @error('location') is-invalid @enderror" id="location" name="location"
-        placeholder="Enter event location" value="{{ old('location', $event->location) }}" required>
+      <select class="form-control @error('location') is-invalid @enderror" id="location" name="location" required>
+        <option value="">Select Location</option>
+        <option value="Yogyakarta" {{ old('location', explode(', ', $event->location)[0] ?? '') == 'Yogyakarta' ? 'selected' : '' }}>Yogyakarta</option>
+        <option value="Solo" {{ old('location', explode(', ', $event->location)[0] ?? '') == 'Solo' ? 'selected' : '' }}>Solo</option>
+        <option value="Semarang" {{ old('location', explode(', ', $event->location)[0] ?? '') == 'Semarang' ? 'selected' : '' }}>Semarang</option>
+      </select>
       @error('location')
       <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
+      @enderror
     </div>
+
+    <div class="mb-3">
+      <label for="venue" class="form-label">Venue</label>
+      <input type="text" class="form-control @error('venue') is-invalid @enderror" id="venue" name="venue"
+        placeholder="Enter event venue" value="{{ old('venue', explode(', ', $event->location)[1] ?? '') }}" required>
+      @error('venue')
+      <div class="invalid-feedback">{{ $message }}</div>
+      @enderror
+    </div>
+
+
 
     <!-- Deskripsi -->
     <div class="mb-3">
@@ -60,7 +78,7 @@
         placeholder="Enter event description (optional)">{{ old('description', $event->description) }}</textarea>
       @error('description')
       <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
+      @enderror
     </div>
 
     <!-- Kapasitas -->
@@ -70,7 +88,7 @@
         placeholder="Enter event capacity" value="{{ old('capacity', $event->capacity) }}" min="1" required>
       @error('capacity')
       <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
+      @enderror
     </div>
 
     <!-- Status -->
@@ -84,7 +102,7 @@
       </select>
       @error('status')
       <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
+      @enderror
     </div>
 
     <!-- Tombol Submit -->
