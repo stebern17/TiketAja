@@ -35,7 +35,10 @@
       <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image"
         accept=".jpeg, .png, .jpg, .gif">
       @if($event->image)
+      <div class="mt-2">
+      <p>Current Image:</p>
       <img src="{{ asset('storage/images/' . $event->image) }}" alt="Event Image" class="mt-2" width="100">
+      </div>
     @endif
       @error('image')
       <div class="invalid-feedback">{{ $message }}</div>
@@ -48,6 +51,16 @@
       <input type="text" class="form-control @error('location') is-invalid @enderror" id="location" name="location"
         placeholder="Enter event location" value="{{ old('location', $event->location) }}" required>
       @error('location')
+      <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+    </div>
+
+    <!-- Venue -->
+    <div class="mb-3">
+      <label for="venue" class="form-label">Venue</label>
+      <input type="text" class="form-control @error('venue') is-invalid @enderror" id="venue" name="venue"
+        placeholder="Enter event venue" value="{{ old('venue', $event->venue) }}" required>
+      @error('venue')
       <div class="invalid-feedback">{{ $message }}</div>
     @enderror
     </div>
