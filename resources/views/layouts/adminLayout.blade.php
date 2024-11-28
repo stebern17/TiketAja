@@ -21,12 +21,6 @@
                 </button>
 
             </div>
-            <div>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-primary" type="submit">Search</button>
-                </form>
-            </div>
 
         </div>
     </nav>
@@ -38,7 +32,7 @@
                 <div class="d-flex flex-column p-3 text-white">
                     <ul class="nav nav-pills flex-column">
                         <li class="nav-item">
-                            <a class="nav-link text-white-50 fs-5 mb-5" href="#">Dashboard</a>
+                            <a class="nav-link text-white-50 fs-5 mb-5" href="{{ route('admin.dashboard') }}">Dashboard</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white-50 fs-5 mb-2" href="{{ route('events.index') }}">Events</a>
