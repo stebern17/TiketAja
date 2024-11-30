@@ -6,6 +6,13 @@
 <div class="container">
     <h1 style="margin-bottom:70px">List Events</h1>
 
+    <!-- Alert setelah penghapusan -->
+    @if(session('success'))
+        <div class="alert alert-danger" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <!-- Search Form -->
     <form method="GET" action="{{ route('events.index') }}" class="mb-3">
         <input type="text" name="search" class="form-control" placeholder="Search events..."
@@ -33,7 +40,7 @@
                         <td>{{ $event->location }}</td>
                         <td>{{ $event->status }}</td>
                         <td>
-                            <!-- Tombol View untuk membuka modal -->
+                            <!-- Tombol View -->
                             <a href="#" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
                                 data-name="{{ $event->name }}" data-date="{{ $event->date }}"
                                 data-image="{{ $event->image ? asset('storage/' . $event->image) : 'No image' }}"
@@ -41,11 +48,11 @@
                                 data-description="{{ $event->description }}" data-capacity="{{ $event->capacity }}"
                                 data-status="{{ $event->status }}">View</a>
 
-
                             <!-- Tombol Edit -->
                             <a href="{{ route('events.edit', $event->id_event) }}" class="btn btn-warning btn-sm">Edit</a>
                             <!-- Tombol Delete -->
-                            <form action="{{ route('events.destroy', $event->id_event) }}" method="POST" class="d-inline">
+                            <form action="{{ route('events.destroy', $event->id_event) }}" method="POST" class="d-inline"
+                                onsubmit="return confirm('Are you sure you want to delete the event {{ $event->name }}?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -72,7 +79,6 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="card">
-                    <!-- Menampilkan gambar event -->
                     <img src="" class="card-img-top" id="modal-event-image" alt="Event Image">
                     <div class="card-body">
                         <h5 class="card-title font-bold" id="modal-event-name"></h5>
@@ -93,10 +99,9 @@
     </div>
 </div>
 
-<!-- JavaScript untuk mengisi data modal -->
 <script>
     $('#eventDetailModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget); // Tombol yang diklik
+        var button = $(event.relatedTarget);
         var name = button.data('name');
         var date = button.data('date');
         var image = button.data('image');
@@ -106,10 +111,9 @@
         var capacity = button.data('capacity');
         var status = button.data('status');
 
-        // Menampilkan data di modal
         $('#modal-event-name').text(name);
         $('#modal-event-date').text(date);
-        $('#modal-event-image').attr('src', image);  // Mengubah src image
+        $('#modal-event-image').attr('src', image);
         $('#modal-location').text(location);
         $("#modal-venue").text(venue);
         $('#modal-description').text(description);
@@ -117,7 +121,5 @@
         $('#modal-status').text(status);
     });
 </script>
-
-
 
 @endsection
