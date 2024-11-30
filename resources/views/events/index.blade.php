@@ -6,12 +6,19 @@
 <div class="container">
     <h1 style="margin-bottom:70px">List Events</h1>
 
-    <!-- Alert setelah penghapusan -->
+    <!-- Alert setelah operasi -->
     @if(session('success'))
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-success" role="alert">
             {{ session('success') }}
         </div>
     @endif
+
+    @if(session('danger'))
+        <div class="alert alert-danger" role="alert">
+            {{ session('danger') }}
+        </div>
+    @endif
+
 
     <!-- Search Form -->
     <form method="GET" action="{{ route('events.index') }}" class="mb-3">
