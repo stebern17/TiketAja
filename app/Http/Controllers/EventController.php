@@ -41,15 +41,15 @@ class EventController extends Controller
             'name' => 'required|string|max:255',
             'date' => 'required|date',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'location' => 'required|string',
-            'venue' => 'required|string',  // Ensure venue is required as well
+            'location' => 'required|string|max:255',
+            'venue' => 'required|string|max:255',
             'description' => 'nullable|string',
             'capacity' => 'required|integer|min:1',
             'status' => 'required|string',
         ]);
 
         // Combine location and venue into one field before storing
-        $locationAndVenue = $request->input('location') . ', ' . $request->input('venue');
+        $locationAndVenue = $validatedData['location'] . ', ' . $validatedData['venue'];
 
         // If there's an image, handle the upload
         $imagePath = null;
@@ -58,19 +58,20 @@ class EventController extends Controller
         }
 
         // Save the event to the database
-        Event::create([
+        $event = Event::create([
             'name' => $validatedData['name'],
             'date' => $validatedData['date'],
             'image' => $imagePath,
             'location' => $locationAndVenue, // Save combined location and venue
-            'description' => $validatedData['description'],
+            'description' => $validatedData['description'] ?? null,
             'capacity' => $validatedData['capacity'],
             'status' => $validatedData['status'],
         ]);
 
         // Redirect with success message
-        return redirect()->route('events.index')->with('success', 'Event created successfully!');
+        return redirect()->route('events.index')->with('success', "Event {$event->name} berhasil dibuat!");
     }
+
 
 
     /**
@@ -99,7 +100,7 @@ class EventController extends Controller
             'date' => 'required|date',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'location' => 'required|string|max:255',
-            'venue' => 'required|string|max:255', // Validate venue as well
+            'venue' => 'required|string|max:255',
             'description' => 'nullable|string',
             'capacity' => 'required|integer|min:1',
             'status' => 'required|string',
@@ -108,48 +109,48 @@ class EventController extends Controller
         // Find the event by ID
         $event = Event::findOrFail($id);
 
-        // If there's an image, handle the upload
+        // Handle the image upload if exists
         if ($request->hasFile('image')) {
             // Delete the old image if exists
-            if ($event->image && Storage::exists('public/images/' . $event->image)) {
-                Storage::delete('public/images/' . $event->image);
+            if ($event->image && Storage::exists('public/' . $event->image)) {
+                Storage::delete('public/' . $event->image);
             }
 
             // Store the new image
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->storeAs('public/images', $imageName);
-
-            // Update the image field in the database
-            $event->image = $imageName;
+            $imagePath = $request->file('image')->store('images', 'public');
+            $event->image = $imagePath;
         }
 
         // Combine location and venue into one field
-        $locationAndVenue = $request->input('location') . ', ' . $request->input('venue');
+        $locationAndVenue = $validatedData['location'] . ', ' . $validatedData['venue'];
 
         // Update the event data
-        $event->name = $request->input('name');
-        $event->date = $request->input('date');
-        $event->location = $locationAndVenue; // Update with combined location and venue
-        $event->description = $request->input('description');
-        $event->capacity = $request->input('capacity');
-        $event->status = $request->input('status');
-
-        // Save the updated event
-        $event->save();
+        $event->update([
+            'name' => $validatedData['name'],
+            'date' => $validatedData['date'],
+            'location' => $locationAndVenue,
+            'description' => $validatedData['description'] ?? $event->description,
+            'capacity' => $validatedData['capacity'],
+            'status' => $validatedData['status'],
+        ]);
 
         // Redirect or return response
-        return redirect()->route('events.index')->with('success', 'Event updated successfully!');
+        return redirect()->route('events.index')->with('success', "Event {$event->name} berhasil diperbarui!");
     }
+
 
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        $events = Event::findOrFail($id);
-        $events->delete();
+        $event = Event::findOrFail($id);
+        $eventName = $event->name; // Simpan nama event sebelum dihapus
+        $event->delete();
 
-        return redirect()->route('events.index')->with('success', 'Event deleted successfully.');
+        // Redirect dengan pesan flash berwarna merah
+        return redirect()->route('events.index')->with('danger', "Event {$eventName} telah dihapus!");
     }
+
 }
