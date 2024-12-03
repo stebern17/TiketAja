@@ -23,7 +23,7 @@
             <li><a href="">Buat Event</a></li>
             <li><a href="">Hubungi Kami</a></li>
         </ul>
-        <button>Login</button>
+        <a href="{{ route('login') }}"><button>Login</button></a>
     </nav>
 
     <main class="px-16 pt-3 pb-40 bg-slate-100">
