@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('order', function (Blueprint $table) {
             $table->id('id_order')->autoIncrement();
             $table->unsignedBigInteger('id_user');
-            $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('id_event');
             $table->foreign('id_event')->references('id_event')->on('events')->onDelete('cascade');
-            $table->integerp('ticket_code');
+            $table->integer('ticket_code');
             $table->string('transaction');
             $table->timestamps();
         });
