@@ -40,13 +40,13 @@ class AuthController extends Controller
     public function redirectUserByRole($route)
     {
         switch (Auth::user()->role) {
-            case 'admin':
+            case 'Admin':
                 return redirect()->route('admin.dashboard');
                 break;
-            case 'user':
+            case 'User':
                 return redirect()->route('catalogue.index');
                 break;
-            case 'promotor':
+            case 'Promotor':
                 return redirect()->route('promotor.dashboard');
                 break;
             default:
@@ -85,9 +85,11 @@ class AuthController extends Controller
         return $this->redirectUserByRole('catalogue.index');
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect()->route('catalogue.index');
     }
