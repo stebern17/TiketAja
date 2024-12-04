@@ -34,7 +34,34 @@
                 <a href="" class="flex items-center justify-center">Hubungi Kami <i class="bx bx-chevron-down"></i></a>
             </li>
         </ul>
-        <button>Login</button>
+        @if(Auth::check())
+        <div>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li class="dropdown-item">Hi {{ Auth::user()->name_user }}</li>
+                        <li><a href="#" class="dropdown-item"><i class="bi bi-ticket"></i> Tiketku</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Settings</a></li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                                @csrf
+                                <button type="submit" class="dropdown-item">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+
+                </li>
+            </ul>
+        </div>
+        @else
+        <!-- Jika pengguna belum login -->
+        <a href="{{ route('login') }}"><button class="bg-blue-600 text-white px-2 py-1 rounded-md">Login</button></a>
+        @endif
     </nav>
 
     <main class="px-16 pt-3 pb-40 bg-slate-100">
