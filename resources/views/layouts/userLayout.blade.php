@@ -7,7 +7,12 @@
     <title>@yield('title')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Script tailwindcss -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Script Box Icons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -19,11 +24,17 @@
         <h1>Judul</h1>
         <ul class="flex gap-8">
             <li><a href="">Beranda</a></li>
-            <li><a href="">Event</a></li>
-            <li><a href="">Buat Event</a></li>
-            <li><a href="">Hubungi Kami</a></li>
+            <li>
+                <a href="" class="flex items-center justify-center">Event <i class="bx bx-chevron-down"></i></a>
+            </li>
+            <li>
+                <a href="" class="flex items-center justify-center">Buat Event <i class="bx bx-chevron-down"></i></a>
+            </li>
+            <li>
+                <a href="" class="flex items-center justify-center">Hubungi Kami <i class="bx bx-chevron-down"></i></a>
+            </li>
         </ul>
-        <a href="{{ route('login') }}"><button>Login</button></a>
+        <button>Login</button>
     </nav>
 
     <main class="px-16 pt-3 pb-40 bg-slate-100">
