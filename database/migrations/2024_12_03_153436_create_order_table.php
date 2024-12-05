@@ -18,6 +18,9 @@ return new class extends Migration
             $table->unsignedBigInteger('id_event');
             $table->foreign('id_event')->references('id_event')->on('events')->onDelete('cascade');
             $table->integer('ticket_code');
+            $table->enum('payment_method', ['bank_transfer', 'gopay', 'qris']);
+            $table->enum('status', ['pending', 'approved', 'rejected']);
+            $table->integer('total_price');
             $table->string('transaction');
             $table->timestamps();
         });
