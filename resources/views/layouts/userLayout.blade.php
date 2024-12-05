@@ -14,31 +14,35 @@
     <!-- Script tailwindcss -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Script Box Icons -->
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Ensure Popper.js is loaded before Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
     <style>
         .dropdown-menu {
             display: none;
         }
+
         .show {
             display: block !important;
         }
+
         #navbar {
-            background-color: rgba(255, 255, 255, 0.9); 
-            backdrop-filter: blur(0px); 
-            transition: background-color 0.3s, backdrop-filter 0.3s; 
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(0px);
+            transition: background-color 0.3s, backdrop-filter 0.3s;
         }
+
         .scrolled {
-            background-color: rgba(255, 255, 255, 0.6); 
+            background-color: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(10px);
         }
-
-
     </style>
 </head>
+
 
 <body>
     <nav id="navbar" class="w-100 ms-0 d-flex justify-content-between px-5 py-3 mx-4 align-items-center position-sticky top-0 z-50  transition-all">
@@ -56,43 +60,29 @@
                     <!-- Kategori Acara Hiburan -->
                     <li class="dropdown-item">
                         <a class="nav-link text-dark" href="#" id="eventEntertainment" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Acara Hiburan <i class="bx bx-chevron-down"></i>
+                            Acara Hiburan
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="eventEntertainment">
-                            <li><a class="dropdown-item" href="#">Konser</a></li>
-                            <li><a class="dropdown-item" href="#">Bioskop & Cinema</a></li>
-                        </ul>
                     </li>
                     <!-- Kategori Acara Olahraga -->
                     <li class="dropdown-item">
                         <a class="nav-link text-dark" href="#" id="eventSports" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Acara Olahraga <i class="bx bx-chevron-down"></i>
+                            Acara Olahraga
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="eventSports">
-                            <li><a class="dropdown-item" href="#">Sepak Bola</a></li>
-                            <li><a class="dropdown-item" href="#">Lari Maraton</a></li>
-                        </ul>
                     </li>
                     <!-- Kategori Acara Pendidikan -->
                     <li class="dropdown-item">
                         <a class="nav-link text-dark" href="#" id="eventEducation" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Acara Pendidikan <i class="bx bx-chevron-down"></i>
+                            Acara Pendidikan
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="eventEducation">
-                            <li><a class="dropdown-item" href="#">Seminar</a></li>
-                            <li><a class="dropdown-item" href="#">Workshop</a></li>
-                        </ul>
+
                     </li>
                     <!-- Kategori Lainnya -->
                     <li class="dropdown-item">
                         <a class="nav-link text-dark" href="#" id="lainya" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Lainya <i class="bx bx-chevron-down"></i>
+                            Lainya
                         </a>
                     </li>
                 </ul>
-            </li>
-            <li>
-                <a href="" class="flex items-center justify-center text-decoration-none text-dark">Buat Event <i class="bx bx-chevron-down"></i></a>
             </li>
             <li>
                 <a href="" class="flex items-center justify-center text-decoration-none text-dark">Hubungi Kami <i class="bx bx-chevron-down"></i></a>
@@ -142,7 +132,7 @@
                         <p class="mb-0">"Murah, Cepat, Terpercaya"</p>
                     </blockquote>
                     <p>
-                        Tiket Aja adalah platform penjualan tiket terpercaya untuk berbagai acara seperti konser, olahraga, seminar, dan lainnya. 
+                        Tiket Aja adalah platform penjualan tiket terpercaya untuk berbagai acara seperti konser, olahraga, seminar, dan lainnya.
                         Dapatkan tiket dengan mudah, cepat, dan aman hanya di Tiket Aja!
                     </p>
                 </div>
@@ -239,9 +229,9 @@
 
     <!--NavBar Scrool-->
     <script>
-        window.addEventListener('scroll', function () {
+        window.addEventListener('scroll', function() {
             const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {  // Jika halaman digulir lebih dari 50px
+            if (window.scrollY > 50) { // Jika halaman digulir lebih dari 50px
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
@@ -249,9 +239,11 @@
         });
     </script>
 
-    <script>var dropdown = new bootstrap.Dropdown(document.getElementById('eventSports'));</script>
+    <script>
+        var dropdown = new bootstrap.Dropdown(document.getElementById('eventSports'));
+    </script>
 
-    
+
 
 </body>
 
