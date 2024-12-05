@@ -8,15 +8,15 @@
 
     <!-- Alert setelah operasi -->
     @if(session('success'))
-        <div class="alert alert-success" role="alert">
-            {{ session('success') }}
-        </div>
+    <div class="alert alert-success" role="alert">
+        {{ session('success') }}
+    </div>
     @endif
 
     @if(session('danger'))
-        <div class="alert alert-danger" role="alert">
-            {{ session('danger') }}
-        </div>
+    <div class="alert alert-danger" role="alert">
+        {{ session('danger') }}
+    </div>
     @endif
 
 
@@ -39,45 +39,45 @@
         </thead>
         <tbody>
             @if($events->count() > 0)
-                @foreach ($events as $key => $event)
-                    <tr>
-                        <td>{{ $events->firstItem() + $key }}</td>
-                        <td>{{ $event->name }}</td>
-                        <td>{{ $event->date }}</td>
-                        <td>{{ $event->location }}</td>
-                        <td>{{ $event->status }}</td>
-                        <td>
-                            <!-- Tombol View -->
-                            <a href="#" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
-                                data-name="{{ $event->name }}" data-date="{{ $event->date }}"
-                                data-image="{{ $event->image ? asset('storage/' . $event->image) : 'No image' }}"
-                                data-location="{{ $event->location }}" data-venue="{{ $event->venue }}"
-                                data-description="{{ $event->description }}" data-capacity="{{ $event->capacity }}"
-                                data-status="{{ $event->status }}">View</a>
+            @foreach ($events as $key => $event)
+            <tr>
+                <td>{{ $events->firstItem() + $key }}</td>
+                <td>{{ $event->name }}</td>
+                <td>{{ $event->date }}</td>
+                <td>{{ $event->location }}</td>
+                <td>{{ $event->status }}</td>
+                <td>
+                    <!-- Tombol View -->
+                    <a href="#" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
+                        data-name="{{ $event->name }}" data-date="{{ $event->date }}"
+                        data-image="{{ $event->image ? asset('storage/' . $event->image) : 'No image' }}"
+                        data-location="{{ $event->location }}" data-venue="{{ $event->venue }}"
+                        data-description="{{ $event->description }}" data-capacity="{{ $event->capacity }}"
+                        data-status="{{ $event->status }}">View</a>
 
-                            <!-- Tombol Edit -->
-                            <a href="{{ route('events.edit', $event->id_event) }}" class="btn btn-warning btn-sm">Edit</a>
-                            <!-- Tombol Delete -->
-                            <form action="{{ route('events.destroy', $event->id_event) }}" method="POST" class="d-inline"
-                                onsubmit="return confirm('Are you sure you want to delete the event {{ $event->name }}?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
+                    <!-- Tombol Edit -->
+                    <a href="{{ route('events.edit', $event->id_event) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <!-- Tombol Delete -->
+                    <form action="{{ route('events.destroy', $event->id_event) }}" method="POST" class="d-inline"
+                        onsubmit="return confirm('Are you sure you want to delete the event {{ $event->name }}?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
             @else
-                <tr>
-                    <td colspan="6" class="text-center">No events found matching your search.</td>
-                </tr>
+            <tr>
+                <td colspan="6" class="text-center">No events found matching your search.</td>
+            </tr>
             @endif
         </tbody>
     </table>
 
     <!-- Pagination -->
-    <div class="d-flex justify-content-center">
-        {{ $events->links() }}
+    <div class="p-2">
+        {{ $events->links('pagination::bootstrap-5') }}
     </div>
 </div>
 
@@ -107,7 +107,7 @@
 </div>
 
 <script>
-    $('#eventDetailModal').on('show.bs.modal', function (event) {
+    $('#eventDetailModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget);
         var name = button.data('name');
         var date = button.data('date');
