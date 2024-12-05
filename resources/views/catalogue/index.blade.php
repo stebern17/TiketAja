@@ -1,6 +1,6 @@
 @extends('layouts.userLayout')
 
-@section('title', 'Tiketku')
+@section('title', 'Tiket Aja - Home Page')
 
 @section('content')
 <!-- Carousel -->
@@ -93,7 +93,7 @@
                 <p class="text-orange-500 font-bold text-sm">Rp275,000</p>
                 <button class="bg-blue-300 text-blue-800 px-3 rounded-full text-xs hover:opacity-80">
                     Lainnya
-                </button>
+                </button> 
             </div>
         </div>
         <div class="bg-white shadow-lg p-3 rounded-md">
@@ -180,13 +180,26 @@
                 </button>
             </div>
         </div>
-
     </div>
-    <button
-        class="bg-blue-800 text-white px-5 py-2 font-semibold rounded-md mt-3 absolute left-1/2 -translate-x-1/2 hover:opacity-80">
-        Lihat semua event
-    </button>
-</div>
+        <button
+            class="bg-blue-800 text-white px-5 py-2 font-semibold rounded-md mt-3 absolute left-1/2 -translate-x-1/2 hover:opacity-80">
+            Lihat semua event
+        </button>
+    </div>
+
+
+    <!-- Banner -->
+    <div class="container bg-warning p-3 rounded" style="height: 200px; margin-block: 100px; background-image: url({{ asset('assets/img/banner5.png') }}); background-size: cover; background-position: center; background-repeat: no-repeat;">
+        <div class="container text-center">
+            <b class="fs-3 fw-bolder d-block mb-3">Event yang dipilih khusus untuk Anda!</b>
+            <p class="fs-6 mb-4 fw-medium">Dapatkan saran acara yang disesuaikan dengan minat Anda! Jangan sampai acara favorit Anda terlewatkan.</p>
+
+            <a href="#" class="btn btn-outline-danger">
+                Get Started
+            </a>
+        </div>
+    </div>
+
 
 <script>
     // Variables
