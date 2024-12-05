@@ -189,7 +189,7 @@
 
 
     <!-- Banner -->
-    <div class="container bg-warning p-3 rounded" style="height: 200px; margin-block: 100px; background-image: url({{ asset('assets/img/banner5.png') }}); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <div class="container bg-warning p-3 rounded" style="height: 200px; margin-block: 100px; background-image: url({{ asset('assets/img/banner7.png') }}); background-size: cover; background-position: center; background-repeat: no-repeat;">
         <div class="container text-center">
             <b class="fs-3 fw-bolder d-block mb-3">Event yang dipilih khusus untuk Anda!</b>
             <p class="fs-6 mb-4 fw-medium">Dapatkan saran acara yang disesuaikan dengan minat Anda! Jangan sampai acara favorit Anda terlewatkan.</p>

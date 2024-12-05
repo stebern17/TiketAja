@@ -241,7 +241,7 @@
     <script>
         window.addEventListener('scroll', function () {
             const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {  // Jika halaman digulir lebih dari 50px
+            if (window.scrollY > 50) {  
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
