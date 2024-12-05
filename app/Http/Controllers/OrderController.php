@@ -16,7 +16,7 @@ class OrderController extends Controller
 
     public function create()
     {
-        $tickets = Ticket::all(); 
+        $tickets = Ticket::all();
         return view('orders.create', compact('tickets'));
     }
 
