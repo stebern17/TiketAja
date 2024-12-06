@@ -75,116 +75,39 @@
         Event Terdekat
     </button>
     <div class="grid grid-cols-5 gap-3 mt-3">
+        @foreach($events as $event)
         <div class="bg-white shadow-lg p-3 rounded-md">
-            <img src="{{ asset('images/user/2.jpg') }}" alt="img-card" class="w-full h-20 rounded-sm" />
+            <img src="{{ 'https://picsum.photos/200/300?random=' . rand(1, 1000) }}" alt="img-card" class="w-full h-20 rounded-sm object-cover" />
             <h2 class="font-semibold text-blue-700 text-sm my-2">
-                Merumatta Half Marathon
+                {{ $event->name }}
             </h2>
             <p class="flex items-center gap-1 text-xs text-slate-500 mb-2">
-                <i class="bx bxs-calendar text-base text-blue-800"></i> Minggu, 8
-                Des 2024
+                <i class="bx bxs-calendar text-base text-blue-800"></i> {{ \Carbon\Carbon::parse($event->date)->format('l, d M Y') }}
             </p>
             <p class="flex items-center gap-1 text-xs text-slate-500 mb-2">
                 <i class="bx bx-current-location text-base text-blue-800"></i>
-                Kab. Lombok Barat, Nusa Tenggara Barat
+                {{ $event->location }}
             </p>
             <p class="text-xs text-blue-800 font-semibold">Mulai dari</p>
             <div class="flex justify-between">
-                <p class="text-orange-500 font-bold text-sm">Rp275,000</p>
-                <button class="bg-blue-300 text-blue-800 px-3 rounded-full text-xs hover:opacity-80">
+                @if($event->tickets->count() > 0)
+                <p class="text-orange-500 font-bold text-sm">Rp{{ number_format($event->tickets->first()->price ?? 0, 0, ',', '.') }}</p>
+                @else
+                <p class="text-orange-500 font-bold text-sm">Soldout</p>
+                @endif
+                <a href="{{ route('user.catalogue.showEvent', $event->id_event) }}" class="bg-blue-300 text-blue-800 px-3 rounded-full text-xs hover:opacity-80">
                     Lainnya
-                </button>
+                </a>
             </div>
         </div>
-        <div class="bg-white shadow-lg p-3 rounded-md">
-            <img src="{{ asset('images/user/2.jpg') }}" alt="img-card" class="w-full h-20 rounded-sm" />
-            <h2 class="font-semibold text-blue-700 text-sm my-2">
-                Merumatta Half Marathon
-            </h2>
-            <p class="flex items-center gap-1 text-xs text-slate-500 mb-2">
-                <i class="bx bxs-calendar text-base text-blue-800"></i> Minggu, 8
-                Des 2024
-            </p>
-            <p class="flex items-center gap-1 text-xs text-slate-500 mb-2">
-                <i class="bx bx-current-location text-base text-blue-800"></i>
-                Kab. Lombok Barat, Nusa Tenggara Barat
-            </p>
-            <p class="text-xs text-blue-800 font-semibold">Mulai dari</p>
-            <div class="flex justify-between">
-                <p class="text-orange-500 font-bold text-sm">Rp275,000</p>
-                <button class="bg-blue-300 text-blue-800 px-3 rounded-full text-xs hover:opacity-80">
-                    Lainnya
-                </button>
-            </div>
-        </div>
-        <div class="bg-white shadow-lg p-3 rounded-md">
-            <img src="{{ asset('images/user/2.jpg') }}" alt="img-card" class="w-full h-20 rounded-sm" />
-            <h2 class="font-semibold text-blue-700 text-sm my-2">
-                Merumatta Half Marathon
-            </h2>
-            <p class="flex items-center gap-1 text-xs text-slate-500 mb-2">
-                <i class="bx bxs-calendar text-base text-blue-800"></i> Minggu, 8
-                Des 2024
-            </p>
-            <p class="flex items-center gap-1 text-xs text-slate-500 mb-2">
-                <i class="bx bx-current-location text-base text-blue-800"></i>
-                Kab. Lombok Barat, Nusa Tenggara Barat
-            </p>
-            <p class="text-xs text-blue-800 font-semibold">Mulai dari</p>
-            <div class="flex justify-between">
-                <p class="text-orange-500 font-bold text-sm">Rp275,000</p>
-                <button class="bg-blue-300 text-blue-800 px-3 rounded-full text-xs hover:opacity-80">
-                    Lainnya
-                </button>
-            </div>
-        </div>
-        <div class="bg-white shadow-lg p-3 rounded-md">
-            <img src="{{ asset('images/user/2.jpg') }}" alt="img-card" class="w-full h-20 rounded-sm" />
-            <h2 class="font-semibold text-blue-700 text-sm my-2">
-                Merumatta Half Marathon
-            </h2>
-            <p class="flex items-center gap-1 text-xs text-slate-500 mb-2">
-                <i class="bx bxs-calendar text-base text-blue-800"></i> Minggu, 8
-                Des 2024
-            </p>
-            <p class="flex items-center gap-1 text-xs text-slate-500 mb-2">
-                <i class="bx bx-current-location text-base text-blue-800"></i>
-                Kab. Lombok Barat, Nusa Tenggara Barat
-            </p>
-            <p class="text-xs text-blue-800 font-semibold">Mulai dari</p>
-            <div class="flex justify-between">
-                <p class="text-orange-500 font-bold text-sm">Rp275,000</p>
-                <button class="bg-blue-300 text-blue-800 px-3 rounded-full text-xs hover:opacity-80">
-                    Lainnya
-                </button>
-            </div>
-        </div>
-        <div class="bg-white shadow-lg p-3 rounded-md">
-            <img src="{{ asset('images/user/2.jpg') }}" alt="img-card" class="w-full h-20 rounded-sm" />
-            <h2 class="font-semibold text-blue-700 text-sm my-2">
-                Merumatta Half Marathon
-            </h2>
-            <p class="flex items-center gap-1 text-xs text-slate-500 mb-2">
-                <i class="bx bxs-calendar text-base text-blue-800"></i> Minggu, 8
-                Des 2024
-            </p>
-            <p class="flex items-center gap-1 text-xs text-slate-500 mb-2">
-                <i class="bx bx-current-location text-base text-blue-800"></i>
-                Kab. Lombok Barat, Nusa Tenggara Barat
-            </p>
-            <p class="text-xs text-blue-800 font-semibold">Mulai dari</p>
-            <div class="flex justify-between">
-                <p class="text-orange-500 font-bold text-sm">Rp275,000</p>
-                <button class="bg-blue-300 text-blue-800 px-3 rounded-full text-xs hover:opacity-80">
-                    Lainnya
-                </button>
-            </div>
-        </div>
+        @endforeach
     </div>
-    <button
-        class="bg-blue-800 text-white px-5 py-2 font-semibold rounded-md mt-3 absolute left-1/2 -translate-x-1/2 hover:opacity-80">
-        Lihat semua event
-    </button>
+</div>
+
+<button
+    class="bg-blue-800 text-white px-5 py-2 font-semibold rounded-md mt-3 absolute left-1/2 -translate-x-1/2 hover:opacity-80">
+    Lihat semua event
+</button>
 </div>
 
 

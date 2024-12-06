@@ -72,8 +72,7 @@ class EventController extends Controller
 
         // Redirect with success message
         return redirect()->route('events.create')->with('success', 'Event created successfully. You can now add tickets.')
-    ->with('eventId', $event->id);
-
+            ->with('eventId', $event->id);
     }
 
 
@@ -156,5 +155,4 @@ class EventController extends Controller
         // Redirect dengan pesan flash berwarna merah
         return redirect()->route('events.index')->with('danger', "Event {$eventName} telah dihapus!");
     }
-
 }

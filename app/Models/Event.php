@@ -21,6 +21,6 @@ class Event extends Model
     ];
     public function tickets()
     {
-        return $this->hasMany(Tickets::class, 'id_event', 'id_event');
+        return $this->hasMany(Tickets::class, 'id_event');
     }
 }

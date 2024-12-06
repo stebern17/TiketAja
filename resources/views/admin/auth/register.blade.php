@@ -5,14 +5,17 @@
 @section('content')
 
 <body class="container-fluid d-flex justify-content-center align-items-center bg-login">
-    <div class="card px-3 card-login">
+    <div class="card px-3 py-3 card-login">
         <div class="card-body d-flex flex-column">
             @if(session('error'))
             <div class="alert alert-danger">
                 {{ session('error') }}
             </div>
             @endif
-            <h5 class="card-title text-center mb-3">REGISTER</h5>
+            <div class="d-flex justify-center">
+                <a href="{{ route('catalogue.index')}}"><i class="bi bi-arrow-left text-primary position-absolute"></i></a>
+                <h5 class="card-title text-center mb-4 mx-auto">LOGIN</h5>
+            </div>
 
             <form method="POST" action="{{ route('register') }}">
                 <div class="form-group mb-2">
@@ -36,10 +39,10 @@
                     <label for="remember" class="form-check-label">Remember me</label>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                <div>
+                    <a href="{{ route('login') }}">Already had one?</a>
+                </div>
             </form>
-        </div>
-        <div class="card-footer text-center d-flex align-items-center justify-content-center text-white" style="border: none;">
-            <small style="color: white;">Have an account? <a href="{{ route('login') }}" class="text-decoration-none">Login</a></small>
         </div>
     </div>
 </body>
