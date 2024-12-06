@@ -189,7 +189,7 @@
 
 
 <!-- Banner -->
-<div class="container bg-warning p-3 rounded">
+<div class="container bg-warning p-3 rounded banner">
     <div class="container text-center">
         <b class="fs-3 fw-bolder d-block mb-3">Event yang dipilih khusus untuk Anda!</b>
         <p class="fs-6 mb-4 fw-medium">Dapatkan saran acara yang disesuaikan dengan minat Anda! Jangan sampai acara favorit Anda terlewatkan.</p>
