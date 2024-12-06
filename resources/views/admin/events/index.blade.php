@@ -55,6 +55,22 @@
                         data-description="{{ $event->description }}" data-capacity="{{ $event->capacity }}"
                         data-status="{{ $event->status }}">View</a>
 
+<<<<<<< HEAD:resources/views/admin/events/index.blade.php
+                            <!-- Tombol Edit -->
+                            <a href="{{ route('events.edit', $event->id_event) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <!-- Tombol Delete -->
+                            <form action="{{ route('events.destroy', $event->id_event) }}" method="POST" class="d-inline"
+                                onsubmit="return confirm('Are you sure you want to delete the event {{ $event->name }}?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                            <a href="{{ route('tickets.create', $event->id_event) }}" class="btn btn-success btn-sm">buat tiket</a>
+
+                        </td>
+                    </tr>
+                @endforeach
+=======
                     <!-- Tombol Edit -->
                     <a href="{{ route('events.edit', $event->id_event) }}" class="btn btn-warning btn-sm">Edit</a>
                     <!-- Tombol Delete -->
@@ -67,6 +83,7 @@
                 </td>
             </tr>
             @endforeach
+>>>>>>> main:resources/views/events/index.blade.php
             @else
             <tr>
                 <td colspan="6" class="text-center">No events found matching your search.</td>

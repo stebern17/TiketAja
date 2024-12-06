@@ -54,6 +54,7 @@
             @enderror
         </div>
 
+        <!-- Venue -->
         <div class="mb-3">
             <label for="venue" class="form-label">Venue</label>
             <input type="text" class="form-control @error('venue') is-invalid @enderror" id="venue" name="venue"
@@ -98,8 +99,13 @@
             @enderror
         </div>
 
-        <!-- Tombol Submit -->
+        <!-- Tombol Submit untuk Event -->
         <button type="submit" class="btn btn-primary">Create Event</button>
     </form>
+
+
+
+
 </div>
 @endsection
+

@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use App\Models\Event; 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
 
 class CatalogueController extends Controller
 {

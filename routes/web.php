@@ -1,15 +1,15 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\TicketsController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\User\CatalogueController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\CatalogueController;
-use App\Http\Controllers\AuthController;
 
-Route::get('/', [CatalogueController::class, 'index'])->name('catalogue.index');
-Route::get('/catalogue/detailEvent/{id}', [CatalogueController::class, 'showEvent'])->name('event.show');
-
-
+Route::get('/', function () {
+    return view('user.catalogue.index');
+});
 
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
@@ -21,7 +21,13 @@ Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 });
 
+// Rute untuk Event
 Route::resource('events', EventController::class);
-Route::get('/events/{id}/edit', [EventController::class, 'edit'])->name('events.edit');
-Route::put('/events/{event}', [EventController::class, 'update'])->name('events.update');
-Route::delete('/events/{id}', [EventController::class, 'destroy'])->name('events.destroy');
+
+// Rute untuk Tickets
+Route::get('/tickets/create/{event_id}', [TicketsController::class, 'create'])->name('tickets.create');
+Route::post('/tickets', [TicketsController::class, 'store'])->name('tickets.store');
+Route::get('/tickets/{ticket}', [TicketsController::class, 'show'])->name('tickets.show');
+Route::get('/tickets/{ticket}/edit', [TicketsController::class, 'edit'])->name('tickets.edit');
+Route::put('/tickets/{ticket}', [TicketsController::class, 'update'])->name('tickets.update');
+Route::delete('/tickets/{ticket}', [TicketsController::class, 'destroy'])->name('tickets.destroy');

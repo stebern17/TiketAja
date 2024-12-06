@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
 use Illuminate\Support\Facades\Storage;
-
+use App\Http\Controllers\Controller;
 
 class EventController extends Controller
 {
@@ -20,7 +20,7 @@ class EventController extends Controller
                 ->orWhere('location', 'like', '%' . $search . '%');
         })->paginate(10);
 
-        return view('events.index', compact('events'));
+        return view('admin.events.index', compact('events'));
     }
 
     /**
@@ -28,7 +28,8 @@ class EventController extends Controller
      */
     public function create()
     {
-        return view('events.create');
+        $event = Event::all();
+        return view('admin.tickets.create', compact('event'));
     }
 
     /**
@@ -68,8 +69,11 @@ class EventController extends Controller
             'status' => $validatedData['status'],
         ]);
 
+
         // Redirect with success message
-        return redirect()->route('events.index')->with('success', "Event {$event->name} berhasil dibuat!");
+        return redirect()->route('events.create')->with('success', 'Event created successfully. You can now add tickets.')
+    ->with('eventId', $event->id);
+
     }
 
 
@@ -89,7 +93,7 @@ class EventController extends Controller
     public function edit(string $id)
     {
         $event = Event::findOrFail($id);
-        return view('events.edit', compact('event'));
+        return view('admin.events.edit', compact('event'));
     }
 
     public function update(Request $request, $id)
