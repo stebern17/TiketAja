@@ -31,4 +31,3 @@ Route::get('/tickets/{ticket}', [TicketsController::class, 'show'])->name('ticke
 Route::get('/tickets/{ticket}/edit', [TicketsController::class, 'edit'])->name('tickets.edit');
 Route::put('/tickets/{ticket}', [TicketsController::class, 'update'])->name('tickets.update');
 Route::delete('/tickets/{ticket}', [TicketsController::class, 'destroy'])->name('tickets.destroy');
-

@@ -66,55 +66,108 @@
     </nav>
 
     <!--Konten 1-->
-    <div class="container-fluid" style="height: 578px; background-image: url('public/assets/img/homepage.jpg'); background-size: cover; background-position: center;">
-    </div>
+    <div class="container-fluid d-flex flex-column align-items-center justify-content-center" style="height: 100vh; background-image: url('public/assets/img/homepage.jpg'); background-size: cover; background-position: center;">
+        <div class="w-75" style="max-width: 75%;">
+            <h5 class="fw-bold fs-2 text-white">Jangan lewatkan!<br> Jelajahi berbagai <span class="text-danger">Event seru</span> yang berlangsung baik secara lokal maupun global.</h5>
+        </div>
 
-    <!--Konten 2 Kategori-->
-    <div class="container my-5" style="height: 300px;">
-        <h5 class="fw-bold text-dark">Jelajahi Kategori</h5>
-        <div style="width: 100%; height: 100%; justify-content: center; align-items:center; display: inline-flex">
-
-            <div style="flex-direction: column; justify-content: flex-start; align-items: center; gap: 5px; display: inline-flex">
-                <div style="width: 100px; height: 100px; position: relative; background: #D9D9D9; border-radius: 120px; overflow: hidden; margin: 0 auto;">
-                    <img src="public/assets/img/pexels-mediocrememories-2240771.jpg" style="width: 100%; height: 100%; object-fit: cover;">
-                </div>
-                <div class="text-center text-dark fw-bold" style="width: 236px; word-wrap: break-word;">Konser Musik</div>
-            </div>
-
-            <div style="flex-direction: column; justify-content: flex-start; align-items: center; gap: 5px; display: inline-flex">
-                <div style="width: 100px; height: 100px; position: relative; background: #D9D9D9; border-radius: 120px; overflow: hidden;">
-                    <img src="public/assets/img/pexels-cottonbro-6899942.jpg" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
-                </div>
-                <div class="text-center text-dark fw-bold" style="width: 236px; word-wrap: break-word;">Pentas Teater</div>
-            </div>
-
-            <div style="flex-direction: column; justify-content: flex-start; align-items: center; gap: 5px; display: inline-flex">
-                <div style="width: 100px; height: 100px; position: relative; background: #D9D9D9; border-radius: 120px; overflow: hidden;">
-                    <img src="public/assets/img/am football.jpg" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
-                </div>
-                <div class="text-center text-dark fw-bold" style="width: 236px; word-wrap: break-word;">Olahraga</div>
-            </div>
-
-            <div style="flex-direction: column; justify-content: flex-start; align-items: center; gap: 5px; display: inline-flex">
-                <div style="width: 100px; height: 100px; position: relative; background: #D9D9D9; border-radius: 120px; overflow: hidden;">
-                    <img src="public/assets/img/cinema.jpg" style="width: 100%; height: 100%; object-fit: cover;">
-                </div>
-                <div class="text-center text-dark fw-bold" style="width: 236px; word-wrap: break-word;">Bioskop & Cinema</div>
-            </div>
-
-            <div style="flex-direction: column; justify-content: flex-start; align-items: center; gap: 5px; display: inline-flex">
-                <div style="width: 100px; height: 100px; position: relative; background: #D9D9D9; border-radius: 120px; overflow: hidden;">
-                    <img src="public/assets/img/pexels-wendywei-1047940.jpg" style="width: 100%; height: 100%; object-fit: cover;">
-                </div>
-                <div class="text-center text-dark fw-bold" style="width: 236px; word-wrap: break-word;">Konser Musik</div>
+        <!--Search Bar Brow-->
+        <div class="w-75">
+            <div class="input-group">
+                <!-- Search Input -->
+                <input type="text" class="form-control" placeholder="Cari Event, Kategori, Lokasi...." style="flex-grow: 1;">
+                
+                <!-- Dropdown Lokasi -->
+                <select class="form-select" aria-label="Pilih Lokasi" style="max-width: 150px;">
+                    <option selected>Pilih Lokasi</option>
+                    <option value="1">Jakarta</option>
+                    <option value="2">Bandung</option>
+                    <option value="3">Surabaya</option>
+                </select>
             </div>
         </div>
+
+
+    </div>
+
+
+    <!--Konten 2 Kategori-->
+    <div class="container-fluid mt-3  mb-5 d-flex flex-column justify-content-center align-items-center" style="height: 300px; padding-inline: 65px;">
+        <div class="w-100 d-flex justify-content-start">
+            <h5 class="fs-2 fw-bold mb-4 text-start">Jelajahi Kategori</h5>
+        </div>
+
+        
+        <div class="row px-5 d-flex justify-content-start overflow-y-auto flex-nowrap w-75">
+
+            <!--Kategori 1-->
+            <div class="d-flex flex-column justify-content-center align-items-center mx-5" style="height: 200px; width: 120px;">
+                <!-- Gambar Bulat -->
+                <div class="overflow-hidden rounded-circle bg-white d-flex align-items-center" style="width: 100px; height: 100px;">
+                    <img src="public/assets/img/pexels-mediocrememories-2240771.jpg" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <!-- Teks -->
+                <div class="fw-bold fs-6 text-dark mt-3 mb-0 text-center" style="font-size: 14px; height: 50px;">Konser Musik</div>
+            </div>
+
+            <!--Kategori 2-->
+            <div class="d-flex flex-column justify-content-center align-items-center mx-5" style="height: 200px; width: 120px;">
+                <!-- Gambar Bulat -->
+                <div class="overflow-hidden rounded-circle bg-white d-flex align-items-start" style="width: 100px; height: 100px;">
+                    <img src="public/assets/img/pexels-cottonbro-6899942.jpg" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <!-- Teks -->
+                <div class="fw-bold fs-6 text-dark mt-3 mb-0 text-center" style="font-size: 14px;  height: 50px;">Pertujukan Teater</div>
+            </div>
+
+            <!--KAtegori 3-->
+            <div class="d-flex flex-column justify-content-center align-items-center mx-5" style="height: 200px; width: 120px;">
+                <!-- Gambar Bulat -->
+                <div class="overflow-hidden rounded-circle bg-white d-flex align-items-start" style="width: 100px; height: 100px;">
+                    <img src="public/assets/img/timnas.jpg" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <!-- Teks -->
+                <div class="fw-bold fs-6 text-dark mt-3 mb-0 text-center" style="font-size: 14px; height: 50px;">Olahraga</div>
+            </div>
+
+            <!--Kategori 4-->
+            <div class="d-flex flex-column justify-content-center align-items-center mx-5" style="height: 200px; width: 120px;">
+                <!-- Gambar Bulat -->
+                <div class="overflow-hidden rounded-circle bg-white d-flex align-items-start" style="width: 100px; height: 100px;">
+                    <img src="public/assets/img/cinema.jpg" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <!-- Teks -->
+                <div class="fw-bold fs-6 text-dark mt-3 mb-0 text-center" style="font-size: 14px;">Bioskop & Cinema</div>
+            </div>
+
+            <!--Kategori 5-->
+            <div class="d-flex flex-column justify-content-center align-items-center mx-5" style="height: 200px; width: 120px;">
+                <!-- Gambar Bulat -->
+                <div class="overflow-hidden rounded-circle bg-white d-flex align-items-start" style="width: 100px; height: 100px;">
+                    <img src="public/assets/img/workshop.jpg" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <!-- Teks -->
+                <div class="fw-bold fs-6 text-dark mt-3 mb-0 text-center">Seminar & Workshop</div>
+            </div>
+
+            <!--Kategori 6-->
+            <div class="d-flex flex-column justify-content-center align-items-center mx-5" style="height: 200px; width: 120px;">
+                <!-- Gambar Bulat -->
+                <div class="overflow-hidden rounded-circle bg-white d-flex align-items-start" style="width: 100px; height: 100px;">
+                    <img src="public/assets/img/dalang.jpg" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <!-- Teks -->
+                <div class="fw-bold fs-6 text-dark mt-3 mb-0 text-center">Festival & Pameran</div>
+            </div>
+        
+        </div>
+
     </div>
 
     <!--Konten 3 Event Populer -->
     <div class="container mt-4">
 
-        <h5 class="fw-bold">Event Populer di Jogjakarta</h5>
+        <h5 class="fs-2 fw-bold">Event Populer di Jogjakarta</h5>
 
         <div class="filter-buttons mb-3">
             <button class="btn btn-secondary">Semua</button>
