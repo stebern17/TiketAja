@@ -27,6 +27,7 @@ Route::get('/catalogue/{id_event}', [CatalogueController::class, 'showEvent'])->
 // Rute untuk Tickets
 Route::get('/tickets/create/{event_id}', [TicketsController::class, 'create'])->name('tickets.create');
 Route::post('/tickets', [TicketsController::class, 'store'])->name('tickets.store');
+Route::get('/events/{event}/tickets', [TicketsController::class, 'index'])->name('tickets.index');
 Route::get('/tickets/{ticket}', [TicketsController::class, 'show'])->name('tickets.show');
 Route::get('/tickets/{ticket}/edit', [TicketsController::class, 'edit'])->name('tickets.edit');
 Route::put('/tickets/{ticket}', [TicketsController::class, 'update'])->name('tickets.update');
