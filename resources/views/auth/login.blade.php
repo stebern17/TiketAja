@@ -5,7 +5,7 @@
 @section('content')
 
 <body class="container-fluid d-flex justify-content-center align-items-center bg-login">
-    <div class="card px-3 py-3" style="width: 300px; background-color: rgba(250, 250, 250, 0.419); backdrop-filter: blur(10px); border: none; box-sizing: border-box;">
+    <div class="card px-3 py-3 card-login">
         <div class="card-body d-flex flex-column">
             @if(session('error'))
             <div class="alert alert-danger">
