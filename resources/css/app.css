@@ -22,3 +22,28 @@
     background-color: #495057;
     color: white;
 }
+
+.bg-login {
+    height: 100vh;
+    width: 100vw;
+    background-image: url("./../../public/assets/img/bglogin.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.card-login {
+    width: 300px;
+    background-color: rgba(250, 250, 250, 0.419);
+    backdrop-filter: blur(10px);
+    border: none;
+    box-sizing: border-box;
+}
+
+.banner {
+    height: 200px;
+    margin-block: 100px;
+    background-image: url("./../../public/assets/img/banner7.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
