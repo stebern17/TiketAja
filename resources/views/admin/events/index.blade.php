@@ -35,6 +35,7 @@
                 <th>Location</th>
                 <th>Status</th>
                 <th>Actions</th>
+                <th>Actions Tiket</th>
             </tr>
         </thead>
         <tbody>
@@ -64,8 +65,10 @@
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
+                </td>
+                <td>
                     <a href="{{ route('tickets.create', $event->id_event) }}" class="btn btn-success btn-sm">buat tiket</a>
-
+                    <a href="{{ route('tickets.index', $event->id_event) }}" class="btn btn-info btn-sm">lihat tiket</a>
                 </td>
             </tr>
             @endforeach

@@ -28,8 +28,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        $event = Event::all();
-        return view('admin.tickets.create', compact('event'));
+        return view('admin.events.create');
     }
 
     /**
@@ -59,7 +58,7 @@ class EventController extends Controller
         }
 
         // Save the event to the database
-        $event = Event::create([
+        Event::create([
             'name' => $validatedData['name'],
             'date' => $validatedData['date'],
             'image' => $imagePath,
@@ -71,8 +70,7 @@ class EventController extends Controller
 
 
         // Redirect with success message
-        return redirect()->route('events.create')->with('success', 'Event created successfully. You can now add tickets.')
-            ->with('eventId', $event->id);
+        return redirect()->route('events.index')->with('success', 'Event created successfully. You can now add tickets.');
     }
 
 
@@ -82,7 +80,8 @@ class EventController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $event = Event::findOrFail($id);
+        return view('admin.events.show', compact('event'));
     }
 
     /**

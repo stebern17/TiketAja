@@ -19,8 +19,8 @@ class Tickets extends Model
         'id_event',
         'type',
         'price',
-        'qr_code',
         'quantity',
+        'qr_code',
     ];
 
     /**
