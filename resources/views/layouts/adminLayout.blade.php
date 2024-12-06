@@ -36,7 +36,7 @@
                             <i class="bi bi-person-circle"></i> <!-- User Icon -->
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li class="dropdw">Hi {{ Auth::user()->name_user }}</li>
+                            {{-- <li class="dropdw">Hi {{ Auth::user()->name_user }}</li> --}}
                             <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Settings</a></li>
                             <li>
                                 <form action="{{ route('logout') }}" method="POST" style="display: inline;">

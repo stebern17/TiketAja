@@ -64,6 +64,8 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                             </form>
+                            <a href="{{ route('tickets.create', $event->id_event) }}" class="btn btn-success btn-sm">buat tiket</a>
+
                         </td>
                     </tr>
                 @endforeach
