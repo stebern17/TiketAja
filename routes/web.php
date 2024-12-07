@@ -7,7 +7,7 @@ use App\Http\Controllers\CatalogueController;
 use App\Http\Controllers\AuthController;
 
 Route::get('/', [CatalogueController::class, 'index'])->name('catalogue.index');
-Route::get('/catalogue/detailEvent/{id}', [CatalogueController::class, 'showEvent'])->name('event.show');
+Route::get('/catalogue/event', [CatalogueController::class, 'showEvent'])->name('catalogue.event');
 
 
 

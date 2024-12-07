@@ -12,15 +12,21 @@ class CatalogueController extends Controller
     {
         return view('catalogue.index');
     }
-    
-    public function showEvent($id)
-    {
-        // Mencari event berdasarkan ID
-        $event = Event::findOrFail($id);
 
-        // Mengirim data event ke view
+    public function showEvent() //Data Dummy Aja
+    {
+        // Data dummy
+        $event = [
+            'title' => 'Juicy Luicy',
+            'date' => '2024-12-06',
+            'location' => 'Yogyakarta',
+            'description' => 'AGAGAGAGA.',
+        ];
+
+        // Mengirim data dummy ke view
         return view('catalogue.event', compact('event'));
     }
+
 
 }
 

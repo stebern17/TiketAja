@@ -1,6 +1,6 @@
 @extends('layouts.authLayout')
 
-@section('title', 'Login')
+@section('title', 'Login - Tiket Aja')
 
 @section('content')
 
@@ -14,14 +14,14 @@
                         @endif
                 <h5 class="card-title text-center mb-4">LOGIN</h5>
 
-                <div class="d-flex justify-content-between mb-3">
-                    <!-- Button untuk Login dengan Google -->
-                    <button class="btn btn-outline-danger flex-fill me-2 fs-7 btn-sm">
-                        <i class="fab fa-google"></i> Login with Google
+                <div class="container d-flex justify-content-center mb-1 flex-column">
+                    
+                    <button class="btn btn-outline-danger fs-7 btn-sm mb-2">
+                        <i class="fab fa-google me-2"></i> Login with Google
                     </button>
-                    <!-- Button untuk Login dengan Facebook -->
-                    <button class="btn btn-outline-primary flex-fill ms-2 fs-7 btn-sm">
-                        <i class="fab fa-facebook-f"></i> Login with Facebook
+                    
+                    <button class="btn btn-outline-primary fs-7 btn-sm">
+                        <i class="fab fa-facebook-f me-2"></i> Login with Facebook
                     </button>
                 </div>
 
@@ -36,7 +36,12 @@
                     </div>
                     <div class="form-grup mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" name="password" required>
+                            <button type="button" class="btn btn-link bg-white" id="togglePassword">
+                                <i class="fas fa-eye color-dark"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="form-check mb-3">
                         <input type="checkbox" class="form-check-input" id="remember">
@@ -49,5 +54,22 @@
                 <small style="color: white;">Don't have an account? <a href="{{ route('register') }}" class="text-decoration-none">Sign up</a></small>
             </div>
         </div>
+        <script>
+            document.getElementById('togglePassword').addEventListener('click', function () {
+                const passwordField = document.getElementById('password');
+                const icon = this.querySelector('i');
+                
+                // Toggle tipe input antara password dan text
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordField.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        </script>
 </body>
 @endsection
