@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use App\Models\Ticket;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class TicketController extends Controller
 {
@@ -13,8 +14,9 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::with('event')->get();
-        return view('tickets.index', compact('tickets'));
+        $events = Event::all();
+        $tickets = Ticket::all();
+        return view('user.tickets.index', compact('events', 'tickets'));
     }
 
     /**
@@ -40,7 +42,7 @@ class TicketController extends Controller
         ]);
 
         Ticket::create($request->all());
-        return redirect()->route('tickets.index')->with('success', 'Tiket berhasil dibuat.');
+        return redirect()->route('ticket.user.index')->with('success', 'Tiket berhasil dibuat.');
     }
 
     /**
@@ -49,7 +51,7 @@ class TicketController extends Controller
     public function show($id)
     {
         $ticket = Ticket::with('event')->findOrFail($id);
-        return view('tickets.show', compact('ticket'));
+        return view('ticket.user.show', compact('ticket'));
     }
 
     /**
@@ -59,7 +61,7 @@ class TicketController extends Controller
     {
         $ticket = Ticket::findOrFail($id);
         $events = Event::all();
-        return view('tickets.edit', compact('ticket', 'events'));
+        return view('ticket.edit', compact('ticket', 'events'));
     }
 
     /**

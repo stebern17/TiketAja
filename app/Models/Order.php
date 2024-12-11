@@ -21,4 +21,9 @@ class Order extends Model
     {
         return $this->belongsTo(Ticket::class);
     }
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class, 'id_event', 'id_event');
+    }
 }

@@ -26,7 +26,8 @@
                         <a href="#" id="tab1" class="tab-link text-blue-600 border-b-2 border-transparent hover:border-blue-600 pb-2 px-4">Syarat dan Ketentuan</a>
                     </li>
                     <li>
-                        <a href="#" id="tab2" class="tab-link text-blue-600 border-b-2 border-transparent hover:border-blue-600 pb-2 px-4">Tiket</a>
+                        <a href="{{ route('tickets.index', ['event' => $event->id_event]) }}" id="tab2" class="tab-link text-blue-600 border-b-2 border-transparent hover:border-blue-600 pb-2 px-4">Tiket</a>
+
                     </li>
                 </ul>
             </div>
@@ -43,29 +44,38 @@
 
             <!-- Tab Content: Tiket -->
             <div id="tab2-content" class="tab-content hidden">
-                <div class="flex space-x-6">
+                <div class="tickets grid grid-cols-1 gap-4 lg:grid-cols-2">
                     @foreach ($event->tickets as $ticket) <!-- Loop through each ticket for the event -->
-                    <div class="bg-white shadow-lg rounded-lg p-6 w-full md:w-1/3">
-                        <h3 class="text-2xl font-bold mb-2">{{ $ticket->type }} Ticket</h3>
-                        <p class="text-lg font-semibold text-orange-500">Rp {{ number_format($ticket->price, 0, ',', '.') }}</p>
+                    <div class="ticket bg-primary-50 flex flex-col gap-8 rounded-xl p-6">
+                        {{-- <div class="w-full h-48">
+                            <img src="{{ asset('storage/images/' . $ticket->image) }}" alt="Ticket Image" class="w-full h-full object-cover rounded-t-lg">
+                        </div> --}}
+                        <div class="bg-gray-100 flex flex-col gap-4 rounded-xl p-6">
+                            <h2 class="text-primary-900 text-lg font-semibold">{{ $ticket->type }} Ticket</h2>
+                            <span class="text-sm text-gray-500 md:text-base">{{ $ticket->description }}</span>
+                            <h4 class="text-primary-900 text-xl font-bold md:text-3xl">Rp {{ number_format($ticket->price, 0, ',', '.') }}</h4>
 
-                        <!-- Quantity Form -->
-                        <form action="{{ route('orders.store') }}" method="POST" class="mt-4">
-                            @csrf
-                            <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
-                            <input type="hidden" name="customer_name" value="Anonymous"> <!-- You can replace this with dynamic data from user authentication if needed -->
-                            <input type="hidden" name="customer_email" value="customer@example.com"> <!-- You can replace this with dynamic data from user authentication if needed -->
+                            <!-- Quantity Form -->
+                            <form action="{{ route('orders.store') }}" method="POST" class="mt-4">
+                                @csrf
+                                <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
+                                <input type="hidden" name="customer_name" value="Anonymous"> <!-- Replace with dynamic user authentication data if needed -->
+                                <input type="hidden" name="customer_email" value="customer@example.com"> <!-- Replace with dynamic user authentication data if needed -->
 
-                            <div class="flex items-center space-x-4">
-                                <input type="number" name="quantity" min="1" max="{{ $ticket->quantity }}" value="1" class="w-20 p-2 border rounded-md" required>
-                                <p class="text-sm text-gray-500">Max available: {{ $ticket->quantity }}</p>
-                            </div>
-                            <button type="submit" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Buy Ticket</button>
-                        </form>
+                                <div class="flex items-center space-x-4">
+                                    <input type="number" name="quantity" min="1" max="{{ $ticket->quantity }}" value="1" class="w-20 p-2 border rounded-md" required>
+                                    <p class="text-sm text-gray-500">Max available: {{ $ticket->quantity }}</p>
+                                </div>
+                                <button type="submit" class="mt-4 w-full py-2 px-4 text-center text-white rounded-lg border border-primary-900 bg-blue-900 hover:bg-primary-950 duration-200 ">
+                                    Buy Ticket
+                                </button>
+                            </form>
+                        </div>
                     </div>
                     @endforeach
                 </div>
             </div>
+
         </div>
     </section>
 
