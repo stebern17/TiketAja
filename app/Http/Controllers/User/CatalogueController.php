@@ -13,16 +13,28 @@ class CatalogueController extends Controller
     /**
      * Display the catalog of events.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Fetch the upcoming events (limit to 5)
-        $events = Event::latest('date')  // Assuming events have a 'date' field
-            ->take(5)  // Limit to 5 events
-            ->get();
+        $query = Event::query();
+
+        // Filter berdasarkan pencarian
+        if ($request->has('search') && $request->search != '') {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter berdasarkan kategori
+        if ($request->has('category') && $request->category != '') {
+            $query->where('category', $request->category);  // Pastikan ini adalah nama kolom kategori
+        }
+
+        $events = $query->latest('date') // Mengambil event terbaru berdasarkan tanggal
+            ->take(5)          // Batas hasil menjadi 5
+            ->get();           // Ambil hasilnya
 
         // Return the view with the events data
         return view('user.catalogue.index', compact('events'));
     }
+
 
     /**
      * Show a specific event by its ID.
@@ -34,5 +46,26 @@ class CatalogueController extends Controller
 
         // Pass the event to the view
         return view('user.catalogue.detailEvent', compact('event'));
+    }
+
+    public function showAllEvents(Request $request)
+    {
+        $query = Event::query();
+
+        // Filter berdasarkan pencarian
+        if ($request->has('search') && $request->search != '') {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter berdasarkan kategori
+        if ($request->has('category') && $request->category != '') {
+            $query->where('category', $request->category);
+        }
+
+        // Menambahkan pengurutan dan pagination
+        $events = $query->orderBy('date', 'desc')->paginate(8);
+
+        // Kembalikan ke view dengan data
+        return view('user.catalogue.allEvents', compact('events'));
     }
 }

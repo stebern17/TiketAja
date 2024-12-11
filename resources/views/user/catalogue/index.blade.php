@@ -39,10 +39,14 @@
 
 <!-- Search -->
 <div class="mt-3">
-    <form class="grid grid-cols-6 gap-3 text-sm">
-        <input type="text" placeholder="Cari Event Disini..."
+    <!-- Pencarian -->
+    <form action="{{ route('catalogue.index') }}" method="GET" class="grid grid-cols-6 gap-3 text-sm">
+        <!-- Input Pencarian -->
+        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Event Disini..."
             class="col-span-5 outline-none border-2 border-blue-800 py-2 px-3 rounded-xl shadow-md" />
-        <button
+
+        <!-- Tombol Cari -->
+        <button type="submit"
             class="flex items-center gap-2 justify-center col-span-1 bg-blue-800 text-white py-2 rounded-xl hover:opacity-80">
             <i class="bx bx-search text-xl"></i> Cari Event
         </button>
@@ -51,22 +55,29 @@
 
 <!-- tag -->
 <div class="flex mt-3 gap-2">
-    <button
+    <!-- Music -->
+    <a href="{{ route('catalogue.index', ['category' => 'Music', 'search' => request('search')]) }}"
         class="flex items-center gap-2 py-2 px-2 bg-white rounded-md text-sm text-blue-800 font-semibold shadow-md hover:opacity-80">
-        <i class='bx bxs-music text-blue-500'></i> Konser
-    </button>
-    <button
+        <i class="bx bxs-music text-blue-500"></i> Music
+    </a>
+
+    <!-- Sport -->
+    <a href="{{ route('catalogue.index', ['category' => 'Sport', 'search' => request('search')]) }}"
         class="flex items-center gap-2 py-2 px-2 bg-white rounded-md text-sm text-blue-800 font-semibold shadow-md hover:opacity-80">
-        <i class='bx bxs-party text-blue-500'></i>Seminar & Workshop
-    </button>
-    <button
+        <i class="bx bxs-football text-blue-500"></i> Sport
+    </a>
+
+    <!-- Seminar -->
+    <a href="{{ route('catalogue.index', ['category' => 'Seminar', 'search' => request('search')]) }}"
         class="flex items-center gap-2 py-2 px-2 bg-white rounded-md text-sm text-blue-800 font-semibold shadow-md hover:opacity-80">
-        <i class='bx bx-globe text-blue-500'></i>Pameran
-    </button>
-    <button
+        <i class="bx bxs-calendar text-blue-500"></i> Seminar
+    </a>
+
+    <!-- Workshop -->
+    <a href="{{ route('catalogue.index', ['category' => 'Workshop', 'search' => request('search')]) }}"
         class="flex items-center gap-2 py-2 px-2 bg-white rounded-md text-sm text-blue-800 font-semibold shadow-md hover:opacity-80">
-        <i class='bx bx-dialpad text-blue-500'></i>Lainnya
-    </button>
+        <i class="bx bxs-wrench text-blue-500"></i> Workshop
+    </a>
 </div>
 
 <!-- Card -->
@@ -102,10 +113,13 @@
     </div>
 </div>
 
-<button
-    class="bg-blue-800 text-white px-5 py-2 font-semibold rounded-md mt-3 absolute left-1/2 -translate-x-1/2 hover:opacity-80">
-    Lihat semua event
-</button>
+<a href="{{ route('user.catalogue.showAllEvents') }}">
+    <button
+        class="bg-blue-800 text-white px-5 py-2 font-semibold rounded-md mt-3 absolute left-1/2 -translate-x-1/2 hover:opacity-80">
+        Lihat semua event
+    </button>
+</a>
+
 </div>
 
 
