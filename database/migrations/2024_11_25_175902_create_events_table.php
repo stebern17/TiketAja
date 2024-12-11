@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->integer('capacity');
             $table->enum('status', ['Ongoing', 'Upcoming', 'Done']);
+            $table->enum('category', ['Music', 'Sport', 'Seminar', 'Workshop']);
             $table->timestamps();
         });
     }

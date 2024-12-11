@@ -18,6 +18,7 @@ class Event extends Model
         'description',
         'capacity',
         'status',
+        'category'
     ];
     public function tickets()
     {
