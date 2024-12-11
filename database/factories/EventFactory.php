@@ -28,10 +28,11 @@ class EventFactory extends Factory
             'name' => $this->faker->word(),
             'date' => $this->faker->date(),
             'image' => $this->faker->imageUrl(),
-            'location' => $locationAndVenue,  // Kolom location yang sudah digabungkan
+            'location' => $locationAndVenue,
             'description' => $this->faker->paragraph(),
             'capacity' => $this->faker->numberBetween(50, 1000),
             'status' => $this->faker->randomElement(['Ongoing', 'Upcoming', 'Done']),
+            'category' => $this->faker->randomElement(['Music', 'Sport', 'Seminar', 'Workshop']),
         ];
     }
 }

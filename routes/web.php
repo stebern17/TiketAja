@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\TicketsController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 // user
 use App\Http\Controllers\User\CatalogueController;
 use App\Http\Controllers\User\TicketController;
@@ -40,6 +41,12 @@ Route::delete('/tickets/{ticket}', [TicketsController::class, 'destroy'])->name(
 // Rute untuk Orders
 Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+// Rute untuk Admin Order
+Route::get('orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+Route::post('orders/{order}/update-status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+Route::get('orders/{order}/payment-proof', [AdminOrderController::class, 'showPaymentProof'])->name('admin.orders.showPaymentProof');
+
+
 
 // Rute untuk User
 Route::middleware('auth')->group(function () {

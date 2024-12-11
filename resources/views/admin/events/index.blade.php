@@ -54,7 +54,7 @@
                         data-image="{{ $event->image ? asset('storage/' . $event->image) : 'No image' }}"
                         data-location="{{ $event->location }}" data-venue="{{ $event->venue }}"
                         data-description="{{ $event->description }}" data-capacity="{{ $event->capacity }}"
-                        data-status="{{ $event->status }}">View</a>
+                        data-status="{{ $event->status }}" data-category="{{ $event->category }}">View</a>
 
                     <!-- Tombol Edit -->
                     <a href="{{ route('events.edit', $event->id_event) }}" class="btn btn-warning btn-sm">Edit</a>
@@ -99,7 +99,8 @@
                             <strong>Date: </strong><span id="modal-event-date"></span><br>
                             <strong>Location: </strong><span id="modal-location"></span><br>
                             <strong>Capacity: </strong><span id="modal-capacity"></span><br>
-                            <strong>Status: </strong><span id="modal-status"></span>
+                            <strong>Status: </strong><span id="modal-status"></span><br>
+                            <strong>Category: </strong><span id="modal-category"></span>
                         </p>
                     </div>
                 </div>
@@ -122,6 +123,7 @@
         var description = button.data('description');
         var capacity = button.data('capacity');
         var status = button.data('status');
+        var category = button.data('category');
 
         $('#modal-event-name').text(name);
         $('#modal-event-date').text(date);
@@ -131,6 +133,7 @@
         $('#modal-description').text(description);
         $('#modal-capacity').text(capacity);
         $('#modal-status').text(status);
+        $('#modal-category').text(category);
     });
 </script>
 

@@ -71,6 +71,10 @@
                             <a class="nav-link text-white-50 fs-5 mb-2" href="{{ route('events.create') }}">Create
                                 Event</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white-50 fs-5 mb-2" href="{{ route('admin.orders.index') }}">Manage Order</a>
+
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -83,6 +83,23 @@
       @enderror
     </div>
 
+    <!-- Category -->
+    <div class="mb-3">
+      <label for="category" class="form-label">Category</label>
+      <select class="form-select @error('category') is-invalid @enderror" id="category" name="category" required>
+        <option value="" selected disabled>Select category</option>
+        <option value="Music" {{ old('category') == 'Music' ? 'selected' : '' }}>Music</option>
+        <option value="Sport" {{ old('category') == 'Sport' ? 'selected' : '' }}>Sport</option>
+        <option value="Seminar" {{ old('category') == 'Seminar' ? 'selected' : '' }}>Seminar</option>
+        <option value="Workshop" {{ old('category') == 'Workshop' ? 'selected' : '' }}>Workshop</option>
+      </select>
+      @error('category')
+      <div class="invalid-feedback">
+        {{ $message }}
+      </div>
+      @enderror
+    </div>
+
     <!-- Kapasitas -->
     <div class="mb-3">
       <label for="capacity" class="form-label">Capacity</label>

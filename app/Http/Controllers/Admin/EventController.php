@@ -46,6 +46,7 @@ class EventController extends Controller
             'description' => 'nullable|string',
             'capacity' => 'required|integer|min:1',
             'status' => 'required|string',
+            'caregory' => 'required|string',
         ]);
 
         // Combine location and venue into one field before storing
@@ -66,6 +67,7 @@ class EventController extends Controller
             'description' => $validatedData['description'] ?? null,
             'capacity' => $validatedData['capacity'],
             'status' => $validatedData['status'],
+            'category' => $validatedData['category'],
         ]);
 
 
@@ -106,6 +108,7 @@ class EventController extends Controller
             'description' => 'nullable|string',
             'capacity' => 'required|integer|min:1',
             'status' => 'required|string',
+            'category' => 'required|string',
         ]);
 
         // Find the event by ID
@@ -134,6 +137,7 @@ class EventController extends Controller
             'description' => $validatedData['description'] ?? $event->description,
             'capacity' => $validatedData['capacity'],
             'status' => $validatedData['status'],
+            'category' => $validatedData['category'],
         ]);
 
         // Redirect or return response
