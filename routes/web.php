@@ -4,11 +4,16 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\TicketsController;
 use App\Http\Controllers\Admin\AuthController;
+// user
 use App\Http\Controllers\User\CatalogueController;
+use App\Http\Controllers\User\TicketController;
+use App\Http\Controllers\User\OrderController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\OrderController;
 
 Route::get('/', [CatalogueController::class, 'index'])->name('catalogue.index');
+Route::get('/catalogue/event', [CatalogueController::class, 'showEvent'])->name('catalogue.event');
+
+
 
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
@@ -22,9 +27,8 @@ Route::prefix('admin')->group(function () {
 
 // Rute untuk Event
 Route::resource('events', EventController::class);
-Route::get('/catalogue/{id_event}', [CatalogueController::class, 'showEvent'])->name('user.catalogue.showEvent');
 
-// Rute untuk Tickets
+// Rute untuk Tickets Admin
 Route::get('/tickets/create/{event_id}', [TicketsController::class, 'create'])->name('tickets.create');
 Route::post('/tickets', [TicketsController::class, 'store'])->name('tickets.store');
 Route::get('/events/{event}/tickets', [TicketsController::class, 'index'])->name('tickets.index');
@@ -36,3 +40,18 @@ Route::delete('/tickets/{ticket}', [TicketsController::class, 'destroy'])->name(
 // Rute untuk Orders
 Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+
+// Rute untuk User
+Route::middleware('auth')->group(function () {
+    // Katalog
+    Route::get('/catalogue/{id_event}', [CatalogueController::class, 'showEvent'])->name('user.catalogue.showEvent');
+
+    // tiket 
+    Route::get('/ticket', [TicketController::class, 'index'])->name('ticket.index');
+    Route::get('/ticket/create', [TicketController::class, 'create'])->name('ticket.create');
+    Route::post('/ticket', [TicketController::class, 'store'])->name('ticket.store');
+    Route::get('/ticket/{ticket}', [TicketController::class, 'show'])->name('ticket.show');
+    Route::get('/ticket/{ticket}/edit', [TicketController::class, 'edit'])->name('ticket.edit');
+    Route::put('/ticket/{ticket}', [TicketController::class, 'update'])->name('ticket.update');
+    Route::delete('/ticket/{ticket}', [TicketController::class, 'destroy'])->name('ticket.destroy');
+});

@@ -40,11 +40,19 @@ class TicketsController extends Controller
             'types.*' => 'in:Regular,VIP,VVIP',
             'prices' => 'required|array',
             'prices.*' => 'nullable|integer|min:0',
-            'quantity' => 'required|array',
+            'quantity' => 'required|array' ,
             'quantity.*' => 'nullable|integer|min:1',
             'qr_code' => 'required|array',
             'qr_code.*' => 'required|string|max:255',
         ]);
+        
+        $event = Event::findOrFail($request->id_event);
+        $existingTickets = Tickets::where('id_event', $request->id_event)->sum('quantity');
+        $newTicketsTotal = array_sum($request->quantity);
+
+        if (($existingTickets + $newTicketsTotal) > $event->capacity) {
+            return redirect()->back()->with('error', 'Jumlah total tiket melebihi kapasitas event.');
+        }
 
         foreach ($request->types as $type) {
             Tickets::create([
@@ -55,7 +63,6 @@ class TicketsController extends Controller
                 'qr_code' => $request->qr_code[$type],
             ]);
         }
-
 
 
 

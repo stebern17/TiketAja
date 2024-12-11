@@ -27,10 +27,10 @@ class CatalogueController extends Controller
     /**
      * Show a specific event by its ID.
      */
-    public function showEvent($id)
+    public function showEvent($id_event)
     {
         // Find the event by its ID
-        $event = Event::findOrFail($id);
+        $event = Event::findOrFail($id_event);
 
         // Pass the event to the view
         return view('user.catalogue.detailEvent', compact('event'));

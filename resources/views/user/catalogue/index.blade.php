@@ -95,9 +95,7 @@
                 @else
                 <p class="text-orange-500 font-bold text-sm">Soldout</p>
                 @endif
-                <a href="{{ route('user.catalogue.showEvent', $event->id_event) }}" class="bg-blue-300 text-blue-800 px-3 rounded-full text-xs hover:opacity-80">
-                    Lainnya
-                </a>
+                <a href="{{ route('user.catalogue.showEvent', ['id_event' => $event->id_event]) }}" class="block mt-2 bg-blue-800 text-white py-2 px-4 rounded-md text-center font-semibold">Lihat Tiket</a>
             </div>
         </div>
         @endforeach

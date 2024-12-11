@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use App\Models\Order;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
