@@ -18,6 +18,7 @@
             </div>
 
             <form method="POST" action="{{ route('register') }}">
+                @csrf
                 <div class="form-group mb-2">
                     <label for="name" class="form-label">Nama</label>
                     <input type="text" class="form-control" id="name_user" name="name_user" required>
