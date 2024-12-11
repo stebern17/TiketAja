@@ -49,10 +49,10 @@
     <nav id="navbar" class="w-100 ms-0 d-flex justify-content-between px-5 py-3 mx-4 align-items-center position-sticky top-0 z-50  transition-all">
         <div class="brand-logo d-flex">
             <img src="{{ asset('assets/img/tikettt.png') }}" style="width: 50px;" class="me-1" alt="Tiket Aja">
-            <a class="navbar-brand fw-bold fs-2">Tiket Aja</a>
+            <a class="navbar-brand fw-bold fs-2" href="{{ route('catalogue.index')}}">Tiket Aja</a>
         </div>
         <ul class="d-flex gap-3 align-items-center mb-0">
-            <li><a href="" class="text-decoration-none text-dark">Beranda</a></li>
+            <li><a href="{{ route('catalogue.index')}}" class=" text-decoration-none text-dark">Beranda</a></li>
             <li class="nav-item dropdown">
                 <a class="nav-link text-dark" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Event <i class="bx bx-chevron-down"></i>

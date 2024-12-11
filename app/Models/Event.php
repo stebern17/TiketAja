@@ -19,4 +19,8 @@ class Event extends Model
         'capacity',
         'status',
     ];
+    public function tickets()
+    {
+        return $this->hasMany(Tickets::class, 'id_event');
+    }
 }
