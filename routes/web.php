@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderController;
 
 Route::get('/', [CatalogueController::class, 'index'])->name('catalogue.index');
+Route::get('/catalogue/event', [CatalogueController::class, 'showEvent'])->name('catalogue.event');
+
+
 
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
