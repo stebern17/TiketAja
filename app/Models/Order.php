@@ -41,4 +41,10 @@ class Order extends Model
     {
         return $this->belongsTo(User::class, 'id_user');
     }
+
+    // Relasi dengan OrderDetail
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class, 'id_order', 'id_order'); // Corrected foreign key
+    }
 }

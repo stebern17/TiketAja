@@ -14,10 +14,15 @@ class OrderController extends Controller
     {
         $userId = Auth::id();
 
-        $order = Order::with('ticket', 'event')->where('id_user', $userId)->get();
+        // Mengambil order dengan relasi 'ticket', 'event', dan 'orderDetails' yang sesuai dengan user_id
+        $order = Order::with(['ticket', 'event', 'orderDetails'])
+            ->where('id_user', $userId)
+            ->get();
 
         return view('user.order.index', compact('order'));
     }
+
+
 
     public function create(Request $request)
     {
@@ -58,13 +63,13 @@ class OrderController extends Controller
     {
         // Validasi bukti pembayaran
 
-            $request->validate([
-                'payment_proof' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
-                'id_ticket' => 'required|exists:tickets,id_ticket',
-                'id_event' => 'required|exists:events,id_event',
-                'quantity' => 'required|integer|min:1',
-                'total_price' => 'required|integer',
-            ]);
+        $request->validate([
+            'payment_proof' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
+            'id_ticket' => 'required|exists:tickets,id_ticket',
+            'id_event' => 'required|exists:events,id_event',
+            'quantity' => 'required|integer|min:1',
+            'total_price' => 'required|integer',
+        ]);
 
 
         // Simpan bukti pembayaran
