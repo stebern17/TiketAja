@@ -10,6 +10,7 @@ use App\Http\Controllers\User\CatalogueController;
 use App\Http\Controllers\User\TicketController;
 use App\Http\Controllers\User\OrderController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\OrderDetailController;
 
 Route::get('/', [CatalogueController::class, 'index'])->name('catalogue.index');
 Route::get('/catalogue/event', [CatalogueController::class, 'showEvent'])->name('catalogue.event');
@@ -43,6 +44,8 @@ Route::delete('/tickets/{ticket}', [TicketsController::class, 'destroy'])->name(
 Route::get('orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
 Route::post('orders/{order}/update-status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
 Route::get('orders/{order}/payment-proof', [AdminOrderController::class, 'showPaymentProof'])->name('admin.orders.showPaymentProof');
+Route::post('orders/{order}/send-receipt', [AdminOrderController::class, 'sendReceipt'])->name('admin.orders.sendReceipt');
+
 
 
 
@@ -70,4 +73,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/order/{order}/edit', [OrderController::class, 'edit'])->name('order.edit');
     Route::put('/order/{order}', [OrderController::class, 'update'])->name('order.update');
     Route::delete('/order/{order}', [OrderController::class, 'destroy'])->name('order.destroy');
+    // routes/web.php
+    Route::get('orders', [OrderController::class, 'index'])->name('user.orders.index');
+    Route::get('orderDetail/{id_order_detail}', [OrderDetailController::class, 'show'])->name('user.orderDetail.show');
 });

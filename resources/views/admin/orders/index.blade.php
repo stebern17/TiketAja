@@ -23,7 +23,6 @@
                 <th>Total Price</th>
                 <th>Status</th>
                 <th>Payment</th>
-                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -45,18 +44,13 @@
                         </select>
                     </form>
                 </td>
+
                 <td>
                     <a href="{{ route('admin.orders.showPaymentProof', $order->id_order) }}" target="_blank">
                         <button type="button" class="btn btn-primary">
                             Payment Proof
                         </button>
                     </a>
-                </td>
-                <td>
-                    <button class="btn btn-warning">
-                        Send Reciept
-                    </button>
-
                 </td>
             </tr>
             @endforeach
