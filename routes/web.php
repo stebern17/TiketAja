@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\TicketsController;
 use App\Http\Controllers\Admin\AuthController;
@@ -26,6 +27,12 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 });
+
+// Rute untuk User Management
+Route::prefix('admin')->group(function () {
+    Route::resource('users', UserController::class);
+});
+
 
 // Rute untuk Event
 Route::resource('events', EventController::class);
