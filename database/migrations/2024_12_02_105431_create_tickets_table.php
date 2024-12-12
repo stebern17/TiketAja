@@ -18,7 +18,6 @@ return new class extends Migration
             $table->enum('type', ['Regular', 'VIP', 'VVIP']);
             $table->integer('price')->default(0);
             $table->integer('quantity')->default(0);
-            $table->string('qr_code', 255);
             $table->timestamps();
         });
     }

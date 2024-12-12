@@ -17,12 +17,13 @@ return new class extends Migration
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('id_event');
             $table->foreign('id_event')->references('id_event')->on('events')->onDelete('cascade');
+            $table->unsignedBigInteger('id_ticket');
+            $table->foreign('id_ticket')->references('id_ticket')->on('tickets')->onDelete('cascade');
             $table->integer('ticket_code');
             $table->string('payment_proof');
             $table->enum('status', ['pending', 'approved', 'rejected']);
             $table->integer('quantity');
             $table->integer('total_price');
-            $table->string('transaction');
             $table->timestamps();
         });
     }

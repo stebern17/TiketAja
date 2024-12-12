@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Models\Order;
 use App\Models\Ticket;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -11,43 +12,88 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::with('ticket')->get();
-        return view('orders.index', compact('orders'));
+        $userId = Auth::id();
+
+        $order = Order::with('ticket', 'event')->where('id_user', $userId)->get();
+
+        return view('user.order.index', compact('order'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $tickets = Ticket::all();
-        return view('orders.create', compact('tickets'));
+        return view('user.catalogue.detailevent', compact('tickets'));
     }
+
 
     public function store(Request $request)
     {
+        // Validasi input awal (sebelum upload proof)
         $request->validate([
-            'customer_name' => 'required|string|max:255',
-            'customer_email' => 'required|email',
-            'ticket_id' => 'required|exists:tickets,id',
+            'id_ticket' => 'required|exists:tickets,id_ticket',
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $ticket = Ticket::findOrFail($request->ticket_id);
+        // Ambil data tiket
+        $ticket = Ticket::findOrFail($request->id_ticket);
+
+        // Hitung total harga
         $totalPrice = $ticket->price * $request->quantity;
 
-        Order::create([
-            'customer_name' => $request->customer_name,
-            'customer_email' => $request->customer_email,
-            'ticket_id' => $request->ticket_id,
+        // Simpan data sementara untuk ditampilkan di checkout
+        $checkoutData = [
+            'id_ticket' => $ticket->id_ticket,
+            'id_event' => $ticket->event->id_event,
+            'ticket_type' => $ticket->type,
+            'ticket_price' => $ticket->price,
             'quantity' => $request->quantity,
             'total_price' => $totalPrice,
+        ];
+
+        // Arahkan ke halaman checkoutOrder
+        return view('user.order.checkoutOrder', compact('checkoutData'));
+    }
+
+    public function confirm(Request $request)
+    {
+        // Validasi bukti pembayaran
+
+            $request->validate([
+                'payment_proof' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
+                'id_ticket' => 'required|exists:tickets,id_ticket',
+                'id_event' => 'required|exists:events,id_event',
+                'quantity' => 'required|integer|min:1',
+                'total_price' => 'required|integer',
+            ]);
+
+
+        // Simpan bukti pembayaran
+        $paymentProofPath = $request->file('payment_proof')->store('payments', 'public');
+
+        $user = Auth::user();
+
+
+        // Simpan data order ke database
+        Order::create([
+            'id_user' => $user->id,
+            'id_event' => $request->id_event,
+            'id_ticket' => $request->id_ticket,
+            'ticket_code' => $request->id_ticket,
+            'quantity' => $request->quantity,
+            'total_price' => $request->total_price,
+            'payment_proof' => $paymentProofPath,
+            'status' => 'pending',
         ]);
 
-        return redirect()->route('orders.index')->with('success', 'Order successfully created!');
+
+
+        return redirect()->route('order.index')->with('success', 'Order successfully created!');
     }
 
 
     public function show(Order $order)
     {
-        return view('orders.show', compact('order'));
+        return view('user.order.Ticketshow', compact('order'));
     }
 
     public function edit(Order $order)
@@ -59,9 +105,7 @@ class OrderController extends Controller
     public function update(Request $request, Order $order)
     {
         $request->validate([
-            'customer_name' => 'required|string|max:255',
-            'customer_email' => 'required|email',
-            'ticket_id' => 'required|exists:tickets,id',
+            'id_tikcet' => 'required|exists:tickets,id_ticket',
             'quantity' => 'required|integer|min:1',
         ]);
 
@@ -69,9 +113,7 @@ class OrderController extends Controller
         $totalPrice = $ticket->price * $request->quantity;
 
         $order->update([
-            'customer_name' => $request->customer_name,
-            'customer_email' => $request->customer_email,
-            'ticket_id' => $request->ticket_id,
+            'id_ticket' => $request->id_ticket,
             'quantity' => $request->quantity,
             'total_price' => $totalPrice,
         ]);
