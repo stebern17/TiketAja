@@ -40,12 +40,10 @@ class TicketsController extends Controller
             'types.*' => 'in:Regular,VIP,VVIP',
             'prices' => 'required|array',
             'prices.*' => 'nullable|integer|min:0',
-            'quantity' => 'required|array' ,
+            'quantity' => 'required|array',
             'quantity.*' => 'nullable|integer|min:1',
-            'qr_code' => 'required|array',
-            'qr_code.*' => 'required|string|max:255',
         ]);
-        
+
         $event = Event::findOrFail($request->id_event);
         $existingTickets = Tickets::where('id_event', $request->id_event)->sum('quantity');
         $newTicketsTotal = array_sum($request->quantity);
@@ -56,18 +54,16 @@ class TicketsController extends Controller
 
         foreach ($request->types as $type) {
             Tickets::create([
-                'id_event' => $request -> id_event,
+                'id_event' => $request->id_event,
                 'type' => $type,
                 'price' => $request->prices[$type] ?? 0,
                 'quantity' => $request->quantity[$type] ?? 0,
-                'qr_code' => $request->qr_code[$type],
             ]);
         }
 
 
 
         return redirect()->route('events.index')->with('success', 'Ticket Berhasil Dibuat.');
-
     }
 
     /**
@@ -105,7 +101,6 @@ class TicketsController extends Controller
             'name' => 'required|string|max:255', // Validasi untuk jenis tiket
             'price' => 'required|integer|min:0', // Validasi untuk harga
             'quantity' => 'required|integer|min:1', // Validasi untuk kuantitas
-            'qr_code' => 'required|string|max:255', // Validasi untuk QR Code
         ]);
 
         // Update data tiket dengan data yang sudah divalidasi
@@ -113,12 +108,10 @@ class TicketsController extends Controller
             'type' => $validatedData['name'], // Menyimpan jenis tiket (VIP, Regular, VVIP)
             'price' => $validatedData['price'], // Menyimpan harga
             'quantity' => $validatedData['quantity'], // Menyimpan kuantitas
-            'qr_code' => $validatedData['qr_code'], // Menyimpan QR Code
         ]);
 
         // Redirect ke halaman index dengan pesan sukses
         return redirect()->route('tickets.index', ['event' => $ticket->id_event])->with('success', 'Ticket berhasil diperbarui.');
-
     }
 
 

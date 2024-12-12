@@ -15,6 +15,20 @@ class UserSeeder extends Seeder
     public function run()
     {
         // Menggunakan factory untuk membuat 50 data tiket
-        User::factory()->count(5)->create();
+        User::factory()->create([
+            'name_user' => 'Admin',
+            'email_user' => 'admin@gmail.com',
+            'role' => 'Admin'
+        ]);
+
+        user::factory()->create([
+            'name_user' => 'User',
+            'email_user' => 'user@gmail.com',
+            'role' => 'User'
+        ]);
+
+        User::factory()->count(5)->create([
+            'role' => 'User'
+        ]);
     }
 }

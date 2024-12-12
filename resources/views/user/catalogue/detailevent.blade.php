@@ -32,18 +32,8 @@
                 </ul>
             </div>
 
-            <!-- Tab Content: Syarat dan Ketentuan -->
-            <div id="tab1-content" class="tab-content">
-                <div class="flex space-x-6">
-                    <div>
-                        <h2 class="text-xl font-bold mb-4">Syarat dan Ketentuan Event</h2>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae quisquam enim quia neque facilis voluptatum iure maiores pariatur ratione commodi minima eaque sequi laborum voluptates quam earum, nulla nisi totam!</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tab Content: Tiket -->
-            <div id="tab2-content" class="tab-content hidden">
+           <!-- Tab Content: Tiket -->
+           <div id="tab2-content" class="tab-content hidden">
                 <div class="tickets grid grid-cols-1 gap-4 lg:grid-cols-2">
                     @foreach ($event->tickets as $ticket) <!-- Loop through each ticket for the event -->
                     <div class="ticket bg-primary-50 flex flex-col gap-8 rounded-xl p-6">
@@ -56,11 +46,13 @@
                             <h4 class="text-primary-900 text-xl font-bold md:text-3xl">Rp {{ number_format($ticket->price, 0, ',', '.') }}</h4>
 
                             <!-- Quantity Form -->
-                            <form action="{{ route('orders.store') }}" method="POST" class="mt-4">
+                            <form action="{{ route('order.store') }}" method="POST" class="mt-4">
                                 @csrf
-                                <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
-                                <input type="hidden" name="customer_name" value="Anonymous"> <!-- Replace with dynamic user authentication data if needed -->
-                                <input type="hidden" name="customer_email" value="customer@example.com"> <!-- Replace with dynamic user authentication data if needed -->
+                                {{-- mengambil data untuk create --}}
+                                <input type="hidden" name="id_ticket" value="{{ $ticket->id_ticket}}">
+                                <input type="hidden" name="id_event" value="{{ $event->id_event }}">
+                                <input type="hidden" name="customer_name" value="{{ Auth::user()->name_user }}">
+                                <input type="hidden" name="customer_email" value="{{ Auth::user()->email_user }}">
 
                                 <div class="flex items-center space-x-4">
                                     <input type="number" name="quantity" min="1" max="{{ $ticket->quantity }}" value="1" class="w-20 p-2 border rounded-md" required>
@@ -81,3 +73,8 @@
 
 </div>
 @endsection
+
+
+
+
+
