@@ -98,7 +98,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li class="dropdown-item">Hi {{ Auth::user()->name_user }}</li>
-                        <li><a href="#" class="dropdown-item"><i class="bi bi-ticket"></i> Tiketku</a></li>
+                        <li><a href="{{route('order.index')}}" class="dropdown-item"><i class="bi bi-ticket"></i> Tiketku</a></li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Settings</a></li>
                         <li>
                             <form action="{{ route('logout') }}" method="POST" style="display: inline;">

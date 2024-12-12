@@ -38,9 +38,6 @@ Route::get('/tickets/{ticket}/edit', [TicketsController::class, 'edit'])->name('
 Route::put('/tickets/{ticket}', [TicketsController::class, 'update'])->name('tickets.update');
 Route::delete('/tickets/{ticket}', [TicketsController::class, 'destroy'])->name('tickets.destroy');
 
-// Rute untuk Orders
-Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 // Rute untuk Admin Order
 Route::get('orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
 Route::post('orders/{order}/update-status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
@@ -53,7 +50,8 @@ Route::middleware('auth')->group(function () {
     // Katalog
     Route::get('/catalogue/{id_event}', [CatalogueController::class, 'showEvent'])->name('user.catalogue.showEvent');
 
-    // tiket 
+
+    // tiket
     Route::get('/ticket', [TicketController::class, 'index'])->name('ticket.index');
     Route::get('/ticket/create', [TicketController::class, 'create'])->name('ticket.create');
     Route::post('/ticket', [TicketController::class, 'store'])->name('ticket.store');
@@ -61,4 +59,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/ticket/{ticket}/edit', [TicketController::class, 'edit'])->name('ticket.edit');
     Route::put('/ticket/{ticket}', [TicketController::class, 'update'])->name('ticket.update');
     Route::delete('/ticket/{ticket}', [TicketController::class, 'destroy'])->name('ticket.destroy');
+
+    // Order
+    Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+    Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
+    Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+    Route::post('/order/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
+    Route::get('/order/{order}', [OrderController::class, 'show'])->name('order.show');
+    Route::get('/order/{order}/edit', [OrderController::class, 'edit'])->name('order.edit');
+    Route::put('/order/{order}', [OrderController::class, 'update'])->name('order.update');
+    Route::delete('/order/{order}', [OrderController::class, 'destroy'])->name('order.destroy');
 });

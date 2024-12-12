@@ -14,20 +14,20 @@ class Order extends Model
 
     // Kolom yang bisa diisi
     protected $fillable = [
-        'id_user',           // Menyimpan ID user yang melakukan pemesanan
-        'id_event',          // Menyimpan ID event yang dipesan
-        'ticket_code',       // Kode tiket yang dipesan
-        'payment_proof',     // Bukti pembayaran
-        'status',            // Status pesanan
-        'quantity',          // Jumlah tiket yang dipesan
-        'total_price',       // Total harga tiket
-        'transaction',       // ID transaksi
+        'id_user',
+        'id_event',
+        'ticket_code',
+        'id_ticket',
+        'quantity',
+        'total_price',
+        'payment_proof',
+        'status',
     ];
 
     // Relasi dengan Ticket
     public function ticket()
     {
-        return $this->belongsTo(Ticket::class, 'ticket_code', 'id_ticket');
+        return $this->belongsTo(Ticket::class, 'ticket_code', 'id_ticket',);
     }
 
     // Relasi dengan Event
