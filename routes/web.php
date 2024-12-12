@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\TicketsController;
 use App\Http\Controllers\Admin\AuthController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\User\CatalogueController;
 use App\Http\Controllers\User\TicketController;
 use App\Http\Controllers\User\OrderController;
+use App\Http\Controllers\User\SettingsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\OrderDetailController;
 
@@ -27,6 +29,12 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 });
+
+// Rute untuk User Management
+Route::prefix('admin')->group(function () {
+    Route::resource('users', UserController::class);
+});
+
 
 // Rute untuk Event
 Route::resource('events', EventController::class);
@@ -48,14 +56,15 @@ Route::post('orders/{order}/send-receipt', [AdminOrderController::class, 'sendRe
 
 
 
-
 // Rute untuk User
 Route::middleware('auth')->group(function () {
     // Katalog
     Route::get('/catalogue/{id_event}', [CatalogueController::class, 'showEvent'])->name('user.catalogue.showEvent');
 
+    //setting
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
 
-    // tiket
+    // tiket 
     Route::get('/ticket', [TicketController::class, 'index'])->name('ticket.index');
     Route::get('/ticket/create', [TicketController::class, 'create'])->name('ticket.create');
     Route::post('/ticket', [TicketController::class, 'store'])->name('ticket.store');

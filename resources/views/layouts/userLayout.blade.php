@@ -46,7 +46,8 @@
 
 
 <body>
-    <nav id="navbar" class="w-100 ms-0 d-flex justify-content-between px-5 py-3 mx-4 align-items-center position-sticky top-0 z-50  transition-all">
+    <nav id="navbar"
+        class="w-100 ms-0 d-flex justify-content-between px-5 py-3 mx-4 align-items-center position-sticky top-0 z-50  transition-all">
         <div class="brand-logo d-flex">
             <img src="{{ asset('assets/img/tikettt.png') }}" style="width: 50px;" class="me-1" alt="Tiket Aja">
             <a class="navbar-brand fw-bold fs-2" href="{{ route('catalogue.index')}}">Tiket Aja</a>
@@ -54,66 +55,75 @@
         <ul class="d-flex gap-3 align-items-center mb-0">
             <li><a href="{{ route('catalogue.index')}}" class=" text-decoration-none text-dark">Beranda</a></li>
             <li class="nav-item dropdown">
-                <a class="nav-link text-dark" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link text-dark" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
                     Event <i class="bx bx-chevron-down"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
                     <!-- Kategori Acara Hiburan -->
                     <li class="dropdown-item">
-                        <a class="nav-link text-dark" href="#" id="eventEntertainment" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link text-dark" href="#" id="eventEntertainment" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Acara Hiburan
                         </a>
                     </li>
                     <!-- Kategori Acara Olahraga -->
                     <li class="dropdown-item">
-                        <a class="nav-link text-dark" href="#" id="eventSports" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link text-dark" href="#" id="eventSports" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
                             Acara Olahraga
                         </a>
                     </li>
                     <!-- Kategori Acara Pendidikan -->
                     <li class="dropdown-item">
-                        <a class="nav-link text-dark" href="#" id="eventEducation" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link text-dark" href="#" id="eventEducation" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Acara Pendidikan
                         </a>
 
                     </li>
                     <!-- Kategori Lainnya -->
                     <li class="dropdown-item">
-                        <a class="nav-link text-dark" href="#" id="lainya" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link text-dark" href="#" id="lainya" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
                             Lainya
                         </a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="" class="flex items-center justify-center text-decoration-none text-dark">Hubungi Kami <i class="bx bx-chevron-down"></i></a>
+                <a href="" class="flex items-center justify-center text-decoration-none text-dark">Hubungi Kami <i
+                        class="bx bx-chevron-down"></i></a>
             </li>
         </ul>
         @if(Auth::check())
-        <div>
-            <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li class="dropdown-item">Hi {{ Auth::user()->name_user }}</li>
-                        <li><a href="{{route('order.index')}}" class="dropdown-item"><i class="bi bi-ticket"></i> Tiketku</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Settings</a></li>
-                        <li>
-                            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                                @csrf
-                                <button type="submit" class="dropdown-item">
-                                    <i class="bi bi-box-arrow-right"></i> Logout
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+            <div>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li class="dropdown-item">Hi {{ Auth::user()->name_user }}</li>
+                            <li><a href="{{route('order.index')}}" class="dropdown-item"><i class="bi bi-ticket"></i>
+                                    Tiketku</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Settings</a></li>
+                            <li>
+                                <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="bi bi-box-arrow-right"></i> Logout
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            >>>>>>> main
         @else
-        <a href="{{ route('login') }}"><button class="btn btn-outline-primary rounded-pill px-4">LOGIN</button></a>
+            <a href="{{ route('login') }}"><button class="btn btn-outline-primary rounded-pill px-4">LOGIN</button></a>
         @endif
     </nav>
 
@@ -133,7 +143,8 @@
                         <p class="mb-0">"Murah, Cepat, Terpercaya"</p>
                     </blockquote>
                     <p>
-                        Tiket Aja adalah platform penjualan tiket terpercaya untuk berbagai acara seperti konser, olahraga, seminar, dan lainnya.
+                        Tiket Aja adalah platform penjualan tiket terpercaya untuk berbagai acara seperti konser,
+                        olahraga, seminar, dan lainnya.
                         Dapatkan tiket dengan mudah, cepat, dan aman hanya di Tiket Aja!
                     </p>
                 </div>
@@ -141,10 +152,14 @@
                 <div class="col-md-3">
                     <h5 class="fw-bold mb-3">Hubungi Kami</h5>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-whatsapp"></i> +6285179787955 (Customer Support)</a></li>
-                        <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-whatsapp"></i> +6281919004243 (Partnership)</a></li>
-                        <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-instagram"></i> tiketaja.id</a></li>
-                        <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-envelope"></i> contact@tiketaja.id</a></li>
+                        <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-whatsapp"></i>
+                                +6285179787955 (Customer Support)</a></li>
+                        <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-whatsapp"></i>
+                                +6281919004243 (Partnership)</a></li>
+                        <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-instagram"></i>
+                                tiketaja.id</a></li>
+                        <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-envelope"></i>
+                                contact@tiketaja.id</a></li>
                     </ul>
                 </div>
 
@@ -230,7 +245,7 @@
 
     <!--NavBar Scrool-->
     <script>
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
 
