@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\User\CatalogueController;
 use App\Http\Controllers\User\TicketController;
 use App\Http\Controllers\User\OrderController;
+use App\Http\Controllers\User\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [CatalogueController::class, 'index'])->name('catalogue.index');
@@ -55,11 +56,13 @@ Route::post('orders/{order}/update-status', [AdminOrderController::class, 'updat
 Route::get('orders/{order}/payment-proof', [AdminOrderController::class, 'showPaymentProof'])->name('admin.orders.showPaymentProof');
 
 
-
 // Rute untuk User
 Route::middleware('auth')->group(function () {
     // Katalog
     Route::get('/catalogue/{id_event}', [CatalogueController::class, 'showEvent'])->name('user.catalogue.showEvent');
+
+    //setting
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
 
     // tiket 
     Route::get('/ticket', [TicketController::class, 'index'])->name('ticket.index');
