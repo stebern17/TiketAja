@@ -51,20 +51,23 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-        ]);
-
+        // Cari user berdasarkan ID
         $user = User::findOrFail($id);
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password ? bcrypt($request->password) : $user->password,
+
+        // Validasi input
+        $request->validate([
+            'role' => 'required|in:Admin,User,Promotor',
         ]);
 
-        return redirect()->route('users.index');
+        // Update data role
+        $user->role = $request->input('role'); // Pastikan nilai role sesuai
+        $user->save(); // Simpan perubahan
+
+        // Kembali ke halaman sebelumnya dengan pesan sukses
+        return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
+
+
 
     public function destroy($id)
     {
