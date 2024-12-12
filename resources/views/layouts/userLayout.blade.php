@@ -119,7 +119,7 @@
 
 
 
-    <main class="px-16 pt-3 pb-40 bg-slate-100">
+    <main class="px-16 pt-3 pb-3 bg-slate-100">
         @yield('content')
     </main>
 

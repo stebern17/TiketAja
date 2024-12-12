@@ -21,8 +21,8 @@
                 <th>Event</th>
                 <th>Quantity</th>
                 <th>Total Price</th>
-                <th>Payment Proof</th>
                 <th>Status</th>
+                <th>Payment Proof</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -34,13 +34,7 @@
                 <td>{{ $order->user->email_user }}</td>
                 <td>{{ $order->event->name }}</td>
                 <td>{{ $order->quantity }}</td>
-                <td>${{ $order->total_price }}</td>
-                <td>
-                    <a href="{{ route('admin.orders.showPaymentProof', $order->id_order) }}" target="_blank">
-                        {{ $order->payment_proof }}
-                    </a>
-                </td>
-
+                <td>Rp. {{ $order->total_price }}</td>
                 <td>
                     <form action="{{ route('admin.orders.updateStatus', $order->id_order) }}" method="POST">
                         @csrf
@@ -50,10 +44,19 @@
                             <option value="rejected" {{ $order->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
                         </select>
                     </form>
-
                 </td>
                 <td>
-                    <!-- You can add more actions like view details or edit -->
+                    <a href="{{ route('admin.orders.showPaymentProof', $order->id_order) }}" target="_blank">
+                        <button type="button" class="btn btn-primary">
+                            Payment Proof
+                        </button>
+                    </a>
+                </td>
+                <td>
+                    <button class="btn btn-warning">
+                        Send Reciept
+                    </button>
+
                 </td>
             </tr>
             @endforeach

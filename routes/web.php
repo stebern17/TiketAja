@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [CatalogueController::class, 'index'])->name('catalogue.index');
 Route::get('/catalogue/event', [CatalogueController::class, 'showEvent'])->name('catalogue.event');
+Route::get('/catalogue', [CatalogueController::class, 'showAllEvents'])->name('user.catalogue.showAllEvents');
 
 
 
