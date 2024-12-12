@@ -41,7 +41,7 @@ Route::put('/tickets/{ticket}', [TicketsController::class, 'update'])->name('tic
 Route::delete('/tickets/{ticket}', [TicketsController::class, 'destroy'])->name('tickets.destroy');
 
 // Rute untuk Admin Order
-Route::get('orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+Route::get('Admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
 Route::post('orders/{order}/update-status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
 Route::get('orders/{order}/payment-proof', [AdminOrderController::class, 'showPaymentProof'])->name('admin.orders.showPaymentProof');
 Route::post('orders/{order}/send-receipt', [AdminOrderController::class, 'sendReceipt'])->name('admin.orders.sendReceipt');
