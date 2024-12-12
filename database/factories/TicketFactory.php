@@ -16,7 +16,7 @@ class TicketFactory extends Factory
         return [
             'id_event' => Event::factory(),
             'type' => $this->faker->randomElement(['Regular', 'VIP', 'VVIP']),
-            'price' => $this->faker->numberBetween(100000, 1000000),
+            'price' => $this->faker->numberBetween(50000, 500000),
             'qr_code' => $this->faker->word() . '.png',
             'quantity' => $this->faker->numberBetween(50, 500),
         ];
