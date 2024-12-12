@@ -22,7 +22,7 @@
                 <th>Quantity</th>
                 <th>Total Price</th>
                 <th>Status</th>
-                <th>Payment Proof</th>
+                <th>Payment</th>
                 <th>Action</th>
             </tr>
         </thead>
