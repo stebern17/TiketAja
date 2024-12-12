@@ -20,7 +20,6 @@ class Tickets extends Model
         'type',
         'price',
         'quantity',
-        'qr_code',
     ];
 
     /**

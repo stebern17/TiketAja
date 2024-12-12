@@ -45,7 +45,7 @@ class CatalogueController extends Controller
         $event = Event::findOrFail($id_event);
 
         // Pass the event to the view
-        return view('user.catalogue.detailEvent', compact('event'));
+        return view('user.catalogue.detailevent', compact('event'));
     }
 
     public function showAllEvents(Request $request)
