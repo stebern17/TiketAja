@@ -22,13 +22,6 @@
                 <span class="badge bg-warning">Pending</span>
                 @endif
             </p>
-
-            <p><strong>Bukti Pembayaran:</strong></p>
-            @if ($order->payment_proof)
-            <img src="{{ asset('storage/' . $order->payment_proof) }}" class="img-fluid rounded mt-2" alt="Payment Proof">
-            @else
-            <p class="text-muted">Bukti pembayaran belum tersedia.</p>
-            @endif
         </div>
     </div>
 
