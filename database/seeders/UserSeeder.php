@@ -21,6 +21,12 @@ class UserSeeder extends Seeder
             'role' => 'Admin'
         ]);
 
+        user::factory()->create([
+            'name_user' => 'User',
+            'email_user' => 'user@gmail.com',
+            'role' => 'User'
+        ]);
+
         User::factory()->count(5)->create([
             'role' => 'User'
         ]);

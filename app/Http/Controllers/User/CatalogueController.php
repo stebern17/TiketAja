@@ -47,4 +47,25 @@ class CatalogueController extends Controller
         // Pass the event to the view
         return view('user.catalogue.detailevent', compact('event'));
     }
+
+    public function showAllEvents(Request $request)
+    {
+        $query = Event::query();
+
+        // Filter berdasarkan pencarian
+        if ($request->has('search') && $request->search != '') {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter berdasarkan kategori
+        if ($request->has('category') && $request->category != '') {
+            $query->where('category', $request->category);
+        }
+
+        // Menambahkan pengurutan dan pagination
+        $events = $query->orderBy('date', 'desc')->paginate(8);
+
+        // Kembalikan ke view dengan data
+        return view('user.catalogue.allEvents', compact('events'));
+    }
 }
