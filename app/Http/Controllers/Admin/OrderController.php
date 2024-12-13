@@ -6,57 +6,67 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
 {
     public function index()
     {
-        // Mengambil semua order dengan relasi ke ticket
-        $orders = Order::with('ticket', 'event', 'user')->get();
+        $orders = Order::with(['ticket.event', 'user'])->get();
         return view('admin.orders.index', compact('orders'));
     }
 
-    public function updateStatus(Request $request, Order $order)
+    public function updateStatus(Request $request, $id_order)
     {
-        // Validasi dan update status
         $request->validate([
             'status' => 'required|in:pending,approved,rejected',
         ]);
 
-        // Update status order
+        $order = Order::with('ticket')->findOrFail($id_order);
+
+        if (!$order->ticket) {
+            return redirect()->back()->with('error', 'Tiket tidak ditemukan untuk order ini.');
+        }
+
+        if ($order->status !== 'pending' && $request->status === 'approved') {
+            return redirect()->back()->with('error', 'Order tidak dapat diubah lagi.');
+        }
+
+        if ($request->status === 'approved' && $order->status === 'pending') {
+            $ticket = $order->ticket;
+            if ($ticket->quantity >= $order->quantity) {
+                $ticket->quantity -= $order->quantity;
+                $ticket->save();
+
+                $this->createOrderDetail($order);
+            } else {
+                return redirect()->back()->with('error', 'Stok tiket tidak mencukupi.');
+            }
+        }
+
         $order->status = $request->status;
         $order->save();
 
-        // Jika status diubah menjadi approved, buat OrderDetail baru
-        if ($order->status == 'approved') {
-            $this->createOrderDetail($order);
-        }
-
-        return redirect()->route('admin.orders.index')->with('success', 'Status transaksi berhasil diperbarui!');
+        return redirect()->back()->with('success', 'Status berhasil diperbarui.');
     }
-
-    // Fungsi untuk membuat OrderDetail baru
+    
     private function createOrderDetail(Order $order)
     {
-        // Ambil data yang diperlukan, seperti id_ticket, qr_code, dll.
-        $ticket = $order->ticket; // Ambil data tiket dari order
-        $qr_code = 'some_unique_code_' . uniqid(); // Bisa disesuaikan sesuai kebutuhan
+        $ticket = $order->ticket;
+        $qr_code = 'unique_code_' . uniqid();
 
-        // Buat OrderDetail baru
         OrderDetail::create([
             'id_order' => $order->id_order,
-            'id_ticket' => $ticket->id_ticket, // Menyertakan ID tiket
-            'qr_code' => $qr_code, // Menyertakan QR Code
+            'id_ticket' => $ticket->id_ticket,
+            'qr_code' => $qr_code,
         ]);
     }
 
     public function showPaymentProof(Order $order)
     {
-        // Mengambil path lengkap gambar
-        $imagePath = storage_path('app/public/' . $order->payment_proof);
+        $imagePath = Storage::path('public/' . $order->payment_proof);
 
-        // Pastikan file gambar ada
-        if (!file_exists($imagePath)) {
+        if (!Storage::exists('public/' . $order->payment_proof)) {
             abort(404, 'Gambar tidak ditemukan');
         }
 

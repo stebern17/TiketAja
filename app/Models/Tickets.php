@@ -29,4 +29,9 @@ class Tickets extends Model
     {
         return $this->belongsTo(Event::class, 'id_event', 'id_event');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'id_ticket');
+    }
 }

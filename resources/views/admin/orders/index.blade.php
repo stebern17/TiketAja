@@ -6,10 +6,11 @@
 <div class="container">
     <h1>Manage Orders</h1>
 
-    @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
+    @if (session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+    @if (session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
 
     <table class="table table-striped mt-3 shadow rounded">
