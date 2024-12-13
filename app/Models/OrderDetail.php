@@ -33,4 +33,10 @@ class OrderDetail extends Model
     {
         return $this->belongsTo(Ticket::class, 'id_ticket', 'id_ticket');
     }
+
+    // Relasi dengan tabel TicketValidation
+    public function ticketValidation()
+    {
+        return $this->hasOne(TicketValidation::class, 'id_order_detail', 'id_order_detail');
+    }
 }

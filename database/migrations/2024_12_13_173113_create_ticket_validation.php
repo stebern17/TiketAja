@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('ticket_validation', function (Blueprint $table) {
             $table->id('id_ticketvalidation');
-            $table->foreignId('id_order')->constrained('order');
-            $table->foreignId('id_ticket')->constrained('ticket');
-            $table->timestamps('validation_date');
+            $table->foreignId('id_order')->constrained('orders')->references('id_order'); // Reference the 'id_order' column in 'orders'
+            $table->foreignId('id_ticket')->constrained('tickets')->references('id_ticket'); // Reference the 'id_ticket' column in 'tickets'
+            $table->foreignId('id_order_detail')->constrained('order_detail')->references('id_order_detail');
+            $table->boolean('is_valid')->default(false);
+            $table->timestamp('validation_date')->nullable();
             $table->timestamps();
         });
     }

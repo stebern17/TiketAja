@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\TicketsController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\TicketValidationController;
 // user
 use App\Http\Controllers\User\CatalogueController;
 use App\Http\Controllers\User\TicketController;
@@ -53,6 +54,10 @@ Route::get('Admin/orders', [AdminOrderController::class, 'index'])->name('admin.
 Route::post('orders/{order}/update-status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
 Route::get('orders/{order}/payment-proof', [AdminOrderController::class, 'showPaymentProof'])->name('admin.orders.showPaymentProof');
 Route::post('orders/{order}/send-receipt', [AdminOrderController::class, 'sendReceipt'])->name('admin.orders.sendReceipt');
+
+// Rute untuk Ticket Validation
+Route::get('/ticket-validation', [TicketValidationController::class, 'showTicketValidationPage'])->name('admin.ticketValidation');
+Route::post('/ticket-validation/validate', [TicketValidationController::class, 'validateTicket'])->name('admin.ticketValidation.validate');
 
 
 
