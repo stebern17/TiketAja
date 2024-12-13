@@ -81,6 +81,12 @@
                                 Order</a>
 
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white-50 fs-5" href="{{ route('admin.ticketValidation') }}">
+                                Ticket Validation
+                            </a>
+                        </li>
+
                     </ul>
                 </div>
             </div>
