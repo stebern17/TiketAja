@@ -33,7 +33,7 @@
                     @endif
 
                     <div class="mt-3 d-flex gap-2">
-                        <a href="#" class="btn btn-primary btn-sm w-50">
+                        <a href="{{ route('order.ShowEventOrder', ['id_order' => $orderItem->id_order]) }}" class="btn btn-primary btn-sm w-50">
                             Lihat Event
                         </a>
 

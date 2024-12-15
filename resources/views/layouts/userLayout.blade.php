@@ -121,7 +121,6 @@
                     </li>
                 </ul>
             </div>
-            >>>>>>> main
         @else
             <a href="{{ route('login') }}"><button class="btn btn-outline-primary rounded-pill px-4">LOGIN</button></a>
         @endif

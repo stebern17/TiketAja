@@ -69,7 +69,7 @@ Route::middleware('auth')->group(function () {
     //setting
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
 
-    // tiket 
+    // tiket
     Route::get('/ticket', [TicketController::class, 'index'])->name('ticket.index');
     Route::get('/ticket/create', [TicketController::class, 'create'])->name('ticket.create');
     Route::post('/ticket', [TicketController::class, 'store'])->name('ticket.store');
@@ -83,6 +83,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
     Route::post('/order', [OrderController::class, 'store'])->name('order.store');
     Route::post('/order/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
+    Route::get('/order/{id_order}', [OrderController::class, 'ShowEventOrder'])->name('order.ShowEventOrder');
     Route::get('/order/{order}', [OrderController::class, 'show'])->name('order.show');
     Route::get('/order/{order}/edit', [OrderController::class, 'edit'])->name('order.edit');
     Route::put('/order/{order}', [OrderController::class, 'update'])->name('order.update');

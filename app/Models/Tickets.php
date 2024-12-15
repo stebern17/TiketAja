@@ -30,7 +30,11 @@ class Tickets extends Model
         return $this->belongsTo(Event::class, 'id_event', 'id_event');
     }
 
-    // relasi dengan tabel TicketValidation onr-to-many
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'id_ticket');
+    }
+
     public function ticketValidation()
     {
         return $this->hasMany(TicketValidation::class, 'id_ticket', 'id_ticket');

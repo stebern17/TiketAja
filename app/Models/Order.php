@@ -27,7 +27,7 @@ class Order extends Model
     // Relasi dengan Ticket
     public function ticket()
     {
-        return $this->belongsTo(Ticket::class, 'ticket_code', 'id_ticket',);
+        return $this->belongsTo(Ticket::class, 'id_ticket', 'id_ticket',);
     }
 
     // Relasi dengan Event
