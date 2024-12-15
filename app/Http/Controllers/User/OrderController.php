@@ -101,6 +101,17 @@ class OrderController extends Controller
         return view('user.order.Ticketshow', compact('order'));
     }
 
+    public function ShowEventOrder($id_order)
+    {
+        // Pastikan order ada sebelum mengakses propertinya
+        $order = Order::with(['ticket', 'event'])->findOrFail($id_order);
+
+        // Ambil event yang terkait dengan tiket
+        $event = $order->ticket->event;
+
+        return redirect()->route('user.catalogue.showEvent', ['id_event' => $event->id_event]);
+    }
+
     public function edit(Order $order)
     {
         $tickets = Ticket::all();
