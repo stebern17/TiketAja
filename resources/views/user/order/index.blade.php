@@ -33,11 +33,9 @@
                     @endif
 
                     <div class="mt-3 d-flex gap-2">
-                        @foreach($order as $Order)
-                                <a href="{{ route('order.ShowEventOrder', ['id_order' =>$Order->id_order]) }}" class="btn btn-primary btn-sm w-50">
-                                    Lihat Event
-                                </a>
-                        @endforeach
+                        <a href="{{ route('order.ShowEventOrder', ['id_order' => $orderItem->id_order]) }}" class="btn btn-primary btn-sm w-50">
+                            Lihat Event
+                        </a>
 
                         @foreach($orderItem->orderDetails as $orderDetail)
                         <a href="{{ route('user.orderDetail.show', $orderDetail->id_order_detail) }}" class="btn btn-success btn-sm w-50">
