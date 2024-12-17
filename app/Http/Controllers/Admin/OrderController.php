@@ -82,10 +82,16 @@ class OrderController extends Controller
     {
 
         $filePath = $order->payment_proof;
+
+        // Check if the file exists in the public disk
         if (!Storage::disk('public')->exists($filePath)) {
             abort(404, 'Gambar tidak ditemukan');
         }
+
+        // Get the full path to the file
         $imagePath = Storage::disk('public')->path($filePath);
+
+        // Return the file as a response
         return response()->file($imagePath);
     }
 }
