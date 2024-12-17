@@ -7,6 +7,10 @@ use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+
+
 
 class OrderController extends Controller
 {
@@ -53,12 +57,24 @@ class OrderController extends Controller
     private function createOrderDetail(Order $order)
     {
         $ticket = $order->ticket;
-        $qr_code = 'unique_code_' . uniqid();
 
+        // Format QR Code: "id_order_detail|id_order|id_ticket"
+        $qr_code_content = $order->id_order_detail . '|' . $order->id_order . '|' . $ticket->id_ticket;
+
+        // Generate QR Code using Endroid
+        $qrCode = new QrCode($qr_code_content);
+        $writer = new PngWriter();
+        $result = $writer->write($qrCode);
+
+        // Simpan QR Code ke storage
+        $qr_code_filename = 'qrcodes/' . uniqid() . '.png';
+        Storage::disk('public')->put($qr_code_filename, $result->getString());
+
+        // Simpan ke database (OrderDetail akan menyimpan QR Code)
         OrderDetail::create([
             'id_order' => $order->id_order,
             'id_ticket' => $ticket->id_ticket,
-            'qr_code' => $qr_code,
+            'qr_code' => $qr_code_filename,
         ]);
     }
 
