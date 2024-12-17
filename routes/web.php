@@ -6,6 +6,9 @@ use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\TicketsController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Exports\OrdersExport;
+use App\Exports\EventsExport;
+use Maatwebsite\Excel\Facades\Excel;
 // user
 use App\Http\Controllers\User\CatalogueController;
 use App\Http\Controllers\User\TicketController;
@@ -53,6 +56,15 @@ Route::get('Admin/orders', [AdminOrderController::class, 'index'])->name('admin.
 Route::post('orders/{order}/update-status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
 Route::get('orders/{order}/payment-proof', [AdminOrderController::class, 'showPaymentProof'])->name('admin.orders.showPaymentProof');
 Route::post('orders/{order}/send-receipt', [AdminOrderController::class, 'sendReceipt'])->name('admin.orders.sendReceipt');
+
+// Rute untuk Export Excel
+Route::get('/admin/orders/export', function () {
+    return Excel::download(new OrdersExport, 'orders.xlsx');
+})->name('admin.orders.export');
+
+Route::get('/admin/events/export', function () {
+    return Excel::download(new EventsExport, 'events.xlsx');
+})->name('admin.events.export');
 
 
 

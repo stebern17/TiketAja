@@ -49,7 +49,7 @@ class OrderController extends Controller
 
         return redirect()->back()->with('success', 'Status berhasil diperbarui.');
     }
-    
+
     private function createOrderDetail(Order $order)
     {
         $ticket = $order->ticket;
@@ -65,6 +65,7 @@ class OrderController extends Controller
     public function showPaymentProof(Order $order)
     {
         $imagePath = Storage::path('public/' . $order->payment_proof);
+
 
         if (!Storage::exists('public/' . $order->payment_proof)) {
             abort(404, 'Gambar tidak ditemukan');
