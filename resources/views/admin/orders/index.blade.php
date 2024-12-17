@@ -5,6 +5,9 @@
 @section ('content')
 <div class="container">
     <h1>Manage Orders</h1>
+    <a href="{{ route('admin.orders.export') }}" class="btn btn-success">
+        Export Orders
+    </a>
 
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>

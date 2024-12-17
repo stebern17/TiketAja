@@ -73,36 +73,26 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Ambil elemen checkbox dan input harga & kuantitas
-            const checkboxes = document.querySelectorAll('.form-check-input');
+        const checkboxes = document.querySelectorAll('.form-check-input');
 
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    const ticketType = this.value; // Regular, VIP, VVIP
-                    const priceInput = document.getElementById(`price_${ticketType.toLowerCase()}`);
-                    const quantityInput = document.getElementById(`quantity_${ticketType.toLowerCase()}`);
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const ticketType = this.value.toLowerCase();
+                const priceInput = document.getElementById(`price_${ticketType}`);
+                const quantityInput = document.getElementById(`quantity_${ticketType}`);
 
-                    if (this.checked) {
-                        // Tampilkan input harga dan kuantitas jika checkbox dicentang
-                        priceInput.style.display = 'block';
-                        quantityInput.style.display = 'block';
-                        qrCodeInput.style.display = 'block';
-                        priceInput.disabled = false; // Aktifkan input harga
-                        quantityInput.disabled = false; // Aktifkan input kuantitas
-                    } else {
-                        // Sembunyikan input harga dan kuantitas jika checkbox tidak dicentang
-                        priceInput.style.display = 'none';
-                        quantityInput.style.display = 'none';
-                        qrCodeInput.style.display = 'none';
-                        priceInput.disabled = true; // Nonaktifkan input harga
-                        quantityInput.disabled = true; // Nonaktifkan input kuantitas
-                        qrCodeInput.disabled = true; // Nonaktifkan input qr code
-                        priceInput.value = ''; // Kosongkan nilai input harga
-                        quantityInput.value = ''; // Kosongkan nilai input kuantitas
-                    }
-                });
+                priceInput.style.display = this.checked ? 'block' : 'none';
+                priceInput.disabled = !this.checked;
+                quantityInput.style.display = this.checked ? 'block' : 'none';
+                quantityInput.disabled = !this.checked;
+
+                if (!this.checked) {
+                    priceInput.value = '';
+                    quantityInput.value = '';
+                }
             });
         });
+    });
     </script>
 </div>
 @endsection
