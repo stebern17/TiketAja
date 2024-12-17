@@ -64,13 +64,18 @@ class OrderController extends Controller
 
     public function showPaymentProof(Order $order)
     {
-        $imagePath = Storage::path('public/' . $order->payment_proof);
 
+        $filePath = $order->payment_proof;
 
-        if (!Storage::exists('public/' . $order->payment_proof)) {
+        // Check if the file exists in the public disk
+        if (!Storage::disk('public')->exists($filePath)) {
             abort(404, 'Gambar tidak ditemukan');
         }
 
+        // Get the full path to the file
+        $imagePath = Storage::disk('public')->path($filePath);
+
+        // Return the file as a response
         return response()->file($imagePath);
     }
 }

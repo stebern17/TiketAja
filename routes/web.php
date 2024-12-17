@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Exports\OrdersExport;
 use App\Exports\EventsExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Admin\TicketValidationController;
 // user
 use App\Http\Controllers\User\CatalogueController;
 use App\Http\Controllers\User\TicketController;
@@ -65,6 +66,11 @@ Route::get('/admin/orders/export', function () {
 Route::get('/admin/events/export', function () {
     return Excel::download(new EventsExport, 'events.xlsx');
 })->name('admin.events.export');
+
+
+// Rute untuk Ticket Validation
+Route::get('/ticket-validation', [TicketValidationController::class, 'showTicketValidationPage'])->name('admin.ticketValidation');
+Route::post('/ticket-validation/validate', [TicketValidationController::class, 'validateTicket'])->name('admin.ticketValidation.validate');
 
 
 
