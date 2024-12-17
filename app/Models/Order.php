@@ -16,7 +16,6 @@ class Order extends Model
     protected $fillable = [
         'id_user',
         'id_event',
-        'ticket_code',
         'id_ticket',
         'quantity',
         'total_price',

@@ -6,23 +6,23 @@
     <h2>Ticket Validation</h2>
 
     <!-- Event Selection Dropdown -->
-    <div class="mb-3">
-        <label for="eventSelection" class="form-label">Select Event</label>
-        <select class="form-select" id="eventSelection" name="id_event">
-            <option value="" disabled selected>Choose an event</option>
-            @foreach($events as $event)
-            <option value="{{ $event->id }}">{{ $event->name }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <!-- Displaying Video Feed from Camera -->
-    <div class="mb-3">
-        <video id="videoElement" autoplay></video>
-    </div>
-
     <form id="validationForm" method="POST" action="{{ route('admin.ticketValidation.validate') }}">
         @csrf
+        <div class="mb-3">
+            <label for="eventSelection" class="form-label">Select Event</label>
+            <select class="form-select" id="eventSelection" name="id_event">
+                <option value="" disabled selected>Choose an event</option>
+                @foreach($events as $event)
+                <option value="{{ $event->id_event }}">{{ $event->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <!-- Displaying Video Feed from Camera -->
+        <div class="mb-3">
+            <video id="videoElement" autoplay></video>
+        </div>
+
         <div class="mb-3">
             <label for="id_ticket" class="form-label">Ticket ID</label>
             <input type="text" class="form-control" id="id_ticket" name="id_ticket" placeholder="Scan Ticket" readonly>
@@ -32,93 +32,153 @@
             <input type="text" class="form-control" id="id_order" name="id_order" placeholder="Scan Order" readonly>
         </div>
 
+        <!-- Input for Order Detail ID (manual input when QR code cannot be scanned) -->
+        <div class="mb-3">
+            <label for="id_order_detail" class="form-label">Order Detail ID (manual input)</label>
+            <input type="text" class="form-control" id="id_order_detail" name="id_order_detail" placeholder="Enter Order Detail ID">
+        </div>
+
         <button type="button" id="scanButton" class="btn btn-primary">Validate Ticket</button>
     </form>
 
+    <!-- Message Box for Validation Feedback -->
     <div id="validationMessage" class="mt-3"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.18.6/umd/index.min.js"></script>
 <script>
-    // Access the camera
-    let video = document.getElementById("videoElement");
-    let selectedEventId = null;
+    document.addEventListener("DOMContentLoaded", () => {
+        const video = document.getElementById("videoElement");
+        const validationMessage = document.getElementById("validationMessage");
+        const eventSelection = document.getElementById("eventSelection");
+        const orderDetailInput = document.getElementById("id_order_detail"); // Manual input for order detail
+        let scannedQRCodes = new Set();
 
-    // Handle event selection
-    document.getElementById("eventSelection").addEventListener("change", function() {
-        selectedEventId = this.value;
-    });
+        // Access the camera
+        navigator.mediaDevices.getUserMedia({
+                video: true
+            })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(err => {
+                console.error("Error accessing the camera: ", err);
+                validationMessage.innerHTML = `<div class="alert alert-danger">Cannot access camera. Please check permissions.</div>`;
+            });
 
-    // Request the user's camera
-    navigator.mediaDevices.getUserMedia({
-            video: true
-        })
-        .then((stream) => {
-            video.srcObject = stream;
-        })
-        .catch((err) => {
-            console.error("Error accessing the camera: ", err);
-        });
+        // Initialize the barcode scanner
+        const codeReader = new ZXing.BrowserMultiFormatReader();
+        codeReader.listVideoInputDevices()
+            .then(videoInputDevices => {
+                if (videoInputDevices.length === 0) {
+                    throw new Error("No video input devices found.");
+                }
 
-    // Barcode scanner setup
-    const codeReader = new ZXing.BrowserMultiFormatReader();
-    codeReader.listVideoInputDevices()
-        .then((videoInputDevices) => {
-            const firstDeviceId = videoInputDevices[0].deviceId;
-            codeReader.decodeFromVideoDevice(firstDeviceId, 'videoElement', (result, err) => {
-                if (result) {
-                    // Scan successful, set ticket and order ID
-                    let scannedData = result.getText().split('|'); // Assuming barcode is a combination of ticket and order IDs
-                    if (scannedData.length == 2) {
-                        document.getElementById("id_ticket").value = scannedData[0];
-                        document.getElementById("id_order").value = scannedData[1];
+                const firstDeviceId = videoInputDevices[0].deviceId;
+
+                codeReader.decodeFromVideoDevice(firstDeviceId, 'videoElement', (result, err) => {
+                    if (result) {
+                        const scannedData = result.getText();
+
+                        // Prevent processing the same QR code multiple times
+                        if (!scannedQRCodes.has(scannedData)) {
+                            scannedQRCodes.add(scannedData);
+
+                            const [ticketId, orderId] = scannedData.split('|');
+
+                            if (ticketId && orderId) {
+                                sendValidationRequest(ticketId, orderId);
+                            } else {
+                                showMessage("Invalid QR Code format.", "danger");
+                            }
+                        }
                     }
-                }
+
+                    if (err && !(err instanceof ZXing.NotFoundException)) {
+                        console.error(err);
+                        showMessage("Error scanning QR code.", "danger");
+                    }
+                });
+            })
+            .catch(err => {
+                console.error("Error accessing video devices: ", err);
+                validationMessage.innerHTML = `<div class="alert alert-danger">Error accessing video devices.</div>`;
             });
-        })
-        .catch((err) => {
-            console.error("Error accessing video devices: ", err);
-        });
 
-    // Validate ticket on form submission
-    document.getElementById("scanButton").addEventListener("click", function() {
-        let ticketId = document.getElementById("id_ticket").value;
-        let orderId = document.getElementById("id_order").value;
+        // Function to send validation request to the server
+        function sendValidationRequest(ticketId, orderId) {
+            const selectedEvent = eventSelection.value;
+            const orderDetailId = orderDetailInput.value; // Using manual input if QR code isn't scanned
 
-        if (!selectedEventId) {
-            alert("Please select an event before validating tickets.");
-            return;
-        }
+            if (!selectedEvent) {
+                showMessage("Please select an event before scanning QR codes.", "warning");
+                return;
+            }
 
-        if (!ticketId || !orderId) {
-            alert("Please scan both ticket and order ID.");
-            return;
-        }
+            // Disable the scan button to prevent multiple clicks
+            document.getElementById("scanButton").disabled = true;
 
-        // Send data to the server for validation
-        fetch("{{ route('admin.ticketValidation.validate') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}" // CSRF token for security
-                },
-                body: JSON.stringify({
-                    id_ticket: ticketId,
-                    id_order: orderId,
-                    id_event: selectedEventId
+            const requestBody = {
+                id_event: selectedEvent,
+                id_ticket: ticketId,
+                id_order: orderId,
+            };
+
+            // If manual input is provided for order detail, add it to the request
+            if (orderDetailId) {
+                requestBody.id_order_detail = orderDetailId;
+            }
+
+            // Send the request
+            fetch("{{ route('admin.ticketValidation.validate') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify(requestBody)
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById("validationMessage").innerHTML = `<div class="alert alert-success">${data.message}</div>`;
-                } else {
-                    document.getElementById("validationMessage").innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
-                }
-            })
-            .catch(error => {
-                document.getElementById("validationMessage").innerHTML = `<div class="alert alert-danger">An error occurred. Please try again later.</div>`;
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showMessage(data.message, "success");
+                    } else {
+                        showMessage(data.message, "danger");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    showMessage("An error occurred while validating the ticket.", "danger");
+                })
+                .finally(() => {
+                    // Re-enable the scan button after processing
+                    document.getElementById("scanButton").disabled = false;
+                });
+        }
+
+        // Function to display messages
+        function showMessage(message, type) {
+            validationMessage.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            // Optionally, remove the message after a few seconds
+            setTimeout(() => {
+                validationMessage.innerHTML = "";
+            }, 5000);
+        }
+
+        // Handle the click event of the 'Validate Ticket' button
+        document.getElementById("scanButton").addEventListener("click", () => {
+            // Check if either QR code was scanned or id_order_detail is filled manually
+            const orderDetailId = orderDetailInput.value;
+
+            if (orderDetailId) {
+                // If orderDetailId is filled manually, validate ticket directly
+                sendValidationRequest(null, null); // No need for ticketId and orderId if we're validating via order detail
+            } else {
+                // If no order detail entered, try scanning the QR code
+                scannedQRCodes.clear();
+                showMessage("You can now scan a new QR code or manually enter Order Detail ID.", "info");
+            }
+        });
     });
 </script>
 @endsection

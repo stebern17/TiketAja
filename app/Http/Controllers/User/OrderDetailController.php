@@ -20,14 +20,16 @@ class OrderDetailController extends Controller
         $orderDetail = OrderDetail::find($id_order_detail);
 
         if ($orderDetail) {
-            $order = $orderDetail->order; // Mendapatkan relasi order dari order_detail
+            $order = $orderDetail->order; // Ensure the relationship is correctly defined
 
-            // Cek apakah status pesanan adalah approved
-            if ($order->status == 'approved') {
-                return view('user.orderDetail.show', compact('orderDetail', 'order'));
+            if ($order->status === 'approved') {
+                // Path QR Code in storage
+                $qrCodePath = asset('storage/' . $orderDetail->qr_code);
+
+                return view('user.orderDetail.show', compact('orderDetail', 'order', 'qrCodePath'));
             }
 
-            return response()->json(['message' => 'Akses tidak diizinkan'], 403);
+            return response()->json(['message' => 'Access denied'], 403);
         }
 
         return response()->json(['message' => 'Order Detail not found'], 404);
