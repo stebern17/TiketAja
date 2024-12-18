@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Exports\OrdersExport;
 use App\Exports\EventsExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Admin\TicketValidationController;
 // user
 use App\Http\Controllers\User\CatalogueController;
 use App\Http\Controllers\User\TicketController;
@@ -68,6 +69,11 @@ Route::get('/admin/events/export', function () {
 
 // Rute untuk Sales Graph
 Route::get('/admin/orders/sales-graph', [AdminController::class, 'salesGraph'])->name('admin.sales.graph');
+
+
+// Rute untuk Ticket Validation
+Route::get('/ticket-validation', [TicketValidationController::class, 'showTicketValidationPage'])->name('admin.ticketValidation');
+Route::post('/ticket-validation/validate', [TicketValidationController::class, 'validateTicket'])->name('admin.ticketValidation.validate');
 
 
 
