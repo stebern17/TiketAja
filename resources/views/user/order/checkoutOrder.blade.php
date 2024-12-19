@@ -1,6 +1,7 @@
 @extends('layouts/userLayout')
 
 @section('content')
+<div class="bg-white p-4 rounded-lg shadow-md">
     <form action="{{ route('order.confirm') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="id_ticket" value="{{ $checkoutData['id_ticket'] ?? '' }}">
@@ -8,11 +9,11 @@
         <input type="hidden" name="quantity" value="{{ $checkoutData['quantity'] ?? '' }}">
         <input type="hidden" name="total_price" value="{{ $checkoutData['total_price'] ?? '' }}">
 
-        <h2 class="text-xl font-bold mb-4">Checkout</h2>
-        <p>Tiket: {{ $checkoutData['ticket_type'] ?? 'N/A' }}</p>
-        <p>Harga per Tiket: Rp {{ number_format($checkoutData['ticket_price'] ?? 0, 0, ',', '.') }}</p>
-        <p>Jumlah: {{ $checkoutData['quantity'] ?? 0 }}</p>
-        <p>Total Harga: Rp {{ number_format($checkoutData['total_price'] ?? 0, 0, ',', '.') }}</p>
+        <h2 class="fs-2 font-bold mb-4">Checkout</h2>
+        <p class="fs-5"><strong>Tiket:</strong> {{ $checkoutData['ticket_type'] ?? 'N/A' }}</p>
+        <p class="fs-5"><strong>Harga per Tiket:</strong> Rp {{ number_format($checkoutData['ticket_price'] ?? 0, 0, ',', '.') }}</p>
+        <p class="fs-5"><strong>Jumlah:</strong> {{ $checkoutData['quantity'] ?? 0 }}</p>
+        <p class="fs-5"><strong>Total Harga:</strong> Rp {{ number_format($checkoutData['total_price'] ?? 0, 0, ',', '.') }}</p>
 
         <label for="payment_proof" class="block mt-4 font-medium text-gray-700">Unggah Bukti Pembayaran</label>
         <input type="file" name="payment_proof" id="payment_proof" accept="image/*"
@@ -23,4 +24,7 @@
             Konfirmasi Pembayaran
         </button>
     </form>
+
+</div>
+
 @endsection
