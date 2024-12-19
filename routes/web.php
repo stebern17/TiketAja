@@ -67,8 +67,6 @@ Route::get('/admin/events/export', function () {
     return Excel::download(new EventsExport, 'events.xlsx');
 })->name('admin.events.export');
 
-// Rute untuk Sales Graph
-Route::get('/admin/orders/sales-graph', [AdminController::class, 'salesGraph'])->name('admin.sales.graph');
 
 
 // Rute untuk Ticket Validation

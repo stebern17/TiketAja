@@ -36,6 +36,7 @@ class TicketValidationController extends Controller
      */
     public function validateTicket(Request $request)
     {
+        dd($request->all());
         // Validasi input
         $validator = Validator::make($request->all(), [
             'id_ticket' => 'nullable|exists:tickets,id_ticket',

@@ -22,6 +22,7 @@ class OrderFactory extends Factory
             'status' => $this->faker->randomElement(['pending', 'approved', 'rejected']), // Pilih status acak
             'quantity' => $this->faker->numberBetween(1, 10), // Jumlah tiket yang dipesan
             'total_price' => $this->faker->numberBetween(50000, 100000), // Harga total acak
+            'created_at' => $this->faker->dateTimeBetween('-6 months', '+6 months'),
         ];
     }
 }

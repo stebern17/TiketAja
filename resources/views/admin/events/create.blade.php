@@ -10,25 +10,28 @@
     <form action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data" class="shadow p-4 rounded">
         @csrf
 
-        <!-- Nama Event -->
-        <div class="mb-3">
-            <label for="name" class="form-label">Event Name</label>
-            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
-                placeholder="Enter event name" value="{{ old('name') }}" required>
-            @error('name')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
+
+        <div class="row">
+            <!-- Nama Event -->
+            <div class="mb-3 col-md-6">
+                <label for="name" class="form-label">Event Name</label>
+                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
+                    placeholder="Enter event name" value="{{ old('name') }}" required>
+                @error('name')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            <!-- Tanggal Event -->
+            <div class="mb-3 col-md-6"> 
+                <label for="date" class="form-label">Event Date</label>
+                <input type="date" class="form-control @error('date') is-invalid @enderror" id="date" name="date"
+                    value="{{ old('date') }}" required>
+                @error('date')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
         </div>
 
-        <!-- Tanggal Event -->
-        <div class="mb-3">
-            <label for="date" class="form-label">Event Date</label>
-            <input type="date" class="form-control @error('date') is-invalid @enderror" id="date" name="date"
-                value="{{ old('date') }}" required>
-            @error('date')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
 
         <!-- Upload Gambar -->
         <div class="mb-3">
