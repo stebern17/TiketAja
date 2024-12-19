@@ -66,12 +66,34 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
-      public function destroy($id)
+    public function destroy($id)
     {
         $user = User::findOrFail($id);
         $user->delete();
 
         return redirect()->route('users.index');
     }
-}
 
+    public function settings()
+    {
+        /** @var \App\Models\User $user */
+        $user = auth()->user(); // Mendapatkan data pengguna yang sedang login
+        return view('user.settings.index', compact('user')); // Mengarahkan ke file user/settings/index.blade.php
+    }
+
+    public function updateSettings(Request $request)
+    {
+        /** @var \App\Models\User $user */
+        $user = auth()->user(); // Mendapatkan pengguna yang sedang login
+
+        $request->validate([
+            'name_user' => 'required|string|max:255',
+        ]);
+
+        $user->update([
+            'name_user' => $request->name_user,
+        ]);
+
+        return redirect()->route('user.settings')->with('success', 'Name updated successfully.');
+    }
+}

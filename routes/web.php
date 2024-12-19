@@ -17,6 +17,7 @@ use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\SettingsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\OrderDetailController;
+use App\Http\Controllers\User\UserController as UserSettingsController;
 
 // -------------------Main--------------------------
 Route::get('/', [CatalogueController::class, 'index'])->name('catalogue.index');
@@ -117,4 +118,10 @@ Route::middleware('auth')->group(function () {
     // routes/web.php
     Route::get('orders', [OrderController::class, 'index'])->name('user.orders.index');
     Route::get('orderDetail/{id_order_detail}', [OrderDetailController::class, 'show'])->name('user.orderDetail.show');
+
+    // Setting
+    Route::prefix('user')->middleware('auth')->group(function () {
+        Route::get('/settings', [UserSettingsController::class, 'settings'])->name('user.settings');
+        Route::post('/settings', [UserSettingsController::class, 'updateSettings'])->name('user.settings.update');
+    });
 });
