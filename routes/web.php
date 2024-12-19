@@ -79,9 +79,6 @@ Route::prefix('admin')->group(function () {
 
 
 // Rute untuk Sales Graph
-Route::prefix('admin')->group(function () {
-    Route::get('/admin/orders/sales-graph', [AdminController::class, 'salesGraph'])->name('admin.sales.graph');
-});
 
 Route::prefix('admin')->group(function () {
     Route::get('/ticket-validation', [TicketValidationController::class, 'showTicketValidationPage'])->name('admin.ticketValidation');

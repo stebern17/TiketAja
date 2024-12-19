@@ -4,16 +4,16 @@
 
 @section ('content')
 <div class="container">
-    <h1>Manage Orders</h1>
+    <h1 class="mt-2 mb-4">Manage Orders</h1>
     <a href="{{ route('admin.orders.export') }}" class="btn btn-success">
         Export Orders
     </a>
 
     @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+    <div class="alert alert-success">{{ session('success') }}</div>
     @endif
     @if (session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
+    <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
 
     <table class="table table-striped mt-3 shadow rounded">

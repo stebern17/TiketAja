@@ -4,17 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\User;
+use App\Models\Event;
 use Illuminate\Support\Facades\DB;
 
 
 class AdminController extends Controller
 {
     public function dashboard()
-    {
-        return view('admin.dashboard');
-    }
-
-    public function salesGraph()
     {
         // Ambil data total sales per bulan
         $salesData = Order::select(DB::raw('YEAR(created_at) as year'), DB::raw('MONTH(created_at) as month'), DB::raw('SUM(total_price) as total_sales'))
@@ -23,7 +20,11 @@ class AdminController extends Controller
             ->orderBy('month', 'asc')
             ->get();
 
-        // Return view dengan data sales
-        return view('admin.SalesGraph.Graph', compact('salesData'));
+        $userCount = User::count();
+        $eventCount = Event::count();
+        $orderCount = Order::count();
+
+        // Return view dengan data
+        return view('admin.dashboard', compact('salesData', 'userCount', 'eventCount', 'orderCount'));
     }
 }
