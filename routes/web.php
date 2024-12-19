@@ -18,17 +18,17 @@ use App\Http\Controllers\User\SettingsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\OrderDetailController;
 
+// -------------------Main--------------------------
 Route::get('/', [CatalogueController::class, 'index'])->name('catalogue.index');
 Route::get('/catalogue/event', [CatalogueController::class, 'showEvent'])->name('catalogue.event');
 Route::get('/catalogue', [CatalogueController::class, 'showAllEvents'])->name('user.catalogue.showAllEvents');
-
-
 
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
 Route::get('register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('register', [AuthController::class, 'register']);
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+// -------------------Admin--------------------------
 
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
@@ -40,45 +40,56 @@ Route::prefix('admin')->group(function () {
 });
 
 
-// Rute untuk Event
-Route::resource('events', EventController::class);
+// Rute untuk Event\
+Route::prefix('admin')->group(function () {
+    Route::resource('events', EventController::class);
+});
 
 // Rute untuk Tickets Admin
-Route::get('/tickets/create/{event_id}', [TicketsController::class, 'create'])->name('tickets.create');
-Route::post('/tickets', [TicketsController::class, 'store'])->name('tickets.store');
-Route::get('/events/{event}/tickets', [TicketsController::class, 'index'])->name('tickets.index');
-Route::get('/tickets/{ticket}', [TicketsController::class, 'show'])->name('tickets.show');
-Route::get('/tickets/{ticket}/edit', [TicketsController::class, 'edit'])->name('tickets.edit');
-Route::put('/tickets/{ticket}', [TicketsController::class, 'update'])->name('tickets.update');
-Route::delete('/tickets/{ticket}', [TicketsController::class, 'destroy'])->name('tickets.destroy');
+Route::prefix('admin')->group(function () {
+    Route::get('/tickets/create/{event_id}', [TicketsController::class, 'create'])->name('tickets.create');
+    Route::post('/tickets', [TicketsController::class, 'store'])->name('tickets.store');
+    Route::get('/events/{event}/tickets', [TicketsController::class, 'index'])->name('tickets.index');
+    Route::get('/tickets/{ticket}', [TicketsController::class, 'show'])->name('tickets.show');
+    Route::get('/tickets/{ticket}/edit', [TicketsController::class, 'edit'])->name('tickets.edit');
+    Route::put('/tickets/{ticket}', [TicketsController::class, 'update'])->name('tickets.update');
+    Route::delete('/tickets/{ticket}', [TicketsController::class, 'destroy'])->name('tickets.destroy');
+});
+
 
 // Rute untuk Admin Order
-Route::get('Admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
-Route::post('orders/{order}/update-status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
-Route::get('orders/{order}/payment-proof', [AdminOrderController::class, 'showPaymentProof'])->name('admin.orders.showPaymentProof');
-Route::post('orders/{order}/send-receipt', [AdminOrderController::class, 'sendReceipt'])->name('admin.orders.sendReceipt');
+Route::prefix('admin')->group(function () {
+    Route::get('Admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+    Route::post('orders/{order}/update-status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+    Route::get('orders/{order}/payment-proof', [AdminOrderController::class, 'showPaymentProof'])->name('admin.orders.showPaymentProof');
+    Route::post('orders/{order}/send-receipt', [AdminOrderController::class, 'sendReceipt'])->name('admin.orders.sendReceipt');
+});
+
 
 // Rute untuk Export Excel
-Route::get('/admin/orders/export', function () {
-    return Excel::download(new OrdersExport, 'orders.xlsx');
-})->name('admin.orders.export');
+Route::prefix('admin')->group(function () {
+    Route::get('/admin/orders/export', function () {
+        return Excel::download(new OrdersExport, 'orders.xlsx');
+    })->name('admin.orders.export');
 
-Route::get('/admin/events/export', function () {
-    return Excel::download(new EventsExport, 'events.xlsx');
-})->name('admin.events.export');
+    Route::get('/admin/events/export', function () {
+        return Excel::download(new EventsExport, 'events.xlsx');
+    })->name('admin.events.export');
+});
+
 
 // Rute untuk Sales Graph
-Route::get('/admin/orders/sales-graph', [AdminController::class, 'salesGraph'])->name('admin.sales.graph');
+Route::prefix('admin')->group(function () {
+    Route::get('/admin/orders/sales-graph', [AdminController::class, 'salesGraph'])->name('admin.sales.graph');
+});
 
+Route::prefix('admin')->group(function () {
+    Route::get('/ticket-validation', [TicketValidationController::class, 'showTicketValidationPage'])->name('admin.ticketValidation');
+    Route::post('/admin/ticketValidation/validate', [TicketValidationController::class, 'validateTicket'])->name('admin.ticketValidation.validate');
+    Route::post('/admin/ticketValidation/fetchTicketData', [TicketValidationController::class, 'fetchTicketData'])->name('admin.ticketValidation.fetchTicketData');
+});
 
-// Rute untuk Ticket Validation
-Route::get('/ticket-validation', [TicketValidationController::class, 'showTicketValidationPage'])->name('admin.ticketValidation');
-Route::post('/ticket-validation/validate', [TicketValidationController::class, 'validateTicket'])->name('admin.ticketValidation.validate');
-Route::post('/admin/ticketValidation/fetchTicketData', [TicketValidationController::class, 'fetchTicketData'])->name('admin.ticketValidation.fetchTicketData');
-
-
-
-
+// --------------------User-------------------------
 // Rute untuk User
 Route::middleware('auth')->group(function () {
     // Katalog
