@@ -45,7 +45,9 @@
 </head>
 
 
-<body>
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Navbar -->
     <nav id="navbar"
         class="w-100 ms-0 d-flex justify-content-between px-5 py-3 mx-4 align-items-center position-sticky top-0 z-50  transition-all">
         <div class="brand-logo d-flex">
@@ -53,186 +55,93 @@
             <a class="navbar-brand fw-bold fs-2" href="{{ route('catalogue.index')}}">Tiket Aja</a>
         </div>
         <ul class="d-flex gap-3 align-items-center mb-0">
-            <li><a href="{{ route('catalogue.index')}}" class=" text-decoration-none text-dark">Beranda</a></li>
+            <li><a href="{{ route('catalogue.index')}}" class="text-decoration-none text-dark">Beranda</a></li>
+            <!-- Dropdown Event -->
             <li class="nav-item dropdown">
                 <a class="nav-link text-dark" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
                     Event <i class="bx bx-chevron-down"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-                    <!-- Kategori Acara Hiburan -->
-                    <li class="dropdown-item">
-                        <a class="nav-link text-dark" href="#" id="eventEntertainment" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Acara Hiburan
-                        </a>
-                    </li>
-                    <!-- Kategori Acara Olahraga -->
-                    <li class="dropdown-item">
-                        <a class="nav-link text-dark" href="#" id="eventSports" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Acara Olahraga
-                        </a>
-                    </li>
-                    <!-- Kategori Acara Pendidikan -->
-                    <li class="dropdown-item">
-                        <a class="nav-link text-dark" href="#" id="eventEducation" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Acara Pendidikan
-                        </a>
-
-                    </li>
-                    <!-- Kategori Lainnya -->
-                    <li class="dropdown-item">
-                        <a class="nav-link text-dark" href="#" id="lainya" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Lainya
-                        </a>
-                    </li>
+                    <li class="dropdown-item"><a href="#" class="nav-link text-dark">Acara Hiburan</a></li>
+                    <li class="dropdown-item"><a href="#" class="nav-link text-dark">Acara Olahraga</a></li>
+                    <li class="dropdown-item"><a href="#" class="nav-link text-dark">Acara Pendidikan</a></li>
+                    <li class="dropdown-item"><a href="#" class="nav-link text-dark">Lainya</a></li>
                 </ul>
             </li>
-            <li>
-                <a href="" class="flex items-center justify-center text-decoration-none text-dark">Hubungi Kami <i
-                        class="bx bx-chevron-down"></i></a>
-            </li>
+            <li><a href="#" class="text-decoration-none text-dark">Hubungi Kami</a></li>
         </ul>
         @if(Auth::check())
-            <div>
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li class="dropdown-item">Hi {{ Auth::user()->name_user }}</li>
-                            <li><a href="{{route('order.index')}}" class="dropdown-item"><i class="bi bi-ticket"></i>
-                                    Tiketku</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Settings</a></li>
-                            <li>
-                                <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item">
-                                        <i class="bi bi-box-arrow-right"></i> Logout
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+        <div>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li class="dropdown-item">Hi {{ Auth::user()->name_user }}</li>
+                        <li><a href="{{route('order.index')}}" class="dropdown-item"><i class="bi bi-ticket"></i> Tiketku</a></li>
+                        <li><a href="{{route('user.settings')}}" class="dropdown-item"><i class="bi bi-gear"></i> Settings</a></li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="dropdown-item">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
         @else
-            <a href="{{ route('login') }}"><button class="btn btn-outline-primary rounded-pill px-4">LOGIN</button></a>
+        <a href="{{ route('login') }}"><button class="btn btn-outline-primary rounded-pill px-4">LOGIN</button></a>
         @endif
     </nav>
 
-
-
-    <main class="px-16 pt-3 pb-3 bg-slate-100">
+    <!-- Main Content -->
+    <main class="flex-grow-1 px-16 pt-3 pb-3 bg-slate-100">
         @yield('content')
     </main>
 
-    <!--Footer-->
-    <footer class="bg-dark text-white px-5 py-4">
-        <div class="container-fluid d-flex justify-content-center gap-4">
-            <div class="row align-items-start d-flex justify-content-center">
+    <!-- Footer -->
+    <footer class="bg-dark text-white">
+        <div class="container py-4">
+            <div class="row">
                 <div class="col-md-3">
                     <h5 class="fw-bold mb-3">Tiket Aja</h5>
-                    <blockquote class="blockquote mb-3">
-                        <p class="mb-0">"Murah, Cepat, Terpercaya"</p>
-                    </blockquote>
-                    <p>
-                        Tiket Aja adalah platform penjualan tiket terpercaya untuk berbagai acara seperti konser,
-                        olahraga, seminar, dan lainnya.
-                        Dapatkan tiket dengan mudah, cepat, dan aman hanya di Tiket Aja!
-                    </p>
+                    <p>Tiket Aja adalah platform penjualan tiket terpercaya untuk berbagai acara seperti konser, olahraga, seminar, dan lainnya. Dapatkan tiket dengan mudah, cepat, dan aman hanya di Tiket Aja!</p>
                 </div>
-
                 <div class="col-md-3">
                     <h5 class="fw-bold mb-3">Hubungi Kami</h5>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-whatsapp"></i>
-                                +6285179787955 (Customer Support)</a></li>
-                        <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-whatsapp"></i>
-                                +6281919004243 (Partnership)</a></li>
-                        <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-instagram"></i>
-                                tiketaja.id</a></li>
-                        <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-envelope"></i>
-                                contact@tiketaja.id</a></li>
+                        <li><i class="bi bi-whatsapp"></i> +6285179787955 (Customer Support)</li>
+                        <li><i class="bi bi-whatsapp"></i> +6281919004243 (Partnership)</li>
+                        <li><i class="bi bi-instagram"></i> tiketaja.id</li>
+                        <li><i class="bi bi-envelope"></i> contact@tiketaja.id</li>
                     </ul>
                 </div>
-
                 <div class="col-md-3">
                     <h5 class="fw-bold mb-3">Metode Pembayaran</h5>
-                    <div class="row row-cols-3">
-                        <div class="col mb-1">
-                            <img alt="QRIS" src="{{ asset('assets/img/11.png') }}" class="rounded-2" height="40">
-                        </div>
-                        <div class="col mb-1">
-                            <img alt="Bank BRI" src={{ asset('assets/img/1.png') }} class="rounded-2" height="40">
-                        </div>
-                        <div class="col mb-1">
-                            <img alt="BNI" src={{ asset('assets/img/3.png') }} class="rounded-2" height="40">
-                        </div>
-                        <div class="col mb-1">
-                            <img alt="Mandiri" src={{ asset('assets/img/2.png') }} class="rounded-2" height="40">
-                        </div>
-                        <div class="col mb-1">
-                            <img alt="CIMB Niaga" src={{ asset('assets/img/4.png') }} class="rounded-2" height="40">
-                        </div>
-                        <div class="col mb-1">
-                            <img alt="BSI" src={{ asset('assets/img/6.png') }} class="rounded-2" height="40">
-                        </div>
-                        <div class="col mb-1">
-                            <img alt="PermataBank" src={{ asset('assets/img/5.png') }} class="rounded-2" height="40">
-                        </div>
-                        <div class="col mb-1">
-                            <img alt="DANA" src={{ asset('assets/img/10.png') }} class="rounded-2" height="40">
-                        </div>
-                        <div class="col mb-1">
-                            <img alt="OVO" src={{ asset('assets/img/9.png') }} class="rounded-2" height="40">
-                        </div>
-                        <div class="col mb-1">
-                            <img alt="ShopeePay" src={{ asset('assets/img/12.png') }} class="rounded-2" height="40">
-                        </div>
-                        <div class="col mb-1">
-                            <img alt="LinkAja" src={{ asset('assets/img/13.png') }} class="rounded-2" height="40">
-                        </div>
-                        <div class="col mb-1">
-                            <img alt="BCA" src={{ asset('assets/img/14.png') }} class="rounded-2" height="40">
-                        </div>
-                        <div class="col mb-1">
-                            <img alt="Alfamart" src={{ asset('assets/img/7.png') }} class="rounded-2" height="40">
-                        </div>
-                        <div class="col mb-1">
-                            <img alt="Alfamidi" src={{ asset('assets/img/8.png') }} class="rounded-2" height="40">
-                        </div>
+                    <div class="row row-cols-3 g-2">
+                        <div class="col"><img src="{{ asset('assets/img/11.png') }}" alt="QRIS" class="img-fluid rounded-2"></div>
+                        <div class="col"><img src="{{ asset('assets/img/1.png') }}" alt="Bank BRI" class="img-fluid rounded-2"></div>
+                        <div class="col"><img src="{{ asset('assets/img/3.png') }}" alt="BNI" class="img-fluid rounded-2"></div>
+                        <div class="col"><img src="{{ asset('assets/img/2.png') }}" alt="Mandiri" class="img-fluid rounded-2"></div>
                     </div>
                 </div>
-
                 <div class="col-md-3">
-                    <div class="mb-3">
-                        <h5 class="fw-bold mb-3">Tautan</h5>
-                        <ul>
-                            <li><a href="#" class="text-white text-decoration-none">Tentang Kami</a></li>
-                            <li><a href="#" class="text-white text-decoration-none">Syarat dan Ketentuan</a></li>
-                            <li><a href="#" class="text-white text-decoration-none">Kebijakan Privasi</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h5 class="fw-bold mb-3">Akun Pembeli</h5>
-                        <ul>
-                            <li><a href="#" class="text-white text-decoration-none">Transaksi & Tiket Aja</a></li>
-                            <li><a href="#" class="text-white text-decoration-none">Syarat dan Ketentuan</a></li>
-                        </ul>
-                    </div>
+                    <h5 class="fw-bold mb-3">Tautan</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white text-decoration-none">Tentang Kami</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Syarat dan Ketentuan</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Kebijakan Privasi</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-
-        <div class="container mt-4">
-            <hr class="border-light">
-            <p class="text-center mt-3">&copy; 2024 Tiket Aja Corp - All Rights Reserved.</p>
+        <div class="text-center py-3">
+            &copy; 2024 Tiket Aja Corp - All Rights Reserved.
         </div>
     </footer>
 
@@ -244,7 +153,7 @@
 
     <!--NavBar Scrool-->
     <script>
-        window.addEventListener('scroll', function () {
+        window.addEventListener('scroll', function() {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
 

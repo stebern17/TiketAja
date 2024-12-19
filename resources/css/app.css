@@ -47,3 +47,7 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+
+.icon-large {
+    font-size: 5rem;
+}
