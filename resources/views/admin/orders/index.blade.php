@@ -60,5 +60,10 @@
             @endforeach
         </tbody>
     </table>
+
+    <!-- Pagination -->
+    <div class="p-2">
+        {{ $orders->links('pagination::bootstrap-5') }}
+    </div>
 </div>
 @endsection

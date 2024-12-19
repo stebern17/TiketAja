@@ -40,7 +40,7 @@
         <div class="mb-3">
             <label for="id_order" class="form-label">Order ID</label>
             <input type="text" class="form-control" id="id_order" name="id_order" placeholder="Scan Order" readonly>
-        </div>
+        </div> --}}
 
         <!-- Input for Order Detail ID (manual input when QR code cannot be scanned) -->
         <div class="mb-3">

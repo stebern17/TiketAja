@@ -14,9 +14,21 @@ use Endroid\QrCode\Writer\PngWriter;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::with(['ticket.event', 'user'])->get();
+        $search = $request->input('search');
+
+        $orders = Order::with(['event', 'user'])
+        ->when($search, function ($query, $search) {
+            $query->whereHas('user', function ($query) use ($search) {
+                $query->where('name_user', 'like', '%' . $search . '%'); // Filter berdasarkan nama customer
+            })
+            ->orWhereHas('event', function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%'); // Filter berdasarkan nama event
+            });
+        })
+        ->paginate(10);
+
         return view('admin.orders.index', compact('orders'));
     }
 
