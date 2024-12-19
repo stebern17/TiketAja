@@ -28,6 +28,28 @@ class TicketValidationController extends Controller
         return view('admin.ticketValidation.validation', compact('events'));
     }
 
+    public function fetchTicketData(Request $request)
+    {
+        $orderDetail = OrderDetail::find($request->id_order_detail);
+
+        if (!$orderDetail) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Order detail not found.',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'id_ticket' => $orderDetail->id_ticket,
+                'id_order' => $orderDetail->id_order,
+
+            ],
+        ], 200);
+    }
+
+
     /**
      * Validate the ticket using a QR code or order detail ID.
      *
@@ -101,54 +123,54 @@ class TicketValidationController extends Controller
         }
 
         // Jika id_ticket dan id_order diberikan (misalnya dari QR Code), proses sesuai data tersebut
-        if ($request->id_ticket && $request->id_order) {
-            // Proses berdasarkan QR Code
-            $ticket = Ticket::find($request->id_ticket);
-            $order = Order::find($request->id_order);
+        // if ($request->id_ticket && $request->id_order) {
+        //     // Proses berdasarkan QR Code
+        //     $ticket = Ticket::find($request->id_ticket);
+        //     $order = Order::find($request->id_order);
 
-            if (!$ticket || !$order) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Ticket or Order not found.',
-                ], 404);
-            }
+        //     if (!$ticket || !$order) {
+        //         return response()->json([
+        //             'success' => false,
+        //             'message' => 'Ticket or Order not found.',
+        //         ], 404);
+        //     }
 
-            // Validasi jenis tiket berdasarkan event
-            $event = Event::find($request->id_event);
-            if ($event->id_event !== $ticket->event->id_event) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Event does not match the ticket\'s event.',
-                ], 404);
-            }
+        //     // Validasi jenis tiket berdasarkan event
+        //     $event = Event::find($request->id_event);
+        //     if ($event->id_event !== $ticket->event->id_event) {
+        //         return response()->json([
+        //             'success' => false,
+        //             'message' => 'Event does not match the ticket\'s event.',
+        //         ], 404);
+        //     }
 
-            // Cek apakah tiket sudah pernah divalidasi sebelumnya
-            if ($ticket->ticketValidation) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'This ticket has already been validated.',
-                ], 400);
-            }
+        //     // Cek apakah tiket sudah pernah divalidasi sebelumnya
+        //     if ($ticket->ticketValidation) {
+        //         return response()->json([
+        //             'success' => false,
+        //             'message' => 'This ticket has already been validated.',
+        //         ], 400);
+        //     }
 
-            // Buat record validasi tiket
-            TicketValidation::create([
-                'id_order_detail' => $order->orderDetails->first()->id_order_detail,
-                'id_order' => $order->id_order,
-                'id_ticket' => $ticket->id_ticket,
-                'validation_date' => now(),
-                'is_valid' => true,
-            ]);
+        //     // Buat record validasi tiket
+        //     TicketValidation::create([
+        //         'id_order_detail' => $order->orderDetails->first()->id_order_detail,
+        //         'id_order' => $order->id_order,
+        //         'id_ticket' => $ticket->id_ticket,
+        //         'validation_date' => now(),
+        //         'is_valid' => true,
+        //     ]);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Ticket validated successfully.',
-                'data' => [
-                    'id_ticket' => $ticket->id_ticket,
-                    'id_order' => $order->id_order,
-                    'event' => $event->name,
-                ],
-            ], 200);
-        }
+        //     return response()->json([
+        //         'success' => true,
+        //         'message' => 'Ticket validated successfully.',
+        //         'data' => [
+        //             'id_ticket' => $ticket->id_ticket,
+        //             'id_order' => $order->id_order,
+        //             'event' => $event->name,
+        //         ],
+        //     ], 200);
+        // }
 
         // Jika data tidak valid
         return response()->json([

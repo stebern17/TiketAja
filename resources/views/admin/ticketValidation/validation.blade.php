@@ -19,9 +19,9 @@
         </div>
 
         <!-- Displaying Video Feed from Camera -->
-        <div class="mb-3">
+        <!-- <div class="mb-3">
             <video id="videoElement" autoplay></video>
-        </div>
+        </div> -->
 
         <div class="mb-3">
             <label for="id_ticket" class="form-label">Ticket ID</label>
@@ -45,7 +45,47 @@
     <div id="validationMessage" class="mt-3"></div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.18.6/umd/index.min.js"></script>
+<script>
+    document.getElementById('id_order_detail').addEventListener('change', async function() {
+        const idOrderDetail = this.value;
+
+        // Reset previous values
+        document.getElementById('id_ticket').value = '';
+        document.getElementById('id_order').value = '';
+
+        if (idOrderDetail) {
+            try {
+                // Call API to fetch data
+                const response = await fetch('{{ route("admin.ticketValidation.fetchTicketData") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                    body: JSON.stringify({
+                        id_order_detail: idOrderDetail
+                    }),
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Populate fields with fetched data
+                    document.getElementById('id_ticket').value = result.data.id_ticket;
+                    document.getElementById('id_order').value = result.data.id_order;
+                } else {
+                    alert(result.message);
+                }
+            } catch (error) {
+                console.error('Error fetching ticket data:', error);
+                alert('Failed to fetch ticket data. Please try again.');
+            }
+        }
+    });
+</script>
+
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.18.6/umd/index.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const video = document.getElementById("videoElement");
@@ -180,5 +220,5 @@
             }
         });
     });
-</script>
+</script> -->
 @endsection

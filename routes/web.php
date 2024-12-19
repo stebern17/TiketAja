@@ -71,6 +71,8 @@ Route::get('/admin/events/export', function () {
 // Rute untuk Ticket Validation
 Route::get('/ticket-validation', [TicketValidationController::class, 'showTicketValidationPage'])->name('admin.ticketValidation');
 Route::post('/ticket-validation/validate', [TicketValidationController::class, 'validateTicket'])->name('admin.ticketValidation.validate');
+Route::post('/admin/ticketValidation/fetchTicketData', [TicketValidationController::class, 'fetchTicketData'])->name('admin.ticketValidation.fetchTicketData');
+
 
 
 
