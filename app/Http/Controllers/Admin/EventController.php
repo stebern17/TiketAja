@@ -47,7 +47,7 @@ class EventController extends Controller
             'description' => 'nullable|string',
             'capacity' => 'required|integer|min:1',
             'status' => 'required|string',
-            'caregory' => 'required|string',
+            'category' => 'required|string',
         ]);
 
         // Combine location and venue into one field before storing

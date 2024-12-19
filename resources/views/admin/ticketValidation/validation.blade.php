@@ -19,18 +19,24 @@
         </div>
 
         <!-- Displaying Video Feed from Camera -->
-        <div class="mb-3">
-            <video id="videoElement" autoplay></video>
-        </div>
+        {{-- <div class="mb-3">
+            <video id="videoElement" autoplay></video> --}}
+        {{-- </div> --}}
 
-        <div class="mb-3">
-            <label for="id_ticket" class="form-label">Ticket ID</label>
-            <input type="text" class="form-control" id="id_ticket" name="id_ticket" placeholder="Scan Ticket" readonly>
-        </div>
+        {{-- <div class="mb-3">
+            <label for="eventSelection" class="form-label">Select Event</label>
+            <select class="form-select" id="eventSelection" name="id_event">
+                <option value="" disabled selected>Choose an event</option>
+                @foreach($events as $event)
+                <option value="{{ $event->id_event }}">{{ $event->name }}</option>
+                @endforeach
+            </select>
+        </div> --}}
+{{--
         <div class="mb-3">
             <label for="id_order" class="form-label">Order ID</label>
             <input type="text" class="form-control" id="id_order" name="id_order" placeholder="Scan Order" readonly>
-        </div>
+        </div> --}}
 
         <!-- Input for Order Detail ID (manual input when QR code cannot be scanned) -->
         <div class="mb-3">
@@ -45,7 +51,7 @@
     <div id="validationMessage" class="mt-3"></div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.18.6/umd/index.min.js"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.18.6/umd/index.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const video = document.getElementById("videoElement");
@@ -180,5 +186,5 @@
             }
         });
     });
-</script>
+</script> --}}
 @endsection

@@ -82,10 +82,6 @@
 
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white-50 fs-5 mb-2" href="{{ route('admin.sales.graph') }}">Sales Graph</a>
-
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-white-50 fs-5" href="{{ route('admin.ticketValidation') }}">
                                 Ticket Validation
                             </a>
