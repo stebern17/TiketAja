@@ -16,8 +16,7 @@
                     @if($orderItem->event->image)
                     <img src="{{ asset('storage/' . $orderItem->event->image) }}"
                         alt="Event Image"
-                        class="img-fluid"
-                        style="width: 100%; height: 100%; object-fit: cover;">
+                        class="img-fluid w-full object-cover rounded-sm">
                     @else
                     <span class="text-muted">Bukti Pembayaran Tidak Tersedia</span>
                     @endif

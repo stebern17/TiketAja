@@ -74,6 +74,7 @@ class EventController extends Controller
 
         // Redirect with success message
         return redirect()->route('events.index')->with('success', 'Event created successfully. You can now add tickets.');
+        dd($validatedData);
     }
 
 

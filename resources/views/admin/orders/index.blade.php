@@ -4,7 +4,10 @@
 
 @section ('content')
 <div class="container">
-    <h1>Manage Orders</h1>
+    <h1 class="mt-2 mb-4">Manage Orders</h1>
+    <a href="{{ route('admin.orders.export') }}" class="btn btn-success">
+        Export Orders
+    </a>
 
     @if (session('success'))
     <div class="alert alert-success">{{ session('success') }}</div>
@@ -12,15 +15,6 @@
     @if (session('error'))
     <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
-
-    <form method="GET" action="{{ route('admin.orders.index') }}" class="mb-3">
-        <input type="text" name="search" class="form-control" placeholder="Search Order..."
-            value="{{ request()->get('search') }}">
-    </form>
-
-    <a href="{{ route('admin.orders.export') }}" class="btn btn-success">
-        Export Orders
-    </a>
 
     <table class="table table-striped mt-3 shadow rounded">
         <thead>

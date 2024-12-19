@@ -37,22 +37,31 @@
                             <div class="form-check">
                                 <input type="checkbox" name="types[]" value="Regular" id="type_regular" class="form-check-input">
                                 <label for="type_regular" class="form-check-label">Regular</label>
-                                <input type="number" name="prices[Regular]" id="price_regular" class="form-control ticket-price" style="display:none;" min="0" placeholder="Masukkan harga" disabled>
-                                <input type="number" name="quantity[Regular]" id="quantity_regular" class="form-control ticket-quantity" style="display:none;" min="1" placeholder="Masukkan kuantitas" disabled>
+                                <div class="row gap-1">
+                                    <input type="number" name="prices[Regular]" id="price_regular" class="form-control ticket-price col" style="display:none;" min="0" placeholder="Masukkan harga" disabled>
+                                    <input type="number" name="quantity[Regular]" id="quantity_regular" class="form-control ticket-quantity col" style="display:none;" min="1" placeholder="Masukkan kuantitas" disabled>
+
+                                </div>
+
                             </div>
 
                             <div class="form-check">
                                 <input type="checkbox" name="types[]" value="VIP" id="type_vip" class="form-check-input">
                                 <label for="type_vip" class="form-check-label">VIP</label>
-                                <input type="number" name="prices[VIP]" id="price_vip" class="form-control ticket-price" style="display:none;" min="0" placeholder="Masukkan harga" disabled>
-                                <input type="number" name="quantity[VIP]" id="quantity_vip" class="form-control ticket-quantity" style="display:none;" min="1" placeholder="Masukkan kuantitas" disabled>
+                                <div class="row gap-1">
+                                    <input type="number" name="prices[VIP]" id="price_vip" class="form-control ticket-price col" style="display:none;" min="0" placeholder="Masukkan harga" disabled>
+                                    <input type="number" name="quantity[VIP]" id="quantity_vip" class="form-control ticket-quantity col" style="display:none;" min="1" placeholder="Masukkan kuantitas" disabled>
+                                </div>
+
                             </div>
 
                             <div class="form-check">
                                 <input type="checkbox" name="types[]" value="VVIP" id="type_vvip" class="form-check-input">
                                 <label for="type_vvip" class="form-check-label">VVIP</label>
-                                <input type="number" name="prices[VVIP]" id="price_vvip" class="form-control ticket-price" style="display:none;" min="0" placeholder="Masukkan harga" disabled>
-                                <input type="number" name="quantity[VVIP]" id="quantity_vvip" class="form-control ticket-quantity" style="display:none;" min="1" placeholder="Masukkan kuantitas" disabled>
+                                <div class="row gap-1">
+                                    <input type="number" name="prices[VVIP]" id="price_vvip" class="form-control ticket-price col" style="display:none;" min="0" placeholder="Masukkan harga" disabled>
+                                    <input type="number" name="quantity[VVIP]" id="quantity_vvip" class="form-control ticket-quantity col" style="display:none;" min="1" placeholder="Masukkan kuantitas" disabled>
+                                </div>
                             </div>
                         </div>
 
@@ -73,26 +82,26 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-        const checkboxes = document.querySelectorAll('.form-check-input');
+            const checkboxes = document.querySelectorAll('.form-check-input');
 
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
-                const ticketType = this.value.toLowerCase();
-                const priceInput = document.getElementById(`price_${ticketType}`);
-                const quantityInput = document.getElementById(`quantity_${ticketType}`);
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const ticketType = this.value.toLowerCase();
+                    const priceInput = document.getElementById(`price_${ticketType}`);
+                    const quantityInput = document.getElementById(`quantity_${ticketType}`);
 
-                priceInput.style.display = this.checked ? 'block' : 'none';
-                priceInput.disabled = !this.checked;
-                quantityInput.style.display = this.checked ? 'block' : 'none';
-                quantityInput.disabled = !this.checked;
+                    priceInput.style.display = this.checked ? 'block' : 'none';
+                    priceInput.disabled = !this.checked;
+                    quantityInput.style.display = this.checked ? 'block' : 'none';
+                    quantityInput.disabled = !this.checked;
 
-                if (!this.checked) {
-                    priceInput.value = '';
-                    quantityInput.value = '';
-                }
+                    if (!this.checked) {
+                        priceInput.value = '';
+                        quantityInput.value = '';
+                    }
+                });
             });
         });
-    });
     </script>
 </div>
 @endsection

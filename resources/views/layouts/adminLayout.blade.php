@@ -63,30 +63,26 @@
                     <ul class="nav nav-pills flex-column">
                         <li class="nav-item">
                             <a class="nav-link text-white-50 fs-5 mb-5"
-                                href="{{ route('admin.dashboard') }}">Dashboard</a>
+                                href="{{ route('admin.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white-50 fs-5 mb-2" href="{{ route('users.index') }}">User
+                            <a class="nav-link text-white-50 fs-5 mb-2" href="{{ route('users.index') }}"><i class="bi bi-people-fill me-2"></i>User
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white-50 fs-5 mb-2" href="{{ route('events.index') }}">Events</a>
+                            <a class="nav-link text-white-50 fs-5 mb-2" href="{{ route('events.index') }}"><i class="bi bi-calendar2-event me-2"></i>Events</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white-50 fs-5 mb-2" href="{{ route('events.create') }}">Create
+                            <a class="nav-link text-white-50 fs-5 mb-2" href="{{ route('events.create') }}"><i class="bi bi-pencil-square me-2"></i>Create
                                 Event</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white-50 fs-5 mb-2" href="{{ route('admin.orders.index') }}">Manage
+                            <a class="nav-link text-white-50 fs-5 mb-2" href="{{ route('admin.orders.index') }}"><i class="bi bi-list-ul me-2"></i>Manage
                                 Order</a>
 
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white-50 fs-5 mb-2" href="{{ route('admin.sales.graph') }}">Sales Graph</a>
-
-                        </li>
                         <li>
-                            <a class="nav-link text-white-50 fs-5" href="{{ route('admin.ticketValidation') }}">
+                            <a class="nav-link text-white-50 fs-5" href="{{ route('admin.ticketValidation') }}"><i class="bi bi-ticket-perforated me-2"></i>
                                 Ticket Validation
                             </a>
 
@@ -96,10 +92,9 @@
             </div>
 
             <!-- Main Content -->
-            <div class="col-md-9 col-lg-10">
-                <div class="p-4">
-                    @yield('content')
-                </div>
+            <div class="col-md-9 col-lg-10 mx-auto">
+                @yield('content')
+
             </div>
         </div>
     </div>

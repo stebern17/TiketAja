@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container">
-    <h1 style="margin-bottom:70px">List Events</h1>
+    <h1 class="mt-2 mb-4">List Events</h1>
 
     <!-- Alert setelah operasi -->
     @if(session('success'))
@@ -25,7 +25,7 @@
         <input type="text" name="search" class="form-control" placeholder="Search events..."
             value="{{ request()->get('search') }}">
     </form>
-    
+
     <a href="{{ route('admin.events.export') }}" class="btn btn-success">
         Export Events
     </a>

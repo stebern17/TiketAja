@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\User;
 use App\Models\Event;
 use Illuminate\Support\Facades\DB;
 
@@ -25,9 +26,9 @@ class AdminController extends Controller
 
         // Ambil data total sales per hari berdasarkan bulan dan tahun yang dipilih
         $salesData = Order::select(
-                DB::raw('DATE(created_at) as date'),
-                DB::raw('SUM(total_price) as total_sales')
-            )
+            DB::raw('DATE(created_at) as date'),
+            DB::raw('SUM(total_price) as total_sales')
+        )
             ->whereYear('created_at', $selectedYear)
             ->whereMonth('created_at', $selectedMonth)
             ->groupBy(DB::raw('DATE(created_at)')) // Group by tanggal
@@ -44,11 +45,11 @@ class AdminController extends Controller
             DB::raw('events.name as event_name'),
             DB::raw('COUNT(*) as event_count')
         )
-        ->join('tickets', 'orders.id_ticket', '=', 'tickets.id_ticket')
-        ->join('events', 'tickets.id_event', '=', 'events.id_event')
-        ->whereYear('orders.created_at', $selectedYear)
-        ->whereMonth('orders.created_at', $selectedMonth)
-        ->groupBy('orders.id_event', 'events.name');
+            ->join('tickets', 'orders.id_ticket', '=', 'tickets.id_ticket')
+            ->join('events', 'tickets.id_event', '=', 'events.id_event')
+            ->whereYear('orders.created_at', $selectedYear)
+            ->whereMonth('orders.created_at', $selectedMonth)
+            ->groupBy('orders.id_event', 'events.name');
 
         if ($eventFilter) {
             $query->where('orders.id_event', $eventFilter);
@@ -56,8 +57,23 @@ class AdminController extends Controller
 
         $eventPopularity = $query->get();
 
-        // Return view dengan data sales dan event popularity
-        return view('admin.dashboard', compact('salesData', 'eventPopularity', 'years', 'months', 'events', 'selectedYear', 'selectedMonth', 'eventFilter'));
-    }
+        $userCount = User::count();
+        $eventCount = Event::count();
+        $orderCount = Order::count();
 
+        // Return view dengan data sales dan event popularity
+        return view('admin.dashboard', compact(
+            'salesData',
+            'eventPopularity',
+            'years',
+            'months',
+            'events',
+            'selectedYear',
+            'selectedMonth',
+            'eventFilter',
+            'userCount',
+            'eventCount',
+            'orderCount'
+        ));
+    }
 }
