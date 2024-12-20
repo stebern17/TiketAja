@@ -3,59 +3,61 @@
 @section('title', 'Ticket Validation')
 @section('content')
 <div class="container mt-5">
-    <h2>Ticket Validation</h2>
+    <h2 class="text-center mb-4" style="font-weight: bold; color: #333;">Ticket Validation</h2>
 
+    <!-- Alert Messages -->
     @if (session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
+        <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
 
     @if (session('error'))
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{ session('error') }}
+        <i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
 
-
-    <!-- Event Selection Dropdown -->
-    <form id="validationForm" method="POST" action="{{ route('admin.ticketValidation.validate') }}">
+    <!-- Validation Form -->
+    <form id="validationForm" method="POST" action="{{ route('admin.ticketValidation.validate') }}" style="background: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
         @csrf
-        <div class="mb-3">
-            <label for="eventSelection" class="form-label">Select Event</label>
+        <!-- Event Selection -->
+        <div class="mb-4">
+            <label for="eventSelection" class="form-label" style="font-weight: bold; color: #333;">Select Event</label>
             <select class="form-select" id="eventSelection" name="id_event" required>
-                <option value="" disabled selected>Choose an event</option>
+                <option value="" disabled selected style="color: #999;">Choose an event</option>
                 @foreach($events as $event)
-                <option value="{{ $event->id_event }}">{{ $event->name }}</option>
+                <option value="{{ $event->id_event }}" style="color: #333;">{{ $event->name }}</option>
                 @endforeach
             </select>
         </div>
 
-        <div class="mb-3">
-            <label for="id_ticket" class="form-label">Ticket ID</label>
-            <input type="text" class="form-control" id="id_ticket" name="id_ticket" placeholder="Scan Ticket" readonly>
-        </div>
-        <div class="mb-3">
-            <label for="id_order" class="form-label">Order ID</label>
-            <input type="text" class="form-control" id="id_order" name="id_order" placeholder="Scan Order" readonly>
-        </div> --}}
-
-        <!-- Input for Order Detail ID (manual input when QR code cannot be scanned) -->
-        <div class="mb-3">
-            <label for="id_order_detail" class="form-label">Order Detail ID (manual input)</label>
-            <input type="text" class="form-control" id="id_order_detail" name="id_order_detail"
-                placeholder="Enter Order Detail ID" value="{{ old('id_order_detail') }}" required>
-
+        <!-- Ticket ID -->
+        <div class="mb-4">
+            <label for="id_ticket" class="form-label" style="font-weight: bold; color: #333;">Ticket ID</label>
+            <input type="text" class="form-control" id="id_ticket" name="id_ticket" placeholder="Scan Ticket" readonly style="background: #e9ecef;">
         </div>
 
-        <!-- Scan Button (Now it's a submit button) -->
-        <button type="submit" id="scanButton" class="btn btn-primary">Validate Ticket</button>
+        <!-- Order ID -->
+        <div class="mb-4">
+            <label for="id_order" class="form-label" style="font-weight: bold; color: #333;">Order ID</label>
+            <input type="text" class="form-control" id="id_order" name="id_order" placeholder="Scan Order" readonly style="background: #e9ecef;">
+        </div>
+
+        <!-- Order Detail ID -->
+        <div class="mb-4">
+            <label for="id_order_detail" class="form-label" style="font-weight: bold; color: #333;">Order Detail ID (manual input)</label>
+            <input type="text" class="form-control" id="id_order_detail" name="id_order_detail" placeholder="Enter Order Detail ID" value="{{ old('id_order_detail') }}" required>
+        </div>
+
+        <!-- Validate Button -->
+        <button type="submit" id="scanButton" class="btn btn-primary w-100" style="background-color: #5F9EA0; border: none; font-weight: bold;">Validate Ticket</button>
     </form>
-
 </div>
 
+<!-- JavaScript -->
 <script>
     document.getElementById('id_order_detail').addEventListener('change', async function() {
         const idOrderDetail = this.value;
@@ -77,9 +79,7 @@
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': '{{ csrf_token() }}',
                     },
-                    body: JSON.stringify({
-                        id_order_detail: idOrderDetail
-                    }),
+                    body: JSON.stringify({ id_order_detail: idOrderDetail }),
                 });
 
                 const result = await response.json();
@@ -88,29 +88,24 @@
                     // Populate fields with fetched data
                     document.getElementById('id_ticket').value = result.data.id_ticket;
                     document.getElementById('id_order').value = result.data.id_order;
-
                 } else {
-                    // Show alert for error messages
                     alert(result.message);
                 }
             } catch (error) {
-                // Show alert for fetch errors
                 alert('Failed to fetch ticket data. Please try again.');
             }
         }
 
-        // Re-enable the button after the fetch is completed
         scanButton.disabled = false;
     });
-</script>
-<script>
+
     document.addEventListener('DOMContentLoaded', function() {
         const alertElements = document.querySelectorAll('.alert');
         alertElements.forEach(alert => {
             setTimeout(() => {
                 alert.classList.add('fade');
                 setTimeout(() => alert.remove(), 500);
-            }, 5000); // Menghilang setelah 5 detik
+            }, 5000);
         });
     });
 </script>
