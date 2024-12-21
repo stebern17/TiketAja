@@ -56,7 +56,7 @@ class AdminController extends Controller
         }
 
         $eventPopularity = $query->get();
-
+    // Menghitung jumlah user, event, dan order
         $userCount = User::count();
         $eventCount = Event::count();
         $orderCount = Order::count();

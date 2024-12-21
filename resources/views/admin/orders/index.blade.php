@@ -55,9 +55,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($orders as $order)
+                @foreach($orders as $key => $order)
                 <tr>
-                    <td class="text-center">{{ $loop->iteration }}</td>
+                    <td class="text-center">{{ $orders->firstItem() + $key }}</td>
                     <td>{{ $order->user->name_user }}</td>
                     <td>{{ $order->user->email_user }}</td>
                     <td>{{ $order->event->name }}</td>
