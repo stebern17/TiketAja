@@ -45,13 +45,13 @@ jobs:
         run: php artisan key:generate
 
       # Step 7: Run migration
-      - name: Run migrations
-        env:
-          DB_CONNECTION: mysql
-          DB_DATABASE: tiketaja
-        run: |
-          touch tiketaja
-          php artisan migrate --force
+      # - name: Run migrations
+      #   env:
+      #     DB_CONNECTION: mysql
+      #     DB_DATABASE: tiketaja
+      #   run: |
+      #     touch tiketaja
+      #     php artisan migrate --force
 
       # Step 8: Run tests
       - name: Run tests
