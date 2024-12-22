@@ -21,12 +21,15 @@
                     <p><strong>QR Code:</strong> <img src="{{ $qrCodePath }}" alt="QR Code" style="width: 200px; height: 200px;"></p>
                     <p class="text-center"><strong>Order id:</strong> {{ $orderDetail->id_order_detail }}</p>
                     <p><strong>Status Pesanan:</strong>
-                        @if ($order->status == 'approved')
+                        @if ($isTicketValid)
+                        <span class="badge bg-success">Verified</span>
+                        @elseif ($order->status == 'approved')
                         <span class="badge bg-info">Receipt Sent</span>
                         @else
                         <span class="badge bg-warning">Pending</span>
                         @endif
                     </p>
+
                 </div>
 
             </div>
