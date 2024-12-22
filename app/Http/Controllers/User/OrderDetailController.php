@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\OrderDetail;
+use App\Models\TicketValidation;
 
 class OrderDetailController extends Controller
 {
@@ -22,14 +23,16 @@ class OrderDetailController extends Controller
         if ($orderDetail) {
             $order = $orderDetail->order; // Ensure the relationship is correctly defined
 
-            if ($order->status === 'approved') {
-                // Path QR Code in storage
-                $qrCodePath = asset('storage/' . $orderDetail->qr_code);
+            // Fetch the validation status of the ticket from the ticket_validation table
+            $ticketValidation = TicketValidation::where('id_order_detail', $orderDetail->id_order_detail)
+                ->first();
 
-                return view('user.orderDetail.show', compact('orderDetail', 'order', 'qrCodePath'));
-            }
+            $isTicketValid = $ticketValidation ? $ticketValidation->is_valid : false;
 
-            return response()->json(['message' => 'Access denied'], 403);
+            // Path QR Code in storage
+            $qrCodePath = asset('storage/' . $orderDetail->qr_code);
+
+            return view('user.orderDetail.show', compact('orderDetail', 'order', 'qrCodePath', 'isTicketValid'));
         }
 
         return response()->json(['message' => 'Order Detail not found'], 404);
