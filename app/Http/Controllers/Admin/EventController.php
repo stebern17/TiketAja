@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
-use App\Models\Order;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 
@@ -74,7 +73,6 @@ class EventController extends Controller
 
         // Redirect with success message
         return redirect()->route('events.index')->with('success', 'Event created successfully. You can now add tickets.');
-        dd($validatedData);
     }
 
 

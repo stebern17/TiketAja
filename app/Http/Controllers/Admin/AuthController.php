@@ -23,7 +23,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email_user', 'password');
+        $request->only('email_user', 'password');
 
         $user = User::where('email_user', $request->input('email_user'))
             ->orWhere('name_user', $request->input('email_user'))
@@ -46,9 +46,6 @@ class AuthController extends Controller
                 break;
             case 'User':
                 return redirect()->route('catalogue.index');
-                break;
-            case 'Promotor':
-                return redirect()->route('promotor.dashboard');
                 break;
             default:
                 return redirect()->route($route);
