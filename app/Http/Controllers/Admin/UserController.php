@@ -8,9 +8,16 @@ use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
+        $search = request()->get('search');
+        // search
+        $users = User::when($search, function ($query, $search) {
+            return $query->where('name_user', 'like', '%' . $search . '%')
+                ->orWhere('email_user', 'like', '%' . $search . '%');
+        })->paginate(10);
+
+
         return view('admin.users.index', compact('users'));
     }
 

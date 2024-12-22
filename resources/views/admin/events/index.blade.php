@@ -3,93 +3,111 @@
 @section('title', 'Events Tiketku')
 
 @section('content')
-<div class="container">
-    <h1 class="mt-2 mb-4">List Events</h1>
+<div class="container my-5">
+    <h1 class="text-center fw-bold mb-4" style="color: #4A5568;">List Events</h1>
 
-    <!-- Alert setelah operasi -->
+    <!-- Alerts -->
     @if(session('success'))
-    <div class="alert alert-success" role="alert">
-        {{ session('success') }}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
 
     @if(session('danger'))
-    <div class="alert alert-danger" role="alert">
-        {{ session('danger') }}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-circle-fill"></i> {{ session('danger') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
 
+    <!-- Search and Export -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <!-- Search Form -->
+        <form method="GET" action="{{ route('events.index') }}" class="d-flex flex-grow-1 me-3">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search events..." value="{{ request()->get('search') }}">
+                <button class="btn btn-secondary ms-2" type="submit">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div>
+        </form>
 
-    <!-- Search Form -->
-    <form method="GET" action="{{ route('events.index') }}" class="mb-3">
-        <input type="text" name="search" class="form-control" placeholder="Search events..."
-            value="{{ request()->get('search') }}">
-    </form>
+        <!-- Export Button -->
+        <a href="{{ route('admin.events.export') }}" class="btn btn-success ms-3">
+            <i class="bi bi-download"></i> Export Events
+        </a>
+    </div>
 
-    <a href="{{ route('admin.events.export') }}" class="btn btn-success">
-        Export Events
-    </a>
+    <!-- Events Table -->
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-striped table-bordered align-middle">
+            <thead class="table text-center">
+                <tr>
+                    <th>#</th>
+                    <th>Event Name</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                    <th>Actions Tiket</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if($events->count() > 0)
+                @foreach ($events as $key => $event)
+                <tr>
+                    <td class="text-center">{{ $events->firstItem() + $key }}</td>
+                    <td>{{ $event->name }}</td>
+                    <td>{{ $event->date }}</td>
+                    <td>{{ $event->location }}</td>
+                    <td>{{ $event->status }}</td>
+                    <td class="text-center">
+                        <!-- View Button -->
+                        <a href="#" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
+                            data-name="{{ $event->name }}" data-date="{{ $event->date }}"
+                            data-image="{{ $event->image ? asset('storage/' . $event->image) : 'No image' }}"
+                            data-location="{{ $event->location }}" data-venue="{{ $event->venue }}"
+                            data-description="{{ $event->description }}" data-capacity="{{ $event->capacity }}"
+                            data-status="{{ $event->status }}" data-category="{{ $event->category }}">View</a>
 
-    <table class="table table-striped mt-3 shadow rounded">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Event Name</th>
-                <th>Date</th>
-                <th>Location</th>
-                <th>Status</th>
-                <th>Actions</th>
-                <th>Actions Tiket</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if($events->count() > 0)
-            @foreach ($events as $key => $event)
-            <tr>
-                <td>{{ $events->firstItem() + $key }}</td>
-                <td>{{ $event->name }}</td>
-                <td>{{ $event->date }}</td>
-                <td>{{ $event->location }}</td>
-                <td>{{ $event->status }}</td>
-                <td>
-                    <!-- Tombol View -->
-                    <a href="#" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
-                        data-name="{{ $event->name }}" data-date="{{ $event->date }}"
-                        data-image="{{ $event->image ? asset('storage/' . $event->image) : 'No image' }}"
-                        data-location="{{ $event->location }}" data-venue="{{ $event->venue }}"
-                        data-description="{{ $event->description }}" data-capacity="{{ $event->capacity }}"
-                        data-status="{{ $event->status }}" data-category="{{ $event->category }}">View</a>
+                        <!-- Edit Button -->
+                        <a href="{{ route('events.edit', $event->id_event) }}" class="btn btn-warning btn-sm ms-2">Edit</a>
 
-                    <!-- Tombol Edit -->
-                    <a href="{{ route('events.edit', $event->id_event) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <!-- Tombol Delete -->
-                    <form action="{{ route('events.destroy', $event->id_event) }}" method="POST" class="d-inline"
-                        onsubmit="return confirm('Are you sure you want to delete the event {{ $event->name }}?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                    </form>
-                </td>
-                <td>
-                    <a href="{{ route('tickets.create', $event->id_event) }}" class="btn btn-success btn-sm">buat tiket</a>
-                    <a href="{{ route('tickets.index', $event->id_event) }}" class="btn btn-info btn-sm">lihat tiket</a>
-                </td>
-            </tr>
-            @endforeach
-            @else
-            <tr>
-                <td colspan="6" class="text-center">No events found matching your search.</td>
-            </tr>
-            @endif
-        </tbody>
-    </table>
+                        <!-- Delete Button -->
+                        <form action="{{ route('events.destroy', $event->id_event) }}" method="POST" class="d-inline ms-2"
+                            onsubmit="return confirm('Are you sure you want to delete the event {{ $event->name }}?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                    <td class="text-center">
+                        <a href="{{ route('tickets.create', $event->id_event) }}" class="btn btn-success btn-sm">
+                            Buat Tiket
+                        </a>
+                        <a href="{{ route('tickets.index', $event->id_event) }}" class="btn btn-info btn-sm ms-2">
+                            Lihat Tiket
+                        </a>
+                    </td>
+                </tr>
+                @endforeach
+                @else
+                <tr>
+                    <td colspan="7" class="text-center">No events found matching your search.</td>
+                </tr>
+                @endif
+            </tbody>
+        </table>
+    </div>
 
     <!-- Pagination -->
-    <div class="p-2">
+    <div class="d-flex justify-content-center mt-4">
         {{ $events->links('pagination::bootstrap-5') }}
     </div>
 </div>
 
+<!-- Modal for Event Details -->
 <div class="modal fade" id="eventDetailModal" tabindex="-1" aria-labelledby="eventDetailModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
