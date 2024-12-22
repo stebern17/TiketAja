@@ -52,7 +52,7 @@
         <div class="grid grid-cols-4 gap-3 mt-3">
             @foreach($events as $event)
             <div class="bg-white shadow-lg p-3 rounded-md">
-                <img src="{{ 'https://picsum.photos/200/300?random=' . rand(1, 1000) }}" alt="img-card" class="w-full h-20 rounded-sm object-cover" />
+                <img src="{{ asset('storage/' . $event->image) }}" alt="img-card" class="w-full h-20 rounded-sm object-cover" />
                 <h2 class="font-semibold text-blue-700 text-sm my-2">
                     {{ $event->name }}
                 </h2>
