@@ -18,7 +18,7 @@
                         alt="Event Image"
                         class="img-fluid w-full object-cover rounded-sm">
                     @else
-                    <span class="text-muted">Bukti Pembayaran Tidak Tersedia</span>
+                    <span class="text-muted">Gambar Event Tidak Tersedia</span>
                     @endif
                 </div>
 
