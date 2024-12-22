@@ -57,9 +57,20 @@
         <label for="location" class="form-label">Location</label>
         <select class="form-control @error('location') is-invalid @enderror" id="location" name="location" required>
           <option value="">Select Location</option>
-          <option value="Yogyakarta" {{ old('location', explode(', ', $event->location)[0] ?? '') == 'Yogyakarta' ? 'selected' : '' }}>Yogyakarta</option>
-          <option value="Solo" {{ old('location', explode(', ', $event->location)[0] ?? '') == 'Solo' ? 'selected' : '' }}>Solo</option>
-          <option value="Semarang" {{ old('location', explode(', ', $event->location)[0] ?? '') == 'Semarang' ? 'selected' : '' }}>Semarang</option>
+          <option value="Jakarta" {{ old('location') == 'Jakarta' ? 'selected' : '' }}>Jakarta</option>
+          <option value="Surabaya" {{ old('location') == 'Surabaya' ? 'selected' : '' }}>Surabaya</option>
+          <option value="Bandung" {{ old('location') == 'Bandung' ? 'selected' : '' }}>Bandung</option>
+          <option value="Medan" {{ old('location') == 'Medan' ? 'selected' : '' }}>Medan</option>
+          <option value="Yogyakarta" {{ old('location') == 'Yogyakarta' ? 'selected' : '' }}>Yogyakarta</option>
+          <option value="Makassar" {{ old('location') == 'Makassar' ? 'selected' : '' }}>Makassar</option>
+          <option value="Semarang" {{ old('location') == 'Semarang' ? 'selected' : '' }}>Semarang</option>
+          <option value="Denpasar" {{ old('location') == 'Denpasar' ? 'selected' : '' }}>Denpasar</option>
+          <option value="Palembang" {{ old('location') == 'Palembang' ? 'selected' : '' }}>Palembang</option>
+          <option value="Batam" {{ old('location') == 'Batam' ? 'selected' : '' }}>Batam</option>
+          <option value="Banjarmasin" {{ old('location') == 'Banjarmasin' ? 'selected' : '' }}>Banjarmasin</option>
+          <option value="Balikpapan" {{ old('location') == 'Balikpapan' ? 'selected' : '' }}>Balikpapan</option>
+          <option value="Tangerang" {{ old('location') == 'Tangerang' ? 'selected' : '' }}>Tangerang</option>
+          <option value="Cimahi" {{ old('location') == 'Cimahi' ? 'selected' : '' }}>Cimahi</option>
         </select>
         @error('location')
         <div class="invalid-feedback">{{ $message }}</div>
