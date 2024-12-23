@@ -25,8 +25,8 @@ class EventFactory extends Factory
         $locationAndVenue = $location . ', ' . $venue;
 
         return [
-            'name' => $this->faker->word(),
-            'date' => $this->faker->date(),
+            'name' => $this->faker->word() . ' ' . $this->faker->word(),
+            'date' => $this->faker->dateTimeBetween('2024-12-20', '2025-06-25'),
             'image' => $this->faker->imageUrl(),
             'location' => $locationAndVenue,
             'description' => $this->faker->paragraph(),

@@ -3,7 +3,7 @@
 @section('title', 'Ticket Validation')
 @section('content')
 <div class="container mt-5">
-    <h2 class="text-center mb-4" style="font-weight: bold; color: #333;">Ticket Validation</h2>
+    <h1 class="text-center mb-4 fw-bold" style="color: #4A5568;">Ticket Validation</h1>
 
     <!-- Alert Messages -->
     @if (session('success'))
@@ -79,7 +79,9 @@
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': '{{ csrf_token() }}',
                     },
-                    body: JSON.stringify({ id_order_detail: idOrderDetail }),
+                    body: JSON.stringify({
+                        id_order_detail: idOrderDetail
+                    }),
                 });
 
                 const result = await response.json();

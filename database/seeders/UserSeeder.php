@@ -26,9 +26,5 @@ class UserSeeder extends Seeder
             'email_user' => 'user@gmail.com',
             'role' => 'User'
         ]);
-
-        User::factory()->count(5)->create([
-            'role' => 'User'
-        ]);
     }
 }
