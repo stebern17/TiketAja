@@ -76,6 +76,8 @@ Route::prefix('admin')->group(function () {
     Route::get('/admin/events/export', function () {
         return Excel::download(new EventsExport, 'events.xlsx');
     })->name('admin.events.export');
+
+    Route::get('/admin/export-sales-report', [AdminController::class, 'exportSalesReport'])->name('admin.exportSalesReport');
 });
 
 

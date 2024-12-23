@@ -58,6 +58,11 @@
                 <div class="col-md-3 d-flex align-items-end">
                     <button type="submit" class="btn btn-primary" style="width: 100%; padding: 10px; font-weight: bold; background-color: #333; border: none;">Tampilkan</button>
                 </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <a href="{{ route('admin.exportSalesReport') }}" target="_blank" class="btn btn-danger" style="width: 100%; padding: 10px; font-weight: bold; background-color: #d9534f; border: none;">
+                        Export PDF
+                    </a>
+                </div>
             </div>
         </form>
     </div>

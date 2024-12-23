@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\User;
 use App\Models\Event;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AdminController extends Controller
 {
@@ -75,5 +76,23 @@ class AdminController extends Controller
             'eventCount',
             'orderCount'
         ));
+    }
+
+    // sales report pdf export
+    public function exportSalesReport()
+    {
+        // Ambil semua data order
+        $orders = Order::all();
+
+        // Buat data yang akan diteruskan ke view
+        $data = [
+            'orders' => $orders,
+        ];
+
+        // Render PDF dengan DOMPDF menggunakan view khusus
+        $pdf = Pdf::loadView('admin.SalesReport', $data);
+
+        // Unduh file PDF
+        return $pdf->download('sales_report_' . date('Y_m_d') . '.pdf');
     }
 }
