@@ -1,5 +1,7 @@
 @extends('layouts.adminLayout')
 
+@section('title', 'Admin Dashboard')
+
 @section('content')
 <div class="container mt-5">
     <h1 class="fw-bold" style="color: #4A5568;">Sales Graph Bulanan</h1>

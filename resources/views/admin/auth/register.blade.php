@@ -1,6 +1,6 @@
 @extends('layouts.authLayout')
 
-@section('title', 'Register - Tiket Aja')
+@section('title', 'Register')
 
 @section('content')
 
@@ -34,10 +34,6 @@
                 <div class="mb-2">
                     <label for="password_confirmation" class="form-label">Confirm Password</label>
                     <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
-                </div>
-                <div class="form-check mb-2">
-                    <input type="checkbox" class="form-check-input" id="remember">
-                    <label for="remember" class="form-check-label">Remember me</label>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Sign Up</button>
                 <div>

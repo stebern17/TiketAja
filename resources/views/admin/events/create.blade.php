@@ -1,6 +1,6 @@
 @extends('layouts.adminLayout')
 
-@section('title', 'Events Tiketku')
+@section('title', 'Create Events Tiketku')
 
 @section('content')
 <div class="container">
