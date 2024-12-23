@@ -138,18 +138,6 @@
             background-color: transparent;
         }
 
-
-        /* Footer
-        footer {
-            background-color: #4A5568; /* Dark Slate Gray */
-            /* color: white;
-            padding: 10px 0;
-            text-align: center;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        } */
-
         /* Button */
         .btn-primary {
             background-color: #48BB78; /* Emerald Green */
@@ -170,6 +158,26 @@
             background-color: #DD6B20; /* Darker Orange */
             border-color: #DD6B20;
         }
+
+        #notification {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 9999;
+            display: none;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            max-width: 400px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            color: #fff;
+            transition: all 0.5s ease;
+        }
+        #notification.success {
+            background-color: #4caf50; /* Green */
+        }
+
 
         /* Responsiveness */
         @media (max-width: 768px) {
@@ -249,6 +257,7 @@
             </div>
         </div>
     </nav>
+    <div id="notification"></div>
 
     <div class="container-fluid">
         <div class="row">
@@ -303,6 +312,46 @@
 
         sidebarToggle.addEventListener('click', () => {
             sidebar.classList.toggle('show');
+        });
+    </script>
+
+     {{-- status --}}
+     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const notification = document.getElementById('notification');
+
+            let message = '';
+            let type = '';
+
+            @if (session('status') === 'success')
+                message = "Login berhasil!";
+                type = 'success';
+            @else if (session('status') === 'logout')
+                message = "Email atau password salah!";
+                type = 'error';
+            @endif
+
+            if (message) {
+                showNotification(message, type);
+            }
+
+            function showNotification(message, type) {
+                notification.style.display = 'block';
+                notification.style.transition = 'all 0.5s ease';
+                notification.textContent = message;
+
+                if (type === 'success') {
+                    notification.style.backgroundColor = '#4caf50'; // Green for success
+                }
+
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    setTimeout(() => {
+                        notification.style.display = 'none';
+                        notification.style.opacity = '1';
+                    }, 400);
+                }, 4000);
+            }
         });
     </script>
 </body>

@@ -41,6 +41,29 @@
             background-color: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(10px);
         }
+
+        #notification {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 9999;
+            display: none;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            max-width: 400px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            color: #fff;
+            transition: all 0.5s ease;
+        }
+        #notification.success {
+            background-color: #4caf50; /* Green */
+        }
+
+        #notification.error {
+            background-color: #f44336; /* Red */
+        }
     </style>
 </head>
 
@@ -98,6 +121,8 @@
         <a href="{{ route('login') }}"><button class="btn btn-outline-primary rounded-pill px-4">LOGIN</button></a>
         @endif
     </nav>
+
+    <div id="notification"></div>
 
     <!-- Main Content -->
     <main class="flex-grow-1 px-16 pt-3 pb-3 bg-slate-100">
@@ -168,7 +193,48 @@
         var dropdown = new bootstrap.Dropdown(document.getElementById('eventSports'));
     </script>
 
+    {{-- status --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const notification = document.getElementById('notification');
 
+            let message = '';
+            let type = '';
+
+            @if (session('status') === 'success')
+                message = "Login berhasil!";
+                type = 'success';
+            @elseif (session('status') === 'logout')
+                message = "Logout berhasil!";
+                type = 'error';
+            @endif
+
+            if (message) {
+                showNotification(message, type);
+            }
+
+            function showNotification(message, type) {
+                notification.style.display = 'block';
+                notification.style.transition = 'all 0.5s ease';
+                notification.textContent = message;
+
+                if (type === 'success') {
+                    notification.style.backgroundColor = '#4caf50'; // Green for success
+                }
+                else if (type === 'error') {
+                    notification.style.backgroundColor = '#f44336'; // Red for error
+                }
+
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    setTimeout(() => {
+                        notification.style.display = 'none';
+                        notification.style.opacity = '1';
+                    }, 400);
+                }, 4000);
+            }
+        });
+    </script>
 
 </body>
 

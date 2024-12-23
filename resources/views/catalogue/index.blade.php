@@ -3,8 +3,11 @@
 @section('title', 'Tiket Aja - Home Page')
 
 @section('content')
+
+
 <!-- Carousel -->
 <div class="relative w-full">
+    
     <!-- Images Container -->
     <div class="relative">
         <img src="{{ asset('images/user/1.jpg') }}" alt="Carousel 1"

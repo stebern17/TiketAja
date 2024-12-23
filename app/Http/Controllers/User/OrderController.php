@@ -56,7 +56,7 @@ class OrderController extends Controller
         ];
 
         // Arahkan ke halaman checkoutOrder
-        return view('user.order.checkoutOrder', compact('checkoutData'));
+        return view('user.order.checkoutOrder', compact('checkoutData'))->with('success', 'Order successfully created!');
     }
 
     public function confirm(Request $request)
