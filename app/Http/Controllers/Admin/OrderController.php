@@ -48,6 +48,10 @@ class OrderController extends Controller
             return redirect()->back()->with('error', 'Order tidak dapat diubah lagi.');
         }
 
+        if ($order->status === 'approved' && $request->status !== 'approved') {
+            return redirect()->back()->with('error', 'Status approved tidak dapat diubah lagi.');
+        }
+
         if ($request->status === 'approved' && $order->status === 'pending') {
             $ticket = $order->ticket;
             if ($ticket->quantity >= $order->quantity) {
