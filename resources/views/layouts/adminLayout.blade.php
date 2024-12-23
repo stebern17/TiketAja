@@ -14,12 +14,12 @@
     <style>
         /* General Styles */
         body {
-            background-color: #EDF2F7; /* Light Gray for the body */
+            background-color: #EDF2F7;
         }
 
-        /* Navbar */
         .navbar {
-            background-color: white; /* Dark Slate Gray */
+            background-color: white;
+            /* Dark Slate Gray */
         }
 
         .navbar-brand {
@@ -34,7 +34,8 @@
         }
 
         .navbar-nav .nav-link:hover {
-            color: cadetblue; /* Light Grayish Blue */
+            color: cadetblue;
+            /* Light Grayish Blue */
         }
 
         .navbar .nav-item {
@@ -43,7 +44,8 @@
 
         /* Sidebar */
         .sidebar {
-            background-color: #F0FFFF; /* Cadet Blue */
+            background-color: #F0FFFF;
+            /* Cadet Blue */
             font-weight: bold;
             min-height: 100vh;
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
@@ -58,12 +60,12 @@
 
         .sidebar .nav-link:hover {
             background-color: cadetblue;
-            color: white
+            color: white;
             padding-left: 20px;
         }
 
         /* card */
-        .card-header{
+        .card-header {
             background-color: cadetblue;
             border-radius: 10px;
             color: white;
@@ -71,35 +73,60 @@
         }
 
         /* button dgrid */
-        .btn-ticket{
+        .btn-ticket {
             background-color: cadetblue;
             color: white;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .btn-back{
+        .btn-back {
             background-color: cadetblue;
             color: white;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
+        /* card */
+        .card-header {
+            background-color: cadetblue;
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* button dgrid */
+        .btn-ticket {
+            background-color: cadetblue;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-back {
+            background-color: cadetblue;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
         /* Main Content */
         .main-content {
             padding: 20px;
-            background-color: #eff5f5; /* Light Grayish Blue */
+            background-color: #eff5f5;
+            /* Light Grayish Blue */
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .table thead {
-             font-weight: bold;
-             text-transform: uppercase;
-             font-size: 1.1rem;
-            }
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+        }
 
         .table tr th {
-            background-color: #5F9EA0 ;
+            background-color: #5F9EA0;
             padding: 12px 15px;
             color: white
         }
@@ -121,7 +148,8 @@
         .pagination .page-link {
             padding: 8px 15px;
             background-color: #fff;
-            color: #5F9EA0; /* Custom color for page links */
+            color: #5F9EA0;
+            /* Custom color for page links */
             border: 1px solid #ddd;
             border-radius: 5px;
             text-decoration: none;
@@ -131,14 +159,18 @@
 
         /* Hover effect for page links */
         .pagination .page-link:hover {
-            background-color: #5F9EA0; /* Background color on hover */
-            color: #fff; /* Text color on hover */
+            background-color: #5F9EA0;
+            /* Background color on hover */
+            color: #fff;
+            /* Text color on hover */
         }
 
         /* Active page styling */
         .pagination .page-item.active .page-link {
-            background-color: #5F9EA0; /* Active page background */
-            color: #fff; /* Active page text color */
+            background-color: #5F9EA0;
+            /* Active page background */
+            color: #fff;
+            /* Active page text color */
             border: 1px solid #5F9EA0;
         }
 
@@ -163,22 +195,26 @@
 
         /* Button */
         .btn-primary {
-            background-color: #48BB78; /* Emerald Green */
+            background-color: #48BB78;
+            /* Emerald Green */
             border-color: #48BB78;
         }
 
         .btn-primary:hover {
-            background-color: #38A169; /* Darker Emerald Green */
+            background-color: #38A169;
+            /* Darker Emerald Green */
             border-color: #38A169;
         }
 
         .btn-warning {
-            background-color: #F6AD55; /* Orange */
+            background-color: #F6AD55;
+            /* Orange */
             border-color: #F6AD55;
         }
 
         .btn-warning:hover {
-            background-color: #DD6B20; /* Darker Orange */
+            background-color: #DD6B20;
+            /* Darker Orange */
             border-color: #DD6B20;
         }
 
@@ -197,8 +233,10 @@
             color: #fff;
             transition: all 0.5s ease;
         }
+
         #notification.success {
-            background-color: #4caf50; /* Green */
+            background-color: #4caf50;
+            /* Green */
         }
 
 
@@ -250,7 +288,7 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid d-flex">
             <div class="d-flex justify-content-between align-items-center">
-                <h1 class="navbar-brand mb-0">Admin Dashboard</h1>
+                <h1 class="navbar-brand fs-3">Admin Dashboard</h1>
 
                 <button class="btn btn-primary" id="sidebarToggle">
                     <i class="bi bi-list"></i>
@@ -265,7 +303,6 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li class="dropdown-item">Hi {{ Auth::user()->name_user }}</li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Settings</a></li>
                             <li>
                                 <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                                     @csrf
@@ -289,26 +326,26 @@
                 <div class="d-flex flex-column p-3 text-white">
                     <ul class="nav nav-pills flex-column">
                         <li class="nav-item">
-                            <a class="nav-link fs-5 mb-2"
+                            <a class="nav-link fs-6 mb-2"
                                 href="{{ route('admin.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link  fs-5 mb-2" href="{{ route('users.index') }}"><i class="bi bi-people-fill me-2"></i>User
+                            <a class="nav-link  fs-6 mb-2" href="{{ route('users.index') }}"><i class="bi bi-people-fill me-2"></i>User
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fs-5 mb-2" href="{{ route('events.index') }}"><i class="bi bi-calendar2-event me-2"></i>Events</a>
+                            <a class="nav-link fs-6 mb-2" href="{{ route('events.index') }}"><i class="bi bi-calendar2-event me-2"></i>Events</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fs-5 mb-2" href="{{ route('events.create') }}"><i class="bi bi-pencil-square me-2"></i>Create
+                            <a class="nav-link fs-6 mb-2" href="{{ route('events.create') }}"><i class="bi bi-pencil-square me-2"></i>Create
                                 Event</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fs-5 mb-2" href="{{ route('admin.orders.index') }}"><i class="bi bi-list-ul me-2"></i>Manage
+                            <a class="nav-link fs-6 mb-2" href="{{ route('admin.orders.index') }}"><i class="bi bi-list-ul me-2"></i>Manage
                                 Order</a>
                         </li>
                         <li>
-                            <a class="nav-link fs-5" href="{{ route('admin.ticketValidation') }}"><i class="bi bi-ticket-perforated me-2"></i>
+                            <a class="nav-link fs-6" href="{{ route('admin.ticketValidation') }}"><i class="bi bi-ticket-perforated me-2"></i>
                                 Ticket Validation
                             </a>
                         </li>
@@ -338,20 +375,21 @@
         });
     </script>
 
-     {{-- status --}}
-     <script>
+    {{-- status --}}
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             const notification = document.getElementById('notification');
 
             let message = '';
             let type = '';
 
-            @if (session('status') === 'success')
-                message = "Login berhasil!";
-                type = 'success';
-            @else if (session('status') === 'logout')
+            @if(session('status') === 'success')
+            message = "Login berhasil!";
+            type = 'success';
+            @else
+            if (session('status') === 'logout')
                 message = "Email atau password salah!";
-                type = 'error';
+            type = 'error';
             @endif
 
             if (message) {
