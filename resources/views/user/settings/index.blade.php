@@ -5,7 +5,7 @@
 @section('content')
 <div class="container mt-5">
   <div class="card shadow-sm border-0">
-    <div class="card-header bg-primary text-white">
+    <div class="card-header bg-blue-800 text-white">
       <h3 class="mb-0">User Settings</h3>
     </div>
     <div class="card-body">
@@ -39,7 +39,7 @@
         </div>
 
         <div class="d-flex justify-content-end">
-          <button type="submit" class="btn btn-primary rounded-pill px-4">Save Changes</button>
+          <button type="submit" class="btn btn-primary  bg-blue-800 rounded-pill px-4">Save Changes</button>
         </div>
       </form>
     </div>

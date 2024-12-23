@@ -38,6 +38,29 @@
             background-color: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(10px);
         }
+
+        #notification {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 9999;
+            display: none;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            max-width: 400px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            color: #fff;
+            transition: all 0.5s ease;
+        }
+        #notification.success {
+            background-color: #4caf50; /* Green */
+        }
+
+        #notification.error {
+            background-color: #f44336; /* Red */
+        }
     </style>
 </head>
 
@@ -60,13 +83,13 @@
                     Event <i class="bx bx-chevron-down"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-                    <li class="dropdown-item"><a href="#" class="nav-link text-dark">Acara Hiburan</a></li>
-                    <li class="dropdown-item"><a href="#" class="nav-link text-dark">Acara Olahraga</a></li>
-                    <li class="dropdown-item"><a href="#" class="nav-link text-dark">Acara Pendidikan</a></li>
+                    <li class="dropdown-item"><a href="{{ route('user.catalogue.showAllEvents', ['category' => 'Music', 'search' => request('search')]) }}" class="nav-link text-dark">Acara Musik</a></li>
+                    <li class="dropdown-item"><a href="{{ route('user.catalogue.showAllEvents', ['category' => 'Sport', 'search' => request('search')]) }}" class="nav-link text-dark">Acara Olahraga</a></li>
+                    <li class="dropdown-item"><a href="{{ route('user.catalogue.showAllEvents', ['category' => 'Seminar,Workshop', 'search' => request('search')]) }}" class="nav-link text-dark">Acara Pendidikan</a></li>
                     <li class="dropdown-item"><a href="#" class="nav-link text-dark">Lainya</a></li>
                 </ul>
             </li>
-            <li><a href="#" class="text-decoration-none text-dark">Hubungi Kami</a></li>
+            <li><a href="https://wa.me/6285245464758"class="text-decoration-none text-dark">Hubungi Kami</a></li>
         </ul>
         @if(Auth::check())
         <div>
@@ -95,6 +118,8 @@
         <a href="{{ route('login') }}"><button class="btn btn-outline-primary rounded-pill px-4">LOGIN</button></a>
         @endif
     </nav>
+
+    <div id="notification"></div>
 
     <!-- Main Content -->
     <main class="flex-grow-1 px-16 pt-3 pb-3 bg-slate-100">
@@ -165,7 +190,54 @@
         var dropdown = new bootstrap.Dropdown(document.getElementById('eventSports'));
     </script>
 
+    {{-- status --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const notification = document.getElementById('notification');
 
+            let message = '';
+            let type = '';
+
+            @if (session('status') === 'success')
+                message = "Login berhasil!";
+                type = 'success';
+            @elseif (session('status') === 'logout')
+                message = "Logout berhasil!";
+                type = 'error';
+            @elseif (session('status') === 'register')
+                message = "Register berhasil!";
+                type = 'success';
+            @elseif (session('status') === 'order')
+                message = "Selamat anda berhasil memesan tiket!";
+                type = 'success';
+            @endif
+
+            if (message) {
+                showNotification(message, type);
+            }
+
+            function showNotification(message, type) {
+                notification.style.display = 'block';
+                notification.style.transition = 'all 0.5s ease';
+                notification.textContent = message;
+
+                if (type === 'success') {
+                    notification.style.backgroundColor = '#4caf50'; // Green for success
+                }
+                else if (type === 'error') {
+                    notification.style.backgroundColor = '#f44336'; // Red for error
+                }
+
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    setTimeout(() => {
+                        notification.style.display = 'none';
+                        notification.style.opacity = '1';
+                    }, 400);
+                }, 4000);
+            }
+        });
+    </script>
 
 </body>
 

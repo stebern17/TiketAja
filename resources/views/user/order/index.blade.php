@@ -4,6 +4,18 @@
 
 @section('content')
 <div class="container mt-4">
+
+    @if (session('status') === 'success')
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('message') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @elseif (session('status') === 'error')
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('message') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
     <h1 class="text-2xl font-semibold mb-4">Tiketku</h1>
 
     @if($order->isEmpty())

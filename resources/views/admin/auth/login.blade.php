@@ -7,11 +7,7 @@
 
 <div class="card px-3 py-3 card-login">
     <div class="card-body d-flex flex-column">
-        @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-        @endif
+
         <div class="d-flex justify-center">
             <a href="{{ route('catalogue.index')}}"><i class="bi bi-arrow-left text-primary position-absolute"></i></a>
             <h5 class="card-title text-center mb-4 mx-auto">LOGIN</h5>

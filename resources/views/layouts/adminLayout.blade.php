@@ -28,12 +28,13 @@
             color: cadetblue;
         }
 
+
         .navbar-nav .nav-link {
             color: cadetblue;
         }
 
         .navbar-nav .nav-link:hover {
-            color: #afcecf;
+            color: cadetblue;
             /* Light Grayish Blue */
         }
 
@@ -61,6 +62,52 @@
             background-color: cadetblue;
             color: white;
             padding-left: 20px;
+        }
+
+        /* card */
+        .card-header {
+            background-color: cadetblue;
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* button dgrid */
+        .btn-ticket {
+            background-color: cadetblue;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-back {
+            background-color: cadetblue;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* card */
+        .card-header {
+            background-color: cadetblue;
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* button dgrid */
+        .btn-ticket {
+            background-color: cadetblue;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-back {
+            background-color: cadetblue;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         /* Main Content */
@@ -171,6 +218,28 @@
             border-color: #DD6B20;
         }
 
+        #notification {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 9999;
+            display: none;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            max-width: 400px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            color: #fff;
+            transition: all 0.5s ease;
+        }
+
+        #notification.success {
+            background-color: #4caf50;
+            /* Green */
+        }
+
+
         /* Responsiveness */
         @media (max-width: 768px) {
             .sidebar {
@@ -248,6 +317,7 @@
             </div>
         </div>
     </nav>
+    <div id="notification"></div>
 
     <div class="container-fluid">
         <div class="row">
@@ -302,6 +372,47 @@
 
         sidebarToggle.addEventListener('click', () => {
             sidebar.classList.toggle('show');
+        });
+    </script>
+
+    {{-- status --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const notification = document.getElementById('notification');
+
+            let message = '';
+            let type = '';
+
+            @if(session('status') === 'success')
+            message = "Login berhasil!";
+            type = 'success';
+            @else
+            if (session('status') === 'logout')
+                message = "Email atau password salah!";
+            type = 'error';
+            @endif
+
+            if (message) {
+                showNotification(message, type);
+            }
+
+            function showNotification(message, type) {
+                notification.style.display = 'block';
+                notification.style.transition = 'all 0.5s ease';
+                notification.textContent = message;
+
+                if (type === 'success') {
+                    notification.style.backgroundColor = '#4caf50'; // Green for success
+                }
+
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    setTimeout(() => {
+                        notification.style.display = 'none';
+                        notification.style.opacity = '1';
+                    }, 400);
+                }, 4000);
+            }
         });
     </script>
 </body>

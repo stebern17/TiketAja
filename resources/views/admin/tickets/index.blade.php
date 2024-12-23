@@ -21,7 +21,7 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>No</th>
                                     <th>Type</th>
                                     <th>Price</th>
                                     <th>Quantity</th>

@@ -59,7 +59,8 @@ class CatalogueController extends Controller
 
         // Filter berdasarkan kategori
         if ($request->has('category') && $request->category != '') {
-            $query->where('category', $request->category);
+            $categories = explode(',', $request->category);
+            $query->whereIn('category', $categories);
         }
 
         // Menambahkan pengurutan dan pagination

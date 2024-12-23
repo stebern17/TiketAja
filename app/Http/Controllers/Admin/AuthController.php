@@ -32,10 +32,11 @@ class AuthController extends Controller
 
         if ($user && hash::check($request->password, $user->password)) {
             Auth::login($user);
-            return $this->redirectUserByRole('catalogue.index');
+            return $this->redirectUserByRole('catalogue.index')->with('status', 'success');
+
         }
 
-        return back()->with('Email/Password salah');
+        return back()->with('status', 'error');
     }
 
     public function redirectUserByRole($route)
@@ -80,7 +81,7 @@ class AuthController extends Controller
         Auth::login($user);
 
 
-        return $this->redirectUserByRole('catalogue.index');
+        return $this->redirectUserByRole('catalogue.index')->with('status', 'register');
     }
 
     public function logout(Request $request)
@@ -89,6 +90,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('catalogue.index');
+        return redirect()->route('catalogue.index')->with('status', 'logout');
     }
 }
