@@ -28,12 +28,13 @@
             color: cadetblue;
         }
 
+
         .navbar-nav .nav-link {
             color: cadetblue;
         }
 
         .navbar-nav .nav-link:hover {
-            color: #afcecf; /* Light Grayish Blue */
+            color: cadetblue; /* Light Grayish Blue */
         }
 
         .navbar .nav-item {
@@ -61,6 +62,28 @@
             padding-left: 20px;
         }
 
+        /* card */
+        .card-header{
+            background-color: cadetblue;
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* button dgrid */
+        .btn-ticket{
+            background-color: cadetblue;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-back{
+            background-color: cadetblue;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
         /* Main Content */
         .main-content {
             padding: 20px;

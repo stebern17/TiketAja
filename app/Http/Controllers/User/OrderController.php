@@ -56,7 +56,7 @@ class OrderController extends Controller
         ];
 
         // Arahkan ke halaman checkoutOrder
-        return view('user.order.checkoutOrder', compact('checkoutData'))->with('success', 'Order successfully created!');
+         return view('user.order.checkoutOrder', compact('checkoutData'));
     }
 
     public function confirm(Request $request)
@@ -92,7 +92,7 @@ class OrderController extends Controller
 
 
 
-        return redirect()->route('order.index')->with('success', 'Order successfully created!');
+        return redirect()->route('order.index')->with('status', 'order');
     }
 
 

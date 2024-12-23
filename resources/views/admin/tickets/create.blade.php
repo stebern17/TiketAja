@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header">
                     <h4>Buat Tiket Baru</h4>
                 </div>
                 <div class="card-body">
@@ -67,13 +67,13 @@
 
 
                         <!-- Tombol Submit -->
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-success">Buat Tiket</button>
+                        <div class="d-grid gap">
+                            <button type="submit" class="btn btn-ticket">Buat Tiket</button>
                         </div>
 
                     </form>
                     <div class="d-grid mt-3">
-                        <a href="{{ route('events.index') }}" class="btn btn-primary">Back</a>
+                        <a href="{{ route('events.index') }}" class="btn btn-back">Back</a>
                     </div>
                 </div>
             </div>

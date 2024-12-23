@@ -44,7 +44,7 @@
         <table class="table table-striped table-bordered align-middle">
             <thead class="table text-center">
                 <tr>
-                    <th>#</th>
+                    <th>No</th>
                     <th>Event Name</th>
                     <th>Date</th>
                     <th>Location</th>
