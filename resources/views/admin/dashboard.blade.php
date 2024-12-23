@@ -2,25 +2,25 @@
 
 @section('content')
 <div class="container mt-5">
-    <h3 style="color: #333; font-weight: bold; margin-bottom: 1.5rem;">Sales Graph Bulanan</h3>
+    <h1 class="fw-bold" style="color: #4A5568;">Sales Graph Bulanan</h1>
 
     <!-- Dropdown untuk memilih tahun dan bulan -->
-    <div class="mb-3">
+    <div class=" mb-3 bg-white shadow p-4 rounded">
         <form method="GET" action="{{ route('admin.dashboard') }}">
-            <div class="row text-center mb-4">
-                <div class="col" style="flex: 1; max-width: 300px; margin: 0 10px;">
+            <div class="d-flex justify-content-center mb-4">
+                <div style="flex: 1; max-width: 300px; margin: 0 10px;">
                     <div style="background-color: #4CAF50; border-radius: 8px; color: white; padding: 20px; text-align: center;">
                         <h5 style="font-size: 1.25rem; margin-bottom: 1rem; font-weight: bold;">Total Users</h5>
                         <p style="font-size: 2.5rem; font-weight: bold;">{{ $userCount }}</p>
                     </div>
                 </div>
-                <div class="col" style="flex: 1; max-width: 300px; margin: 0 10px;">
+                <div style="flex: 1; max-width: 300px; margin: 0 10px;">
                     <div style="background-color: #FF9800; border-radius: 8px; color: white; padding: 20px; text-align: center;">
                         <h5 style="font-size: 1.25rem; margin-bottom: 1rem; font-weight: bold;">Total Events</h5>
                         <p style="font-size: 2.5rem; font-weight: bold;">{{ $eventCount }}</p>
                     </div>
                 </div>
-                <div class="col" style="flex: 1; max-width: 300px; margin: 0 10px;">
+                <div style="flex: 1; max-width: 300px; margin: 0 10px;">
                     <div style="background-color: #2196F3; border-radius: 8px; color: white; padding: 20px; text-align: center;">
                         <h5 style="font-size: 1.25rem; margin-bottom: 1rem; font-weight: bold;">Total Orders</h5>
                         <p style="font-size: 2.5rem; font-weight: bold;">{{ $orderCount }}</p>
@@ -63,13 +63,13 @@
     </div>
 
     <!-- Grafik Penjualan Harian -->
-    <div class="mt-4">
+    <div class="mt-4 bg-white shadow p-4 rounded">
         <h4 style="color: #333; font-weight: bold; margin-bottom: 1rem;">Grafik Penjualan Harian</h4>
         <canvas class="chart-container" style="position: relative; height:40vh; width:80vw" id="dailySalesGraph"></canvas>
     </div>
 
     <!-- Grafik Popularitas Event -->
-    <div class="mt-4">
+    <div class="mt-4 bg-white shadow p-4 rounded">
         <h4 style="color: #333; font-weight: bold; margin-bottom: 1rem;">Grafik Popularitas Event</h4>
         <canvas class="chart-container" style="position: relative; height:40vh; width:80vw" id="eventPopularityGraph"></canvas>
     </div>
@@ -98,11 +98,31 @@
             options: {
                 responsive: true,
                 plugins: {
-                    legend: { position: 'top', labels: { color: '#333' } }
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#333'
+                        }
+                    }
                 },
                 scales: {
-                    x: { title: { display: true, text: 'Tanggal', color: '#333' } },
-                    y: { title: { display: true, text: 'Total Penjualan (Rp)', color: '#333' }, ticks: { beginAtZero: true } }
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Tanggal',
+                            color: '#333'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Total Penjualan (Rp)',
+                            color: '#333'
+                        },
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }
                 }
             }
         });
@@ -128,11 +148,32 @@
             options: {
                 responsive: true,
                 plugins: {
-                    legend: { position: 'top', labels: { color: '#333' } }
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#333'
+                        }
+                    }
                 },
                 scales: {
-                    x: { title: { display: true, text: 'Nama Event', color: '#333' } },
-                    y: { title: { display: true, text: 'Jumlah Pembelian', color: '#333' }, ticks: { beginAtZero: true, stepSize: 1 } }
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Nama Event',
+                            color: '#333'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Jumlah Pembelian',
+                            color: '#333'
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 1
+                        }
+                    }
                 }
             }
         });
