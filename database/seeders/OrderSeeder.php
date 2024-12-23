@@ -10,6 +10,6 @@ class OrderSeeder extends Seeder
     public function run()
     {
         // Membuat 10 data order menggunakan factory
-        Order::factory()->count(200)->create();
+        Order::factory()->count(5)->create();
     }
 }

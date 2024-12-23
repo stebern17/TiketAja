@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ asset('assets/img/tikettt.png') }}">
     <title>@yield('title')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -19,10 +20,9 @@
 
         .navbar {
             background-color: white;
-            /* Dark Slate Gray */
         }
 
-        .navbar-brand {
+        .navbar-brand-admin {
             font-weight: bold;
             font-size: 1.3rem;
             color: cadetblue;
@@ -288,7 +288,7 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid d-flex">
             <div class="d-flex justify-content-between align-items-center">
-                <h1 class="navbar-brand fs-3">Admin Dashboard</h1>
+                <h1 class="navbar-brand-admin me-2 fs-3">Admin Dashboard</h1>
 
                 <button class="btn btn-primary" id="sidebarToggle">
                     <i class="bi bi-list"></i>
