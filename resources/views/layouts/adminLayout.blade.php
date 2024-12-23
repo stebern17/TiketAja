@@ -28,12 +28,13 @@
             color: cadetblue;
         }
 
+
         .navbar-nav .nav-link {
             color: cadetblue;
         }
 
         .navbar-nav .nav-link:hover {
-            color: #afcecf;
+            color: cadetblue;
             /* Light Grayish Blue */
         }
 
@@ -61,6 +62,52 @@
             background-color: cadetblue;
             color: white;
             padding-left: 20px;
+        }
+
+        /* card */
+        .card-header {
+            background-color: cadetblue;
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* button dgrid */
+        .btn-ticket {
+            background-color: cadetblue;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-back {
+            background-color: cadetblue;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* card */
+        .card-header {
+            background-color: cadetblue;
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* button dgrid */
+        .btn-ticket {
+            background-color: cadetblue;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-back {
+            background-color: cadetblue;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         /* Main Content */
@@ -186,8 +233,10 @@
             color: #fff;
             transition: all 0.5s ease;
         }
+
         #notification.success {
-            background-color: #4caf50; /* Green */
+            background-color: #4caf50;
+            /* Green */
         }
 
 
@@ -326,20 +375,21 @@
         });
     </script>
 
-     {{-- status --}}
-     <script>
+    {{-- status --}}
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             const notification = document.getElementById('notification');
 
             let message = '';
             let type = '';
 
-            @if (session('status') === 'success')
-                message = "Login berhasil!";
-                type = 'success';
-            @else if (session('status') === 'logout')
+            @if(session('status') === 'success')
+            message = "Login berhasil!";
+            type = 'success';
+            @else
+            if (session('status') === 'logout')
                 message = "Email atau password salah!";
-                type = 'error';
+            type = 'error';
             @endif
 
             if (message) {

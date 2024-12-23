@@ -81,7 +81,7 @@ class AuthController extends Controller
         Auth::login($user);
 
 
-        return $this->redirectUserByRole('catalogue.index');
+        return $this->redirectUserByRole('catalogue.index')->with('status', 'register');
     }
 
     public function logout(Request $request)

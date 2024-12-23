@@ -86,13 +86,13 @@
                     Event <i class="bx bx-chevron-down"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-                    <li class="dropdown-item"><a href="#" class="nav-link text-dark">Acara Hiburan</a></li>
-                    <li class="dropdown-item"><a href="#" class="nav-link text-dark">Acara Olahraga</a></li>
-                    <li class="dropdown-item"><a href="#" class="nav-link text-dark">Acara Pendidikan</a></li>
+                    <li class="dropdown-item"><a href="{{ route('user.catalogue.showAllEvents', ['category' => 'Music', 'search' => request('search')]) }}" class="nav-link text-dark">Acara Musik</a></li>
+                    <li class="dropdown-item"><a href="{{ route('user.catalogue.showAllEvents', ['category' => 'Sport', 'search' => request('search')]) }}" class="nav-link text-dark">Acara Olahraga</a></li>
+                    <li class="dropdown-item"><a href="{{ route('user.catalogue.showAllEvents', ['category' => 'Seminar,Workshop', 'search' => request('search')]) }}" class="nav-link text-dark">Acara Pendidikan</a></li>
                     <li class="dropdown-item"><a href="#" class="nav-link text-dark">Lainya</a></li>
                 </ul>
             </li>
-            <li><a href="#" class="text-decoration-none text-dark">Hubungi Kami</a></li>
+            <li><a href="https://wa.me/6285245464758"class="text-decoration-none text-dark">Hubungi Kami</a></li>
         </ul>
         @if(Auth::check())
         <div>
@@ -207,6 +207,12 @@
             @elseif (session('status') === 'logout')
                 message = "Logout berhasil!";
                 type = 'error';
+            @elseif (session('status') === 'register')
+                message = "Register berhasil!";
+                type = 'success';
+            @elseif (session('status') === 'order')
+                message = "Selamat anda berhasil memesan tiket!";
+                type = 'success';
             @endif
 
             if (message) {

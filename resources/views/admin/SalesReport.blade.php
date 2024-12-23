@@ -45,7 +45,7 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $order->id_order }}</td>
-                <td>{{ $order->customer_name ?? 'N/A' }}</td>
+                <td>{{ $order->user->name_user}}</td>
                 <td>{{ number_format($order->total_price, 2) }}</td>
                 <td>{{ $order->created_at }}</td>
             </tr>
