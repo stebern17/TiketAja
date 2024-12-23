@@ -5,7 +5,9 @@
     <section class="shadow-lg p-2 rounded-lg bg-white">
         <img src="{{ asset('storage/' . $event->image) }}" alt="img-card" class="w-full h-[30vh] rounded-lg object-cover" />
         <div class="mt-2 border-b-2 py-2">
-            <p class="text-2xl text-danger font-medium ">{{ \Carbon\Carbon::parse($event->date)->format('d-m-Y') }}</p>
+            <p class="text-2xl font-medium ">
+                {{ \Carbon\Carbon::parse($event->date)->format('l, d M Y') }}
+            </p>
             <h1 class="text-4xl font-semibold">{{ $event->name }}</h1>
         </div>
 
@@ -30,6 +32,78 @@
 
                     </li>
                 </ul>
+            </div>
+
+            <!-- Tab Content: Syarat dan Ketentuan -->
+            <div id="tab1-content" class="tab-content hidden">
+                <div class="syarat-ketentuan p-6 rounded-xl">
+                    <h2 class="text-primary-900 text-xl font-semibold mb-4">Syarat dan Ketentuan Acara</h2>
+                    <ol class="list-decimal ml-6">
+                        <li>
+                            <strong>Pendaftaran:</strong>
+                            <ul>
+                                <li>Peserta harus mendaftar melalui <a href="#" class="text-blue-600">link pendaftaran</a> sebelum <strong>[tanggal batas pendaftaran]</strong>.</li>
+                                <li>Pendaftaran yang diterima setelah tanggal batas tidak akan diproses.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Peserta:</strong>
+                            <ul>
+                                <li>Acara ini terbuka untuk <strong>[keterangan peserta]</strong>.</li>
+                                <li>Peserta diharapkan memberikan informasi yang akurat dan lengkap.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Pembayaran:</strong>
+                            <ul>
+                                <li>Biaya pendaftaran sebesar <strong>[jumlah]</strong> harus dibayarkan sebelum <strong>[tanggal pembayaran]</strong>.</li>
+                                <li>Pembayaran dapat dilakukan melalui <strong>[metode pembayaran]</strong>.</li>
+                                <li>Biaya pendaftaran tidak dapat dikembalikan setelah <strong>[tanggal pengembalian]</strong>.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Program dan Jadwal:</strong>
+                            <ul>
+                                <li>Acara akan berlangsung pada <strong>[tanggal dan waktu]</strong>.</li>
+                                <li>Lokasi acara: <strong>[nama tempat dan alamat]</strong>.</li>
+                                <li>Jadwal lengkap acara akan diumumkan melalui <strong>[media komunikasi]</strong>.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Kegiatan:</strong>
+                            <ul>
+                                <li>Peserta diharapkan mengikuti semua kegiatan yang telah dijadwalkan.</li>
+                                <li>Peserta diharapkan menjaga etika dan disiplin selama acara berlangsung.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Tanggung Jawab:</strong>
+                            <ul>
+                                <li>Penyelenggara tidak bertanggung jawab atas kehilangan, kerusakan, atau kecelakaan yang terjadi selama acara.</li>
+                                <li>Peserta harus menjaga keselamatan diri masing-masing.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Pelanggaran:</strong>
+                            <ul>
+                                <li>Setiap pelanggaran terhadap syarat dan ketentuan ini dapat mengakibatkan diskualifikasi dari acara.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Ketentuan Lain:</strong>
+                            <ul>
+                                <li>Peserta setuju untuk menerima informasi dan pembaruan terkait acara dengan melakukan pendaftaran.</li>
+                                <li>Syarat dan ketentuan ini dapat diperbarui oleh penyelenggara tanpa pemberitahuan sebelumnya.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Kontak:</strong>
+                            <ul>
+                                <li>Untuk informasi lebih lanjut, silakan hubungi <strong>[nama dan kontak]</strong>.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
             </div>
 
             <!-- Tab Content: Tiket -->

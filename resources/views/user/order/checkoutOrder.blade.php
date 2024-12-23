@@ -14,6 +14,7 @@
         <p class="fs-5"><strong>Harga per Tiket:</strong> Rp {{ number_format($checkoutData['ticket_price'] ?? 0, 0, ',', '.') }}</p>
         <p class="fs-5"><strong>Jumlah:</strong> {{ $checkoutData['quantity'] ?? 0 }}</p>
         <p class="fs-5"><strong>Total Harga:</strong> Rp {{ number_format($checkoutData['total_price'] ?? 0, 0, ',', '.') }}</p>
+        <p class="fs-5"><strong>No Rekening:</strong> 88215542390123 (BCA An Supriyadi)</p>
 
         <label for="payment_proof" class="block mt-4 font-medium text-gray-700">Unggah Bukti Pembayaran</label>
         <input type="file" name="payment_proof" id="payment_proof" accept="image/*"
