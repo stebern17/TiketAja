@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4 mt-2 fw-bold" style="color: #4A5568;">Create Event</h1>
+    <h1 class="mb-4 mt-2 fw-bold text-center" style="color: #4A5568;">Create Event</h1>
 
     <!-- Form Pembuatan Event -->
     <form action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data" class="shadow p-4 rounded" style="background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
