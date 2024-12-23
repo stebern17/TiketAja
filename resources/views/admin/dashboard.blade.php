@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container mt-5">
-    <h1 class="fw-bold" style="color: #4A5568;">Sales Graph Bulanan</h1>
+    <h1 class="fw-bold text-center" style="color: #4A5568;">Sales Graph Bulanan</h1>
 
     <!-- Dropdown untuk memilih tahun dan bulan -->
     <div class=" mb-3 bg-white shadow p-4 rounded">
