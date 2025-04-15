@@ -81,18 +81,33 @@ class AdminController extends Controller
     // sales report pdf export
     public function exportSalesReport()
     {
-        // Ambil semua data order
-        $orders = Order::all();
+        // Ambil bulan dan tahun dari request
+        $selectedYear = request()->get('year', date('Y')); // Default tahun saat ini
+        $selectedMonth = request()->get('month', date('m')); // Default bulan saat ini
+
+        // Filter data order berdasarkan bulan dan tahun yang dipilih
+        $orders = Order::whereYear('created_at', $selectedYear)
+            ->whereMonth('created_at', $selectedMonth)
+            ->get();
+
+        // Jika tidak ada data, beri pesan atau return dengan informasi kosong
+        if ($orders->isEmpty()) {
+            return redirect()->back()->with('error', 'Tidak ada data untuk bulan dan tahun yang dipilih.');
+        }
 
         // Buat data yang akan diteruskan ke view
         $data = [
             'orders' => $orders,
+            'selectedMonth' => $selectedMonth,
+            'selectedYear' => $selectedYear,
         ];
 
         // Render PDF dengan DOMPDF menggunakan view khusus
         $pdf = Pdf::loadView('admin.SalesReport', $data);
 
         // Unduh file PDF
-        return $pdf->download('sales_report_' . date('Y_m_d') . '.pdf');
+        $fileName = "sales_report_{$selectedYear}_{$selectedMonth}.pdf";
+        return $pdf->download($fileName);
     }
+
 }

@@ -1,8 +1,10 @@
 @extends('layouts.adminLayout')
 
+@section('title', 'Admin Dashboard')
+
 @section('content')
 <div class="container mt-5">
-    <h1 class="fw-bold" style="color: #4A5568;">Sales Graph Bulanan</h1>
+    <h1 class="fw-bold text-center" style="color: #4A5568;">Sales Graph Bulanan</h1>
 
     <!-- Dropdown untuk memilih tahun dan bulan -->
     <div class=" mb-3 bg-white shadow p-4 rounded">
@@ -59,7 +61,7 @@
                     <button type="submit" class="btn btn-primary" style="width: 100%; padding: 10px; font-weight: bold; background-color: #333; border: none;">Tampilkan</button>
                 </div>
                 <div class="col-md-3 d-flex align-items-end">
-                    <a href="{{ route('admin.exportSalesReport') }}" target="_blank" class="btn btn-danger" style="width: 100%; padding: 10px; font-weight: bold; background-color: #d9534f; border: none;">
+                    <a href="{{ route('admin.exportSalesReport', ['year' => $selectedYear, 'month' => $selectedMonth]) }}" target="_blank" class="btn btn-danger" style="width: 100%; padding: 10px; font-weight: bold; background-color: #d9534f; border: none;">
                         Export PDF
                     </a>
                 </div>

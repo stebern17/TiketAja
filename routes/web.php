@@ -81,12 +81,11 @@ Route::prefix('admin')->group(function () {
 });
 
 
-// Rute untuk Sales Graph
-
+// Rute untuk Ticket Validation
 Route::prefix('admin')->group(function () {
     Route::get('/ticket-validation', [TicketValidationController::class, 'showTicketValidationPage'])->name('admin.ticketValidation');
-    Route::post('/admin/ticketValidation/validate', [TicketValidationController::class, 'validateTicket'])->name('admin.ticketValidation.validate');
-    Route::post('/admin/ticketValidation/fetchTicketData', [TicketValidationController::class, 'fetchTicketData'])->name('admin.ticketValidation.fetchTicketData');
+    Route::post('/ticketValidation/validate', [TicketValidationController::class, 'validateTicket'])->name('admin.ticketValidation.validate');
+    Route::post('/ticketValidation/fetchTicketData', [TicketValidationController::class, 'fetchTicketData'])->name('admin.ticketValidation.fetchTicketData');
 });
 
 // --------------------User-------------------------

@@ -1,4 +1,6 @@
-@extends('layouts/userLayout')
+@extends('layouts.userLayout')
+
+@section('title', 'Tiketku')
 
 @section('content')
 <div class="container mt-4">

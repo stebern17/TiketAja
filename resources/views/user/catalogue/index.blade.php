@@ -64,7 +64,7 @@
     <!-- Sport -->
     <a href="{{ route('catalogue.index', ['category' => 'Sport', 'search' => request('search')]) }}"
         class="flex items-center gap-2 py-2 px-2 bg-white rounded-md text-sm text-blue-800 font-semibold shadow-md hover:opacity-80">
-        <i class="bx bxs-football text-blue-500"></i> Sport
+        <i class="bx bx-run text-blue-500"></i> Sport
     </a>
 
     <!-- Seminar -->

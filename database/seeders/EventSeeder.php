@@ -10,6 +10,6 @@ class EventSeeder extends Seeder
     public function run()
     {
         // Membuat 10 data event menggunakan factory
-        Event::factory()->count(10)->create();
+        Event::factory()->count(5)->create();
     }
 }

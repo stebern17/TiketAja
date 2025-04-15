@@ -1,5 +1,7 @@
 @extends('layouts.userLayout')
 
+@section('title', $event->name)
+
 @section('content')
 <div class="container">
     <section class="shadow-lg p-2 rounded-lg bg-white">

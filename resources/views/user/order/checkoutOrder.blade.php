@@ -1,4 +1,7 @@
-@extends('layouts/userLayout')
+@extends('layouts.userLayout')
+
+@section('title', 'Checkout')
+
 
 @section('content')
 <div class="bg-white p-4 rounded-lg shadow-md">

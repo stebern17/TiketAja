@@ -21,15 +21,12 @@ class OrderDetailController extends Controller
         $orderDetail = OrderDetail::find($id_order_detail);
 
         if ($orderDetail) {
-            $order = $orderDetail->order; // Ensure the relationship is correctly defined
+            $order = $orderDetail->order;
 
-            // Fetch the validation status of the ticket from the ticket_validation table
-            $ticketValidation = TicketValidation::where('id_order_detail', $orderDetail->id_order_detail)
-                ->first();
-
+            $ticketValidation = TicketValidation::where('id_order_detail', $orderDetail->id_order_detail)->first();
             $isTicketValid = $ticketValidation ? $ticketValidation->is_valid : false;
 
-            // Path QR Code in storage
+            $qrCodeData = "|{$orderDetail->order->id_order}|{$orderDetail->id_order_detail}";
             $qrCodePath = asset('storage/' . $orderDetail->qr_code);
 
             return view('user.orderDetail.show', compact('orderDetail', 'order', 'qrCodePath', 'isTicketValid'));

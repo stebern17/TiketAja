@@ -1,10 +1,10 @@
 @extends('layouts.adminLayout')
 
-@section('title', 'Events Tiketku')
+@section('title', 'Create Events Tiketku')
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4 mt-2 fw-bold" style="color: #4A5568;">Create Event</h1>
+    <h1 class="mb-4 mt-2 fw-bold text-center" style="color: #4A5568;">Create Event</h1>
 
     <!-- Form Pembuatan Event -->
     <form action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data" class="shadow p-4 rounded" style="background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
@@ -29,6 +29,15 @@
                 <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+        </div>
+
+        {{-- <image></image> --}}
+        <div class="mb-3">
+            <label for="image" class="form-label" style="font-weight: bold; color: #333;">Event Image</label>
+            <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" required style="border-radius: 4px; padding: 10px;">
+            @error('image')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="row mb-3">
@@ -123,7 +132,7 @@
         </div>
 
         <!-- Tombol Submit untuk Event -->
-        <button type="submit" class="btn" style="background-color: #5F9EA0; color: white; font-weight: bold; border-radius: 4px;">Create Event</button>
+        <button type="submit" class="btn btn-submit w-30">Create Event</button>
     </form>
 </div>
 @endsection

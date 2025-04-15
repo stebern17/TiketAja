@@ -1,5 +1,7 @@
 @extends('layouts.userLayout')
 
+@section('title', 'Tiket Aja - Event')
+
 @section('content')
 <div class="container">
     <!-- Search Bar -->

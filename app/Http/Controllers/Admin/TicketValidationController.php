@@ -6,39 +6,47 @@ use App\Http\Controllers\Controller;
 use App\Models\OrderDetail;
 use App\Models\TicketValidation;
 use App\Models\Event;
-use App\Models\Order;
-use App\Models\Ticket;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class TicketValidationController extends Controller
 {
     /**
-     * Show the ticket validation page.
+     * Menampilkan halaman validasi tiket.
      *
      * @return \Illuminate\Contracts\View\View
      */
     public function showTicketValidationPage()
     {
-        // Fetch events directly from the events table
+        // Mengambil data event dari tabel events
         $events = Event::select('id_event', 'name')
             ->distinct()
             ->get();
 
+        // Mengembalikan view untuk halaman validasi tiket
         return view('admin.ticketValidation.validation', compact('events'));
     }
 
+    /**
+     * Mengambil data tiket berdasarkan ID detail order.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function fetchTicketData(Request $request)
     {
+        // Mencari data OrderDetail berdasarkan ID
         $orderDetail = OrderDetail::find($request->id_order_detail);
 
+        // Jika data tidak ditemukan, kembalikan respons error
         if (!$orderDetail) {
             return response()->json([
                 'success' => false,
-                'message' => 'Order detail not found.',
+                'message' => 'Order detail tidak ditemukan.',
             ], 404);
         }
 
+        // Jika data ditemukan, kembalikan data tiket dan order
         return response()->json([
             'success' => true,
             'data' => [
@@ -48,75 +56,78 @@ class TicketValidationController extends Controller
         ], 200);
     }
 
-
-
-
     /**
-     * Validate the ticket using a QR code or order detail ID.
+     * Memvalidasi tiket menggunakan QR code atau ID detail order.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function validateTicket(Request $request)
     {
-    
-        // Validasi input
-        $validator = Validator::make($request->all(), [
-            'id_ticket' => 'nullable|exists:tickets,id_ticket',
-            'id_order' => 'nullable|exists:orders,id_order',
-            'id_order_detail' => 'nullable|exists:order_detail,id_order_detail',
-            'id_event' => 'required|exists:events,id_event',
-        ]);
+        try {
+            // Log QR code yang diterima untuk debugging
+            $qrCode = $request->input('qr_code');
+            Log::info('QR Code diterima:', ['qr_code' => $qrCode]);
 
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput()
-                ->with('error', 'Invalid input data.');
-        }
+            // Memisahkan QR code untuk mendapatkan ID detail order
+            $parts = explode('|', $qrCode);
+            $id_order_detail = $parts[1] ?? null;
 
-        // Jika hanya id_order_detail yang diberikan, langsung lakukan validasi
-        if ($request->id_order_detail) {
-            $orderDetail = OrderDetail::find($request->id_order_detail);
+            // Jika ID detail order tidak valid, kembalikan respons error
+            if (!$id_order_detail) {
+                Log::error('Format QR Code tidak valid', ['qr_code' => $qrCode]);
+                session()->flash('status', 'qr.error');
+                return response()->json(['success' => false, 'message' => 'Format QR Code tidak valid'], 400);
+            }
 
+            // Mencari data OrderDetail berdasarkan ID
+            $orderDetail = OrderDetail::find($id_order_detail);
+
+            // Jika data OrderDetail tidak ditemukan, kembalikan respons error
             if (!$orderDetail) {
-                return redirect()
-                    ->back()
-                    ->with('error', 'Order detail not found.');
+                Log::error('Order Detail tidak ditemukan', ['id_order_detail' => $id_order_detail]);
+                session()->flash('status', 'qr.error');
+                return response()->json(['success' => false, 'message' => 'Order Detail tidak ditemukan'], 404);
             }
 
-            // Validasi event ID terhadap tiket yang terkait
-            $event = Event::find($request->id_event);
-            if (!$event || $event->id_event !== $orderDetail->ticket->event->id_event) {
-                return redirect()
-                    ->back()
-                    ->with('error', 'Event does not match the ticket\'s event.');
+            // Memeriksa apakah tiket sudah divalidasi sebelumnya
+            $ticketValidation = TicketValidation::where('id_order_detail', $id_order_detail)->first();
+            if ($ticketValidation && $ticketValidation->is_valid) {
+                Log::warning('Tiket sudah divalidasi', ['id_order_detail' => $id_order_detail]);
+                session()->flash('status', 'qr.error');
+                return response()->json(['success' => false, 'message' => 'Tiket sudah divalidasi'], 400);
             }
 
-            // Cek apakah tiket sudah pernah divalidasi sebelumnya
-            if (TicketValidation::where('id_order_detail', $orderDetail->id_order_detail)->exists()) {
-                return redirect()
-                    ->back()
-                    ->with('error', 'This ticket has already been validated.');
+            // Memastikan id_order tidak null
+            if (!$orderDetail->id_order) {
+                Log::error('ID Order tidak ditemukan untuk Order Detail', ['id_order_detail' => $id_order_detail]);
+                session()->flash('status', 'qr.error');
+                return response()->json(['success' => false, 'message' => 'ID Order tidak ditemukan untuk Order Detail ini'], 400);
             }
 
-            // Buat record validasi tiket
-            TicketValidation::create([
-                'id_order_detail' => $orderDetail->id_order_detail,
-                'id_order' => $orderDetail->id_order,
-                'id_ticket' => $orderDetail->id_ticket,
-                'validation_date' => now(),
-                'is_valid' => true,
+            // Menandai tiket sebagai valid
+            TicketValidation::updateOrCreate(
+                ['id_order_detail' => $id_order_detail],
+                [
+                    'id_order' => $orderDetail->id_order,
+                    'id_ticket' => $orderDetail->id_ticket,
+                    'is_valid' => true,
+                    'validation_date' => now(),
+                ]
+            );
+
+            // Log sukses validasi tiket
+            Log::info('Tiket berhasil divalidasi', ['id_order_detail' => $id_order_detail]);
+            session()->flash('status', 'qr.success');
+            return response()->json(['success' => true, 'message' => 'Tiket berhasil divalidasi']);
+        } catch (\Exception $e) {
+            // Log error jika terjadi exception
+            Log::error('Terjadi kesalahan saat memvalidasi tiket:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
             ]);
-
-            return redirect()
-                ->back()
-                ->with('success', 'Ticket validated successfully.');
+            session()->flash('status', 'qr.error');
+            return response()->json(['success' => false, 'message' => 'Terjadi kesalahan saat memvalidasi tiket.'], 500);
         }
-
-        return redirect()
-            ->back()
-            ->with('error', 'No valid ticket or order found.');
     }
 }

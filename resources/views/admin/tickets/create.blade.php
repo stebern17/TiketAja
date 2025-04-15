@@ -68,7 +68,7 @@
 
                         <!-- Tombol Submit -->
                         <div class="d-grid gap">
-                            <button type="submit" class="btn btn-ticket">Buat Tiket</button>
+                            <button type="submit" class="btn btn-submit">Buat Tiket</button>
                         </div>
 
                     </form>
