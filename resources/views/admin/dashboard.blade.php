@@ -3,41 +3,38 @@
 @section('title', 'Admin Dashboard')
 
 @section('content')
-<div class="container mt-5">
-    <h1 class="fw-bold text-center" style="color: #4A5568;">Sales Graph Bulanan</h1>
+<div class="container mx-auto mt-8 px-4">
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Sales Graph Bulanan</h1>
 
     <!-- Dropdown untuk memilih tahun dan bulan -->
-    <div class=" mb-3 bg-white shadow p-4 rounded">
+    <div class="bg-white shadow-md rounded-lg p-6 mb-6">
         <form method="GET" action="{{ route('admin.dashboard') }}">
-            <div class="d-flex justify-content-center mb-4">
-                <div style="flex: 1; max-width: 300px; margin: 0 10px;">
-                    <div style="background-color: #4CAF50; border-radius: 8px; color: white; padding: 20px; text-align: center;">
-                        <h5 style="font-size: 1.25rem; margin-bottom: 1rem; font-weight: bold;">Total Users</h5>
-                        <p style="font-size: 2.5rem; font-weight: bold;">{{ $userCount }}</p>
-                    </div>
+            <div class="flex flex-wrap justify-center gap-4 mb-6">
+                <!-- Total Users -->
+                <div class="flex-1 max-w-xs bg-green-500 text-white rounded-lg p-4 text-center">
+                    <h5 class="text-lg font-semibold mb-2">Total Users</h5>
+                    <p class="text-3xl font-bold">{{ $userCount }}</p>
                 </div>
-                <div style="flex: 1; max-width: 300px; margin: 0 10px;">
-                    <div style="background-color: #FF9800; border-radius: 8px; color: white; padding: 20px; text-align: center;">
-                        <h5 style="font-size: 1.25rem; margin-bottom: 1rem; font-weight: bold;">Total Events</h5>
-                        <p style="font-size: 2.5rem; font-weight: bold;">{{ $eventCount }}</p>
-                    </div>
+                <!-- Total Events -->
+                <div class="flex-1 max-w-xs bg-orange-500 text-white rounded-lg p-4 text-center">
+                    <h5 class="text-lg font-semibold mb-2">Total Events</h5>
+                    <p class="text-3xl font-bold">{{ $eventCount }}</p>
                 </div>
-                <div style="flex: 1; max-width: 300px; margin: 0 10px;">
-                    <div style="background-color: #2196F3; border-radius: 8px; color: white; padding: 20px; text-align: center;">
-                        <h5 style="font-size: 1.25rem; margin-bottom: 1rem; font-weight: bold;">Total Orders</h5>
-                        <p style="font-size: 2.5rem; font-weight: bold;">{{ $orderCount }}</p>
-                    </div>
+                <!-- Total Orders -->
+                <div class="flex-1 max-w-xs bg-blue-500 text-white rounded-lg p-4 text-center">
+                    <h5 class="text-lg font-semibold mb-2">Total Orders</h5>
+                    <p class="text-3xl font-bold">{{ $orderCount }}</p>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <!-- Pilihan Tahun -->
-                <div class="col-md-3">
-                    <label for="yearFilter" style="display: block; font-weight: bold; margin-bottom: 5px; color: #333;">Pilih Tahun:</label>
-                    <select id="yearFilter" name="year" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
-                        <option value="" style="color: #999;">Pilih Tahun</option>
+                <div>
+                    <label for="yearFilter" class="block text-sm font-medium text-gray-700 mb-2">Pilih Tahun:</label>
+                    <select id="yearFilter" name="year" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Pilih Tahun</option>
                         @foreach($years as $year)
-                        <option value="{{ $year->year }}" style="color: #333;" {{ request()->get('year') == $year->year ? 'selected' : '' }}>
+                        <option value="{{ $year->year }}" {{ request()->get('year') == $year->year ? 'selected' : '' }}>
                             {{ $year->year }}
                         </option>
                         @endforeach
@@ -45,23 +42,28 @@
                 </div>
 
                 <!-- Pilihan Bulan -->
-                <div class="col-md-3">
-                    <label for="monthFilter" style="display: block; font-weight: bold; margin-bottom: 5px; color: #333;">Pilih Bulan:</label>
-                    <select id="monthFilter" name="month" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
-                        <option value="" style="color: #999;">Pilih Bulan</option>
+                <div>
+                    <label for="monthFilter" class="block text-sm font-medium text-gray-700 mb-2">Pilih Bulan:</label>
+                    <select id="monthFilter" name="month" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Pilih Bulan</option>
                         @foreach($months as $month)
-                        <option value="{{ $month }}" style="color: #333;" {{ request()->get('month') == $month ? 'selected' : '' }}>
+                        <option value="{{ $month }}" {{ request()->get('month') == $month ? 'selected' : '' }}>
                             {{ \Carbon\Carbon::create()->month($month)->format('F') }}
                         </option>
                         @endforeach
                     </select>
                 </div>
 
-                <div class="col-md-3 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 10px; font-weight: bold; background-color: #333; border: none;">Tampilkan</button>
+                <!-- Tampilkan Button -->
+                <div class="flex items-end">
+                    <button type="submit" class="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-semibold">
+                        Tampilkan
+                    </button>
                 </div>
-                <div class="col-md-3 d-flex align-items-end">
-                    <a href="{{ route('admin.exportSalesReport', ['year' => $selectedYear, 'month' => $selectedMonth]) }}" target="_blank" class="btn btn-danger" style="width: 100%; padding: 10px; font-weight: bold; background-color: #d9534f; border: none;">
+
+                <!-- Export PDF Button -->
+                <div class="flex items-end">
+                    <a href="{{ route('admin.exportSalesReport', ['year' => $selectedYear, 'month' => $selectedMonth]) }}" target="_blank" class="w-full px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 font-semibold text-center">
                         Export PDF
                     </a>
                 </div>
@@ -70,15 +72,15 @@
     </div>
 
     <!-- Grafik Penjualan Harian -->
-    <div class="mt-4 bg-white shadow p-4 rounded">
-        <h4 style="color: #333; font-weight: bold; margin-bottom: 1rem;">Grafik Penjualan Harian</h4>
-        <canvas class="chart-container" style="position: relative; height:40vh; width:80vw" id="dailySalesGraph"></canvas>
+    <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+        <h4 class="text-lg font-bold text-gray-800 mb-4">Grafik Penjualan Harian</h4>
+        <canvas id="dailySalesGraph" class="w-full h-64"></canvas>
     </div>
 
     <!-- Grafik Popularitas Event -->
-    <div class="mt-4 bg-white shadow p-4 rounded">
-        <h4 style="color: #333; font-weight: bold; margin-bottom: 1rem;">Grafik Popularitas Event</h4>
-        <canvas class="chart-container" style="position: relative; height:40vh; width:80vw" id="eventPopularityGraph"></canvas>
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <h4 class="text-lg font-bold text-gray-800 mb-4">Grafik Popularitas Event</h4>
+        <canvas id="eventPopularityGraph" class="w-full h-64"></canvas>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

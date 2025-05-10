@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('location', 255);
             $table->text('description')->nullable();
             $table->integer('capacity');
-            $table->enum('status', ['Ongoing', 'Upcoming', 'Done']);
+            $table->enum('status', ['Ongoing', 'Upcoming', 'Done'])->default('Upcoming');
             $table->enum('category', ['Music', 'Sport', 'Seminar', 'Workshop']);
             $table->timestamps();
         });

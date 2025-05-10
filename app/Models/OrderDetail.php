@@ -22,16 +22,16 @@ class OrderDetail extends Model
         'qr_code',
     ];
 
-    // Relasi ke tabel Order
-    public function order()
-    {
-        return $this->belongsTo(Order::class, 'id_order', 'id_order');
-    }
-
     // Relasi ke tabel Ticket
     public function ticket()
     {
         return $this->belongsTo(Ticket::class, 'id_ticket', 'id_ticket');
+    }
+
+    // Relasi ke tabel Order
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'id_order', 'id_order');
     }
 
     public function ticketValidation()

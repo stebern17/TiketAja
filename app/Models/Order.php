@@ -44,6 +44,6 @@ class Order extends Model
     // Relasi dengan OrderDetail
     public function orderDetails()
     {
-        return $this->hasMany(OrderDetail::class, 'id_order', 'id_order'); // Corrected foreign key
+        return $this->hasMany(OrderDetail::class, 'id_order', 'id_order');
     }
 }

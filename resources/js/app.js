@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Get all the tabs and contents
     const tabs = document.querySelectorAll('.tab-link');
     const tabContents = document.querySelectorAll('.tab-content');
-    
+
     // Function to handle tab switching
     function switchTab(event) {
         event.preventDefault();

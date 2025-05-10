@@ -3,160 +3,256 @@
 @section('title', 'Events Tiketku')
 
 @section('content')
-<div class="container my-5">
-    <h1 class="text-center fw-bold mb-4" style="color: #4A5568;">List Events</h1>
+<div class="container mx-auto mt-8 px-4">
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">List Events</h1>
 
     <!-- Alerts -->
     @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6" role="alert">
+        <strong>Success!</strong> {{ session('success') }}
+        <button type="button" class="absolute top-0 bottom-0 right-0 px-4 py-3" onclick="this.parentElement.style.display='none';">
+            <i class="bi bi-x text-green-700"></i>
+        </button>
     </div>
     @endif
 
     @if(session('danger'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <i class="bi bi-exclamation-circle-fill"></i> {{ session('danger') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
+        <strong>Error!</strong> {{ session('danger') }}
+        <button type="button" class="absolute top-0 bottom-0 right-0 px-4 py-3" onclick="this.parentElement.style.display='none';">
+            <i class="bi bi-x text-red-700"></i>
+        </button>
     </div>
     @endif
 
-    <!-- Search and Export -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    {{-- search and filter --}}
+    <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
         <!-- Search Form -->
-        <form method="GET" action="{{ route('events.index') }}" class="d-flex flex-grow-1 me-3">
-            <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Search events..." value="{{ request()->get('search') }}">
-                <button class="btn btn-secondary ms-2" type="submit">
-                    <i class="bi bi-search"></i> Search
-                </button>
-            </div>
+        <form method="GET" action="{{ route('events.index') }}" class="flex flex-wrap gap-2 w-full md:w-auto">
+            <input type="text" name="search" class="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Search events..." value="{{ request()->get('search') }}">
+
+            <!-- Filter by Status -->
+            <select name="status" class="w-full md:w-48 px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                <option value="">All Status</option>
+                <option value="Upcoming" {{ request()->get('status') == 'Upcoming' ? 'selected' : '' }}>Upcoming</option>
+                <option value="Ongoing" {{ request()->get('status') == 'Ongoing' ? 'selected' : '' }}>Ongoing</option>
+                <option value="Done" {{ request()->get('status') == 'Done' ? 'selected' : '' }}>Done</option>
+            </select>
+
+            <!-- Filter by Location -->
+            <input type="text" name="location" class="w-full md:w-48 px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Filter by location" value="{{ request()->get('location') }}">
+
+            <button type="submit" class="px-4 py-2  bg-slate-800 text-white rounded-md hover:bg-slate-700 ">
+                <i class="bi bi-search"></i> Search
+            </button>
         </form>
 
         <!-- Export Button -->
-        <a href="{{ route('admin.events.export') }}" class="btn btn-success ms-3">
+        <a href="{{ route('admin.events.export') }}" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
             <i class="bi bi-download"></i> Export Events
         </a>
     </div>
 
     <!-- Events Table -->
-    <div class="table-responsive shadow-sm rounded">
-        <table class="table table-striped table-bordered align-middle">
-            <thead class="table text-center">
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-black uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th>No</th>
-                    <th>Event Name</th>
-                    <th>Date</th>
-                    <th>Location</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                    <th>Actions Tiket</th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        No
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Event
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Tanggal
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Lokasi
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Status
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Tindakan
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Tiket
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        WhatsApp Group
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 @if($events->count() > 0)
-                @foreach ($events as $key => $event)
-                <tr>
-                    <td class="text-center">{{ $events->firstItem() + $key }}</td>
-                    <td>{{ $event->name }}</td>
-                    <td>{{ $event->date }}</td>
-                    <td>{{ $event->location }}</td>
-                    <td>{{ $event->status }}</td>
-                    <td class="text-center">
-                        <!-- View Button -->
-                        <a href="#" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#eventDetailModal"
-                            data-name="{{ $event->name }}" data-date="{{ $event->date }}"
-                            data-image="{{ $event->image ? asset('storage/' . $event->image) : 'No image' }}"
-                            data-location="{{ $event->location }}" data-venue="{{ $event->venue }}"
-                            data-description="{{ $event->description }}" data-capacity="{{ $event->capacity }}"
-                            data-status="{{ $event->status }}" data-category="{{ $event->category }}">View</a>
+                    @foreach ($events as $key => $event)
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="px-6 py-4 text-center font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ $events->firstItem() + $key }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $event->name }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $event->date }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $event->location }}
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            @if ($event->status == 'Upcoming')
+                            <span class="px-2 py-1 text-sm font-semibold text-white bg-blue-500 rounded-full">{{ $event->status }}</span>
+                            @elseif ($event->status == 'Ongoing')
+                            <span class="px-2 py-1 text-sm font-semibold text-white bg-green-500 rounded-full">{{ $event->status }}</span>
+                            @elseif ($event->status == 'Done')
+                            <span class="px-2 py-1 text-sm font-semibold text-white bg-gray-500 rounded-full">{{ $event->status }}</span>
+                            @endif
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <div class="flex flex-wrap justify-center gap-2">
+                                <!-- View Button -->
+                                <button class="px-2 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                                    onclick="openModal(this)"
+                                    data-name="{{ $event->name }}"
+                                    data-date="{{ $event->date }}"
+                                    data-image="{{ $event->image ? asset('storage/' . $event->image) : 'No image' }}"
+                                    data-start_time="{{ $event->start_time }}"
+                                    data-end_time="{{ $event->end_time }}"
+                                    data-location="{{ $event->location }}"
+                                    data-description="{{ $event->description }}"
+                                    data-capacity="{{ $event->capacity }}"
+                                    data-status="{{ $event->status }}"
+                                    data-category="{{ $event->category }}">
+                                    View
+                                </button>
 
-                        <!-- Edit Button -->
-                        <a href="{{ route('events.edit', $event->id_event) }}" class="btn btn-warning btn-sm ms-2">Edit</a>
+                                <!-- Edit Button -->
+                                <a href="{{ route('events.edit', $event->id_event) }}" class="px-2 py-1 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">Edit</a>
 
-                        <!-- Delete Button -->
-                        <form action="{{ route('events.destroy', $event->id_event) }}" method="POST" class="d-inline ms-2"
-                            onsubmit="return confirm('Are you sure you want to delete the event {{ $event->name }}?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
-                    </td>
-                    <td class="text-center">
-                        <a href="{{ route('tickets.create', $event->id_event) }}" class="btn btn-success btn-sm">
-                            Buat Tiket
-                        </a>
-                        <a href="{{ route('tickets.index', $event->id_event) }}" class="btn btn-info btn-sm ms-2">
-                            Lihat Tiket
-                        </a>
-                    </td>
-                </tr>
-                @endforeach
+                                <!-- Delete Button -->
+                                <form action="{{ route('events.destroy', $event->id_event) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete the event {{ $event->name }}?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="px-2 py-1 bg-red-600 text-white rounded-md hover:bg-red-700">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <div class="flex flex-wrap justify-center gap-2">
+                                <a href="{{ route('tickets.create', $event->id_event) }}" class="px-2 py-1 bg-green-600 text-white rounded-md hover:bg-green-700">Create Ticket</a>
+                                <a href="{{ route('tickets.index', ['event' => $event->id_event]) }}" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                                    Lihat Tiket
+                                </a>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            @if($event->whatsapp_group_link)
+                            <a href="{{ $event->whatsapp_group_link }}" target="_blank" class="text-blue-500 underline">
+                                Join Group
+                            </a>
+                            @else
+                            <span class="text-gray-500">No Link</span>
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
                 @else
-                <tr>
-                    <td colspan="7" class="text-center">No events found matching your search.</td>
-                </tr>
+                    <tr>
+                        <td colspan="8" class="px-6 py-4 text-center text-gray-500">No events found matching your search.</td>
+                    </tr>
                 @endif
             </tbody>
         </table>
     </div>
 
     <!-- Pagination -->
-    <div class="d-flex justify-content-center mt-4">
-        {{ $events->links('pagination::bootstrap-5') }}
+    <div class="mt-6">
+        {{ $events->links('pagination::tailwind') }}
     </div>
 </div>
 
-<!-- Modal for Event Details -->
-<div class="modal fade" id="eventDetailModal" tabindex="-1" aria-labelledby="eventDetailModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="card">
-                    <img src="" class="card-img-top" id="modal-event-image" alt="Event Image">
-                    <div class="card-body">
-                        <h5 class="card-title font-bold" id="modal-event-name"></h5>
-                        <span id="modal-description"></span><br>
-                        <p class="card-text">
-                            <strong>Date: </strong><span id="modal-event-date"></span><br>
-                            <strong>Location: </strong><span id="modal-location"></span><br>
-                            <strong>Capacity: </strong><span id="modal-capacity"></span><br>
-                            <strong>Status: </strong><span id="modal-status"></span><br>
-                            <strong>Category: </strong><span id="modal-category"></span>
-                        </p>
-                    </div>
-                </div>
+<!-- Enhanced Responsive Modal -->
+<div id="eventDetailModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50 hidden transition-opacity duration-300 ease-in-out" aria-hidden="true" role="dialog" aria-labelledby="modal-event-name" aria-describedby="modal-description">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-full sm:max-w-md md:max-w-lg mx-4 overflow-hidden transform scale-95 transition-transform duration-300 ease-in-out">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-blue-600 to-teal-500 px-6 py-4 flex justify-between items-center">
+            <h5 id="modal-event-name" class="text-lg font-semibold text-white truncate">Event Title</h5>
+            <button type="button" onclick="closeModal()" class="text-white hover:text-gray-200 focus:outline-none">
+                <i class="bi bi-x-lg text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Body -->
+        <div class="p-6 space-y-4">
+            <img id="modal-event-image" class="w-full h-48 object-cover rounded-lg" src="" alt="Event Image">
+            <p id="modal-description" class="text-gray-700 text-sm leading-relaxed"></p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                <div><strong>Tanggal:</strong> <span id="modal-event-date">-</span></div>
+                <div><strong>Mulai:</strong> <span id="modal-event-start-time">-</span></div>
+                <div><strong>Selesai:</strong> <span id="modal-event-end-time">-</span></div>
+                <div><strong>Lokasi:</strong> <span id="modal-location">-</span></div>
+                <div><strong>Kapasitas:</strong> <span id="modal-capacity">-</span></div>
+                <div><strong>Status:</strong> <span id="modal-status">-</span></div>
+                <div class="sm:col-span-2"><strong>Kategori:</strong> <span id="modal-category">-</span></div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="px-6 py-4 bg-gray-100 flex justify-end">
+            <button onclick="closeModal()" class="px-5 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition focus:outline-none">Tutup</button>
         </div>
     </div>
 </div>
 
 <script>
-    $('#eventDetailModal').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget);
-        var name = button.data('name');
-        var date = button.data('date');
-        var image = button.data('image');
-        var location = button.data('location');
-        var venue = button.data('venue');
-        var description = button.data('description');
-        var capacity = button.data('capacity');
-        var status = button.data('status');
-        var category = button.data('category');
+    function openModal(button) {
+        const modal = document.getElementById('eventDetailModal');
+        modal.querySelector('#modal-event-name').textContent = button.dataset.name || 'No name available';
+        modal.querySelector('#modal-event-date').textContent = button.dataset.date || 'No date available';
+        modal.querySelector('#modal-event-start-time').textContent = button.dataset.start_time || 'No start time available';
+        modal.querySelector('#modal-event-end-time').textContent = button.dataset.end_time || 'No end time available';
+        modal.querySelector('#modal-event-image').src = button.dataset.image || '/path/to/default-image.jpg';
+        modal.querySelector('#modal-location').textContent = button.dataset.location || 'No location available';
+        modal.querySelector('#modal-description').textContent = button.dataset.description || 'No description available';
+        modal.querySelector('#modal-capacity').textContent = button.dataset.capacity || 'No capacity available';
+        modal.querySelector('#modal-status').textContent = button.dataset.status || 'No status available';
+        modal.querySelector('#modal-category').textContent = button.dataset.category || 'No category available';
 
-        $('#modal-event-name').text(name);
-        $('#modal-event-date').text(date);
-        $('#modal-event-image').attr('src', image);
-        $('#modal-location').text(location);
-        $("#modal-venue").text(venue);
-        $('#modal-description').text(description);
-        $('#modal-capacity').text(capacity);
-        $('#modal-status').text(status);
-        $('#modal-category').text(category);
+        modal.classList.remove('hidden');
+        modal.classList.add('opacity-100', 'scale-100');
+        modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('eventDetailModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('opacity-100', 'scale-100');
+        modal.style.display = '';
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('eventDetailModal').addEventListener('click', (e) => {
+        if (e.target.id === 'eventDetailModal') {
+            closeModal();
+        }
+    });
+
+    console.log('Modal initialized');
+    document.querySelectorAll('[data-bs-toggle="modal"]').forEach(button => {
+        console.log('Button found:', button);
+        button.addEventListener('click', () => openModal(button));
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('button[onclick="openModal(this)"]');
+        if (buttons.length > 0) {
+            buttons.forEach(button => {
+                button.addEventListener('click', () => openModal(button));
+            });
+        } else {
+            console.error('No buttons found for opening the modal.');
+        }
     });
 </script>
-
 @endsection

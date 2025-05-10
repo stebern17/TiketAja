@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -77,14 +78,14 @@ class UserController extends Controller
     public function settings()
     {
         /** @var \App\Models\User $user */
-        $user = auth()->user(); // Mendapatkan data pengguna yang sedang login
+        $user = Auth::user(); // Mendapatkan data pengguna yang sedang login
         return view('user.settings.index', compact('user')); // Mengarahkan ke file user/settings/index.blade.php
     }
 
     public function updateSettings(Request $request)
     {
         /** @var \App\Models\User $user */
-        $user = auth()->user(); // Mendapatkan pengguna yang sedang login
+        $user = Auth::user(); // Mendapatkan pengguna yang sedang login
 
         $request->validate([
             'name_user' => 'required|string|max:255',

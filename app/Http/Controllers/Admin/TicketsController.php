@@ -84,7 +84,8 @@ class TicketsController extends Controller
     {
 
         $ticket = Tickets::findOrFail($id);
-        return view('admin.tickets.edit', compact('ticket'));
+        $event = Event::findOrFail($ticket->id_event); 
+        return view('admin.tickets.edit', compact('ticket', 'event'));
     }
 
 
@@ -93,24 +94,19 @@ class TicketsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Cari tiket berdasarkan ID
         $ticket = Tickets::findOrFail($id);
 
-        // Validasi data form
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255', // Validasi untuk jenis tiket
-            'price' => 'required|integer|min:0', // Validasi untuk harga
-            'quantity' => 'required|integer|min:1', // Validasi untuk kuantitas
+            'name' => 'required|string|max:255',
+            'price' => 'required|integer|min:0',
+            'quantity' => 'required|integer|min:1',
         ]);
 
-        // Update data tiket dengan data yang sudah divalidasi
         $ticket->update([
-            'type' => $validatedData['name'], // Menyimpan jenis tiket (VIP, Regular, VVIP)
-            'price' => $validatedData['price'], // Menyimpan harga
-            'quantity' => $validatedData['quantity'], // Menyimpan kuantitas
+            'type' => $validatedData['name'],
+            'price' => $validatedData['price'],
+            'quantity' => $validatedData['quantity'],
         ]);
-
-        // Redirect ke halaman index dengan pesan sukses
         return redirect()->route('tickets.index', ['event' => $ticket->id_event])->with('success', 'Ticket berhasil diperbarui.');
     }
 

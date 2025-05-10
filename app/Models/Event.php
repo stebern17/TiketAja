@@ -13,12 +13,15 @@ class Event extends Model
     protected $fillable = [
         'name',
         'date',
+        'start_time',
+        'end_time',
         'image',
         'location',
         'description',
         'capacity',
         'status',
-        'category'
+        'category',
+        'whatsapp_group_link', // Tambahkan ini
     ];
     public function tickets()
     {

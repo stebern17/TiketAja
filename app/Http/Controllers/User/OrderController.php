@@ -4,7 +4,11 @@ namespace App\Http\Controllers\User;
 
 use App\Models\Order;
 use App\Models\Ticket;
+use App\Models\User;
+use App\Notifications\OrderApprovedNotification;
+use App\Notifications\OrderNotification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,25 +19,22 @@ class OrderController extends Controller
         $userId = Auth::id();
 
         // Mengambil order dengan relasi 'ticket', 'event', dan 'orderDetails' yang sesuai dengan user_id
-        $order = Order::with(['ticket', 'event', 'orderDetails'])
+        $orders = Order::with(['ticket', 'event', 'orderDetails'])
             ->where('id_user', $userId)
             ->get();
 
-        return view('user.order.index', compact('order'));
+        return view('user.order.index', compact('orders'));
     }
 
-
-
-    public function create(Request $request)
+    public function create()
     {
         $tickets = Ticket::all();
         return view('user.catalogue.detailevent', compact('tickets'));
     }
 
-
     public function store(Request $request)
     {
-        // Validasi input awal (sebelum upload proof)
+        // Validasi input awal
         $request->validate([
             'id_ticket' => 'required|exists:tickets,id_ticket',
             'quantity' => 'required|integer|min:1',
@@ -56,13 +57,12 @@ class OrderController extends Controller
         ];
 
         // Arahkan ke halaman checkoutOrder
-         return view('user.order.checkoutOrder', compact('checkoutData'));
+        return view('user.order.checkoutOrder', compact('checkoutData'));
     }
 
     public function confirm(Request $request)
     {
-        // Validasi bukti pembayaran
-
+        // Validasi input
         $request->validate([
             'payment_proof' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
             'id_ticket' => 'required|exists:tickets,id_ticket',
@@ -71,37 +71,43 @@ class OrderController extends Controller
             'total_price' => 'required|integer',
         ]);
 
-
         // Simpan bukti pembayaran
         $paymentProofPath = $request->file('payment_proof')->store('payments', 'public');
 
+        // Ambil user yang sedang login
         $user = Auth::user();
 
-
         // Simpan data order ke database
-        Order::create([
+        $order = Order::create([
             'id_user' => $user->id,
             'id_event' => $request->id_event,
             'id_ticket' => $request->id_ticket,
-            'ticket_code' => $request->id_ticket,
             'quantity' => $request->quantity,
             'total_price' => $request->total_price,
             'payment_proof' => $paymentProofPath,
             'status' => 'pending',
         ]);
 
+        // Kirim notifikasi ke admin
+        $admins = User::where('role', 'Admin')->get(); // Ambil semua admin
+        foreach ($admins as $admin) {
+            $admin->notify(new OrderNotification([
+                'id_order' => $order->id_order,
+                'user_name' => $user->name_user,
+                'quantity' => $order->quantity,
+                'total_price' => $order->total_price,
+            ]));
+        }
 
-
-        return redirect()->route('order.index')->with('status', 'order');
+        return redirect()->route('order.index')->with('status', 'Order successfully created!');
     }
-
 
     public function show(Order $order)
     {
         return view('user.order.Ticketshow', compact('order'));
     }
 
-    public function ShowEventOrder($id_order)
+    public function showEventOrder($id_order)
     {
         // Pastikan order ada sebelum mengakses propertinya
         $order = Order::with(['ticket', 'event'])->findOrFail($id_order);
@@ -121,11 +127,11 @@ class OrderController extends Controller
     public function update(Request $request, Order $order)
     {
         $request->validate([
-            'id_tikcet' => 'required|exists:tickets,id_ticket',
+            'id_ticket' => 'required|exists:tickets,id_ticket',
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $ticket = Ticket::findOrFail($request->ticket_id);
+        $ticket = Ticket::findOrFail($request->id_ticket);
         $totalPrice = $ticket->price * $request->quantity;
 
         $order->update([
@@ -139,7 +145,29 @@ class OrderController extends Controller
 
     public function destroy(Order $order)
     {
+        // Hapus bukti pembayaran jika ada
+        if ($order->payment_proof) {
+            Storage::disk('public')->delete($order->payment_proof);
+        }
+
         $order->delete();
         return redirect()->route('orders.index')->with('success', 'Order successfully deleted!');
+    }
+
+    public function approveOrder($orderId)
+    {
+        // Cari order berdasarkan ID
+        $order = Order::with('user')->findOrFail($orderId);
+
+        // Perbarui status order menjadi "approved"
+        $order->status = 'approved';
+        $order->save();
+
+        // Kirim notifikasi ke user terkait order yang disetujui
+        if ($order->user) {
+            $order->user->notify(new OrderApprovedNotification($order, 'Your custom message or second argument here'));
+        }
+
+        return redirect()->back()->with('success', 'Order approved and notification sent!');
     }
 }

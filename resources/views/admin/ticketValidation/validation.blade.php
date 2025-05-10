@@ -3,32 +3,31 @@
 @section('title', 'Ticket Validation')
 
 @section('content')
-<div class="container mt-5">
-    <h1 class="text-center mb-4 fw-bold" style="color: #4A5568;">Ticket Validation</h1>
+<div class="container mx-auto mt-8 px-4 sm:px-2">
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-6 sm:text-xl">Ticket Validation</h1>
 
     <!-- Alert Messages -->
     @if (session('status') === 'qr.success')
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle-fill"></i> QR Code berhasil diverifikasi!
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill"></i> QR Code berhasil diverifikasi!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     @elseif (session('status') === 'qr.error')
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="bi bi-exclamation-circle-fill"></i> QR Code gagal diverifikasi!
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-circle-fill"></i> QR Code gagal diverifikasi!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     @endif
 
     <!-- Validation Form -->
-    <form id="validationForm" method="POST" action="{{ route('admin.ticketValidation.validate') }}" style="background: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <form id="validationForm" method="POST" action="{{ route('admin.ticketValidation.validate') }}" class="bg-white p-6 rounded-lg shadow-md sm:p-4">
         @csrf
-
         <!-- QR Code Scanner -->
         <div class="container mt-4">
-            <h2 class="text-xl font-semibold mb-4">Scan QR Code</h2>
-            <div id="qr-reader" style="width: 500px; border: 1px solid #ddd; padding: 10px; border-radius: 8px;"></div>
-            <div id="qr-reader-results" class="mt-3"></div>
-            <div id="verification-status" class="mt-4"></div>
+            <h2 class="text-xl font-semibold mb-4 text-center">Scan QR Code</h2>
+            <div id="qr-reader" class="mx-auto" style="width: 100%; max-width: 500px; border: 1px solid #ddd; padding: 10px; border-radius: 8px;"></div>
+            <div id="qr-reader-results" class="mt-3 text-center"></div>
+            <div id="verification-status" class="mt-4 text-center"></div>
         </div>
     </form>
 </div>
@@ -44,19 +43,19 @@
                     const cameraId = devices[0].id; // Pilih kamera pertama
                     qrReader.start(
                         cameraId,
-                        { fps: 10, qrbox: 300 },
+                        { fps: 10, qrbox: { width: 250, height: 250 } },
                         onScanSuccess,
                         onScanFailure
                     ).catch(error => {
+                        displayError("Unable to access the camera. Please check your browser settings and permissions.");
                         console.error("Error starting scanner:", error);
-                        document.getElementById('qr-reader').innerHTML = `<p class="text-danger">Unable to access the camera. Please check your browser settings and permissions.</p>`;
                     });
                 } else {
-                    document.getElementById('qr-reader').innerHTML = `<p class="text-danger">No cameras available. Please check your device.</p>`;
+                    displayError("No cameras available. Please check your device.");
                 }
             }).catch(error => {
+                displayError("Unable to access the camera. Please check your browser settings and permissions.");
                 console.error("Error getting cameras:", error);
-                document.getElementById('qr-reader').innerHTML = `<p class="text-danger">Unable to access the camera. Please check your browser settings and permissions.</p>`;
             });
         }
 
@@ -82,25 +81,38 @@
             })
             .then(data => {
                 if (data.success) {
-                    // Tampilkan notifikasi sukses
-                    statusDiv.innerHTML = `<p class="text-success"><i class="bi bi-check-circle-fill"></i> QR Code berhasil diverifikasi!</p>`;
-                    alert('QR Code berhasil diverifikasi!');
+                    displaySuccess("QR Code berhasil diverifikasi!");
                 } else {
-                    // Tampilkan notifikasi gagal
-                    statusDiv.innerHTML = `<p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> QR Code gagal diverifikasi: ${data.message}</p>`;
-                    alert(`QR Code gagal diverifikasi: ${data.message}`);
+                    displayError(`QR Code gagal diverifikasi: ${data.message}`);
                 }
             })
             .catch(error => {
+                displayError("Terjadi kesalahan saat memverifikasi QR Code.");
                 console.error('Error verifying QR code:', error);
-                statusDiv.innerHTML = `<p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Terjadi kesalahan saat memverifikasi QR Code.</p>`;
-                alert('Terjadi kesalahan saat memverifikasi QR Code.');
             });
         }
 
         // Fungsi untuk menangani kegagalan scan QR code
         function onScanFailure(error) {
             console.warn(`QR Code scan failed: ${error}`);
+        }
+
+        // Fungsi untuk menampilkan pesan sukses
+        function displaySuccess(message) {
+            const statusDiv = document.getElementById('verification-status');
+            statusDiv.innerHTML = `<div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill"></i> ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>`;
+        }
+
+        // Fungsi untuk menampilkan pesan error
+        function displayError(message) {
+            const statusDiv = document.getElementById('verification-status');
+            statusDiv.innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-circle-fill"></i> ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>`;
         }
 
         // Mulai scanner

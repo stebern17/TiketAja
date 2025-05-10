@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use \App\Notifications\LoginNotification;
+use \App\Notifications\RegistrationNotification;
+use \App\Notifications\LogoutNotification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
@@ -23,17 +26,22 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $request->only('email_user', 'password');
+        $request->validate([
+            'email_user' => 'required|string',
+            'password' => 'required|string',
+        ]);
 
         $user = User::where('email_user', $request->input('email_user'))
             ->orWhere('name_user', $request->input('email_user'))
             ->first();
 
-
-        if ($user && hash::check($request->password, $user->password)) {
+        if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user);
-            return $this->redirectUserByRole('catalogue.index')->with('status', 'success');
 
+            // Kirim notifikasi login
+            $user->notify(new LoginNotification($user->name_user, now()->toDateTimeString()));
+
+            return $this->redirectUserByRole('catalogue.index')->with('status', 'success');
         }
 
         return back()->with('status', 'error');
@@ -41,16 +49,12 @@ class AuthController extends Controller
 
     public function redirectUserByRole($route)
     {
-        switch (Auth::user()->role) {
-            case 'Admin':
-                return redirect()->route('admin.dashboard');
-                break;
-            case 'User':
-                return redirect()->route('catalogue.index');
-                break;
-            default:
-                return redirect()->route($route);
-                break;
+        if (Auth::user()->role === 'Admin') {
+            return redirect()->route('admin.dashboard');
+        }
+
+        if (Auth::user()->role === 'User') {
+            return redirect()->route('catalogue.index');
         }
 
         return redirect()->route($route);
@@ -63,11 +67,11 @@ class AuthController extends Controller
             'name_user' => 'required|string',
             'email_user' => 'required|email|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'role' => 'nullable|string',
+            'role' => 'nullable|in:admin,user',
         ]);
 
 
-        $role = $request->role ?? 'user';
+        $role = $request->role ?? 'User';
 
 
         $user = User::create([
@@ -77,6 +81,7 @@ class AuthController extends Controller
             'role' => $role,
         ]);
 
+        $user->notify(new RegistrationNotification($user->name_user));
 
         Auth::login($user);
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
+use App\Models\City;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 
@@ -15,10 +16,20 @@ class EventController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
+        $status = $request->get('status');
+        $location = $request->get('location');
+
         $events = Event::when($search, function ($query, $search) {
-            return $query->where('name', 'like', '%' . $search . '%')
-                ->orWhere('location', 'like', '%' . $search . '%');
-        })->paginate(10);
+                return $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('location', 'like', '%' . $search . '%');
+            })
+            ->when($status, function ($query, $status) {
+                return $query->where('status', $status);
+            })
+            ->when($location, function ($query, $location) {
+                return $query->where('location', 'like', '%' . $location . '%');
+            })
+            ->paginate(10);
 
         return view('admin.events.index', compact('events'));
     }
@@ -28,7 +39,8 @@ class EventController extends Controller
      */
     public function create()
     {
-        return view('admin.events.create');
+        $cities = City::all();
+        return view('admin.events.create', compact('cities'));
     }
 
     /**
@@ -39,14 +51,16 @@ class EventController extends Controller
         // Validate the form data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'date' => 'required|date',
+            'date' => 'required|date|after_or_equal:today',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5026',
             'location' => 'required|string|max:255',
             'venue' => 'required|string|max:255',
             'description' => 'nullable|string',
             'capacity' => 'required|integer|min:1',
-            'status' => 'required|string',
             'category' => 'required|string',
+            'whatsapp_group_link' => 'nullable|url|max:255', // Tambahkan validasi ini
         ]);
 
         // Combine location and venue into one field before storing
@@ -62,17 +76,20 @@ class EventController extends Controller
         Event::create([
             'name' => $validatedData['name'],
             'date' => $validatedData['date'],
+            'start_time' => $validatedData['start_time'],
+            'end_time' => $validatedData['end_time'],
             'image' => $imagePath,
             'location' => $locationAndVenue, // Save combined location and venue
             'description' => $validatedData['description'] ?? null,
             'capacity' => $validatedData['capacity'],
-            'status' => $validatedData['status'],
+            'status' => 'Upcoming', // Default status
             'category' => $validatedData['category'],
+            'whatsapp_group_link' => $validatedData['whatsapp_group_link'] ?? null, // Tambahkan ini
         ]);
 
 
         // Redirect with success message
-        return redirect()->route('events.index')->with('success', 'Event created successfully. You can now add tickets.');
+        return redirect()->route('events.index')->with('success', 'Event berhasil dibuat. Kamu bisa menambahkan atau membuat tiket sekarang .');
     }
 
 
@@ -94,22 +111,37 @@ class EventController extends Controller
     public function edit(string $id)
     {
         $event = Event::findOrFail($id);
-        return view('admin.events.edit', compact('event'));
+            // Cek jika status event adalah Done
+        if ($event->status === 'Done') {
+            return redirect()->route('events.index')->with('error', "Event {$event->name} sudah selesai dan tidak dapat diedit.");
+        }
+        $cities = City::all();
+        return view('admin.events.edit', compact('event', 'cities'));
     }
 
     public function update(Request $request, $id)
     {
+        // Find the event by IDw
+        $event = Event::findOrFail($id);
+
+
+            // Cek jika status event adalah Done
+        if ($event->status === 'Done') {
+            return redirect()->route('events.index')->with('error', "Event {$event->name} sudah selesai dan tidak dapat diedit.");
+        }
         // Validate the form data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'date' => 'required|date',
+            'date' => 'required|date|after_or_equal:today',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5026',
             'location' => 'required|string|max:255',
             'venue' => 'required|string|max:255',
             'description' => 'nullable|string',
             'capacity' => 'required|integer|min:1',
-            'status' => 'required|string',
             'category' => 'required|string',
+            'whatsapp_group_link' => 'nullable|url|max:255', // Tambahkan validasi ini
         ]);
 
         // Find the event by ID
@@ -134,11 +166,13 @@ class EventController extends Controller
         $event->update([
             'name' => $validatedData['name'],
             'date' => $validatedData['date'],
+            'start_time' => $validatedData['start_time'],
+            'end_time' => $validatedData['end_time'],
             'location' => $locationAndVenue,
             'description' => $validatedData['description'] ?? $event->description,
             'capacity' => $validatedData['capacity'],
-            'status' => $validatedData['status'],
             'category' => $validatedData['category'],
+            'whatsapp_group_link' => $validatedData['whatsapp_group_link'] ?? $event->whatsapp_group_link, // Tambahkan ini
         ]);
 
         // Redirect or return response

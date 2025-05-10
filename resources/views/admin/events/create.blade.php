@@ -3,136 +3,158 @@
 @section('title', 'Create Events Tiketku')
 
 @section('content')
-<div class="container">
-    <h1 class="mb-4 mt-2 fw-bold text-center" style="color: #4A5568;">Create Event</h1>
+<div class="flex h-screen bg-gray-100">
+    <div class="m-auto w-full max-w-4xl">
+        <div class="bg-white rounded-lg shadow p-6">
+            <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Create Event</h1>
 
-    <!-- Form Pembuatan Event -->
-    <form action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data" class="shadow p-4 rounded" style="background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-        @csrf
+            <!-- Form Pembuatan Event -->
+            <form action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
 
-        <div class="row">
-            <!-- Nama Event -->
-            <div class="mb-3 col-md-6">
-                <label for="name" class="form-label" style="font-weight: bold; color: #333;">Event Name</label>
-                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
-                    placeholder="Enter event name" value="{{ old('name') }}" required style="border-radius: 4px; padding: 10px;">
-                @error('name')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-            <!-- Tanggal Event -->
-            <div class="mb-3 col-md-6">
-                <label for="date" class="form-label" style="font-weight: bold; color: #333;">Event Date</label>
-                <input type="date" class="form-control @error('date') is-invalid @enderror" id="date" name="date"
-                    value="{{ old('date') }}" required style="border-radius: 4px; padding: 10px;">
-                @error('date')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
+                <!-- Nama Event -->
+                <div class="mb-4">
+                    <label for="name" class="block text-sm font-medium text-gray-700">Event Name</label>
+                    <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Enter event name"
+                        class="w-full px-4 py-2.5 mt-2 text-base border border-gray-300 rounded-lg bg-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400 @error('name') border-red-500 @enderror" required>
+                    @error('name')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Tanggal Event -->
+                <div class="mb-4">
+                    <label for="date" class="block text-sm font-medium text-gray-700">Event Date</label>
+                    <input type="date" id="date" name="date" value="{{ old('date') }}" min="{{ date('Y-m-d') }}"
+                        class="w-full px-4 py-2.5 mt-2 text-base border border-gray-300 rounded-lg bg-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400 @error('date') border-red-500 @enderror" required>
+                    @error('date')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Waktu Mulai dan Berakhir -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="start_time" class="block text-sm font-medium text-gray-700">Start Time</label>
+                        <input type="time" id="start_time" name="start_time" value="{{ old('start_time') }}"
+                            class="w-full px-4 py-2.5 mt-2 text-base border border-gray-300 rounded-lg bg-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400 @error('start_time') border-red-500 @enderror" required>
+                        @error('start_time')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label for="end_time" class="block text-sm font-medium text-gray-700">End Time</label>
+                        <input type="time" id="end_time" name="end_time" value="{{ old('end_time') }}"
+                            class="w-full px-4 py-2.5 mt-2 text-base border border-gray-300 rounded-lg bg-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400 @error('end_time') border-red-500 @enderror" required>
+                        @error('end_time')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <!-- Gambar Event -->
+                <div class="mt-4">
+                    <label for="image" class="block text-sm font-medium text-gray-700">Event Image</label>
+                    <input type="file" id="image" name="image"
+                        class="w-full px-4 py-2.5 mt-2 text-base border border-gray-300 rounded-lg bg-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400 @error('image') border-red-500 @enderror" required>
+                    @error('image')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Lokasi dan Venue -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                    <div>
+                        <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                        <select id="location" name="location"
+                            class="w-full px-4 py-2.5 mt-2 text-base border border-gray-300 rounded-lg bg-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400 @error('location') border-red-500 @enderror" required>
+                            <option value="" selected disabled>-- Select City --</option>
+                            @foreach($cities as $city)
+                                <option value="{{ $city->name }}">{{ $city->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('location')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label for="venue" class="block text-sm font-medium text-gray-700">Venue</label>
+                        <input type="text" id="venue" name="venue" value="{{ old('venue') }}" placeholder="Enter event venue"
+                            class="w-full px-4 py-2.5 mt-2 text-base border border-gray-300 rounded-lg bg-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400 @error('venue') border-red-500 @enderror" required>
+                        @error('venue')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <!-- Deskripsi -->
+                <div class="mt-4">
+                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea id="description" name="description" rows="3" placeholder="Enter event description (optional)"
+                        class="w-full px-4 py-2.5 mt-2 text-base border border-gray-300 rounded-lg bg-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400 @error('description') border-red-500 @enderror">{{ old('description') }}</textarea>
+                    @error('description')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- WhatsApp Group Link -->
+                <div class="mt-4">
+                    <label for="whatsapp_group_link" class="block text-sm font-medium text-gray-700">WhatsApp Group Link</label>
+                    <input type="url" id="whatsapp_group_link" name="whatsapp_group_link" value="{{ old('whatsapp_group_link') }}" placeholder="Enter WhatsApp group link"
+                        class="w-full px-4 py-2.5 mt-2 text-base border border-gray-300 rounded-lg bg-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400 @error('whatsapp_group_link') border-red-500 @enderror">
+                    @error('whatsapp_group_link')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Kategori dan Kapasitas -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                    <div>
+                        <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+                        <select id="category" name="category"
+                            class="w-full px-4 py-2.5 mt-2 text-base border border-gray-300 rounded-lg bg-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400 @error('category') border-red-500 @enderror" required>
+                            <option value="" selected disabled>Select category</option>
+                            <option value="Music" {{ old('category') == 'Music' ? 'selected' : '' }}>Music</option>
+                            <option value="Sport" {{ old('category') == 'Sport' ? 'selected' : '' }}>Sport</option>
+                            <option value="Seminar" {{ old('category') == 'Seminar' ? 'selected' : '' }}>Seminar</option>
+                            <option value="Workshop" {{ old('category') == 'Workshop' ? 'selected' : '' }}>Workshop</option>
+                        </select>
+                        @error('category')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label for="capacity" class="block text-sm font-medium text-gray-700">Capacity</label>
+                        <input type="number" id="capacity" name="capacity" value="{{ old('capacity') }}" placeholder="Enter event capacity" min="1"
+                            class="w-full px-4 py-2.5 mt-2 text-base border border-gray-300 rounded-lg bg-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400 @error('capacity') border-red-500 @enderror" required>
+                        @error('capacity')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <!-- Tombol Submit -->
+                <div class="mt-6 text-center">
+                    <button type="submit"
+                        class="flex items-center justify-center px-5 py-2.5 font-medium tracking-wide text-white capitalize bg-black rounded-md hover:bg-gray-900 focus:outline-none transition duration-300 transform active:scale-95 ease-in-out">
+                        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF">
+                            <g>
+                                <rect fill="none" height="24" width="24"></rect>
+                            </g>
+                            <g>
+                                <g>
+                                    <path d="M19,13h-6v6h-2v-6H5v-2h6V5h2v6h6V13z"></path>
+                                </g>
+                            </g>
+                        </svg>
+                        <span class="pl-2 mx-1">Create Event</span>
+                    </button>
+                </div>
+            </form>
         </div>
-
-        {{-- <image></image> --}}
-        <div class="mb-3">
-            <label for="image" class="form-label" style="font-weight: bold; color: #333;">Event Image</label>
-            <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" required style="border-radius: 4px; padding: 10px;">
-            @error('image')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <div class="row mb-3">
-            <!-- Lokasi -->
-            <div class="col-md-6">
-                <label for="location" class="form-label" style="font-weight: bold; color: #333;">Location</label>
-                <select class="form-select @error('location') is-invalid @enderror" id="location" name="location" required style="border-radius: 4px; padding: 10px;">
-                    <option value="" selected disabled>Select Location</option>
-                    <option value="Jakarta" {{ old('location') == 'Jakarta' ? 'selected' : '' }}>Jakarta</option>
-                    <option value="Surabaya" {{ old('location') == 'Surabaya' ? 'selected' : '' }}>Surabaya</option>
-                    <option value="Bandung" {{ old('location') == 'Bandung' ? 'selected' : '' }}>Bandung</option>
-                    <option value="Medan" {{ old('location') == 'Medan' ? 'selected' : '' }}>Medan</option>
-                    <option value="Yogyakarta" {{ old('location') == 'Yogyakarta' ? 'selected' : '' }}>Yogyakarta</option>
-                    <option value="Makassar" {{ old('location') == 'Makassar' ? 'selected' : '' }}>Makassar</option>
-                    <option value="Semarang" {{ old('location') == 'Semarang' ? 'selected' : '' }}>Semarang</option>
-                    <option value="Denpasar" {{ old('location') == 'Denpasar' ? 'selected' : '' }}>Denpasar</option>
-                    <option value="Palembang" {{ old('location') == 'Palembang' ? 'selected' : '' }}>Palembang</option>
-                    <option value="Batam" {{ old('location') == 'Batam' ? 'selected' : '' }}>Batam</option>
-                    <option value="Banjarmasin" {{ old('location') == 'Banjarmasin' ? 'selected' : '' }}>Banjarmasin</option>
-                    <option value="Balikpapan" {{ old('location') == 'Balikpapan' ? 'selected' : '' }}>Balikpapan</option>
-                    <option value="Tangerang" {{ old('location') == 'Tangerang' ? 'selected' : '' }}>Tangerang</option>
-                    <option value="Cimahi" {{ old('location') == 'Cimahi' ? 'selected' : '' }}>Cimahi</option>
-                </select>
-                @error('location')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <!-- Venue -->
-            <div class="col-md-6">
-                <label for="venue" class="form-label" style="font-weight: bold; color: #333;">Venue</label>
-                <input type="text" class="form-control @error('venue') is-invalid @enderror" id="venue" name="venue"
-                    placeholder="Enter event venue" value="{{ old('venue') }}" required style="border-radius: 4px; padding: 10px;">
-                @error('venue')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-
-        <!-- Deskripsi -->
-        <div class="mb-3">
-            <label for="description" class="form-label" style="font-weight: bold; color: #333;">Description</label>
-            <textarea class="form-control @error('description') is-invalid @enderror" id="description"
-                name="description" rows="3"
-                placeholder="Enter event description (optional)" style="border-radius: 4px; padding: 10px;">{{ old('description') }}</textarea>
-            @error('description')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <div class="row mb-3">
-            <!-- Category -->
-            <div class="col-md-6">
-                <label for="category" class="form-label" style="font-weight: bold; color: #333;">Category</label>
-                <select class="form-select @error('category') is-invalid @enderror" id="category" name="category" required style="border-radius: 4px; padding: 10px;">
-                    <option value="" selected disabled>Select category</option>
-                    <option value="Music" {{ old('category') == 'Music' ? 'selected' : '' }}>Music</option>
-                    <option value="Sport" {{ old('category') == 'Sport' ? 'selected' : '' }}>Sport</option>
-                    <option value="Seminar" {{ old('category') == 'Seminar' ? 'selected' : '' }}>Seminar</option>
-                    <option value="Workshop" {{ old('category') == 'Workshop' ? 'selected' : '' }}>Workshop</option>
-                </select>
-                @error('category')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <!-- Capacity -->
-            <div class="col-md-6">
-                <label for="capacity" class="form-label" style="font-weight: bold; color: #333;">Capacity</label>
-                <input type="number" class="form-control @error('capacity') is-invalid @enderror" id="capacity"
-                    name="capacity" placeholder="Enter event capacity" value="{{ old('capacity') }}" min="1" required style="border-radius: 4px; padding: 10px;">
-                @error('capacity')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <!-- Status -->
-            <div class="col-md-6">
-                <label for="status" class="form-label" style="font-weight: bold; color: #333;">Status</label>
-                <select class="form-select @error('status') is-invalid @enderror" id="status" name="status" required style="border-radius: 4px; padding: 10px;">
-                    <option value="" selected disabled>Select status</option>
-                    <option value="Ongoing" {{ old('status') == 'Ongoing' ? 'selected' : '' }}>Ongoing</option>
-                    <option value="Upcoming" {{ old('status') == 'Upcoming' ? 'selected' : '' }}>Upcoming</option>
-                    <option value="Done" {{ old('status') == 'Done' ? 'selected' : '' }}>Done</option>
-                </select>
-                @error('status')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-
-        <!-- Tombol Submit untuk Event -->
-        <button type="submit" class="btn btn-submit w-30">Create Event</button>
-    </form>
+    </div>
 </div>
 @endsection

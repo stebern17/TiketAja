@@ -6,6 +6,8 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use App\Models\Ticket;
+use Illuminate\Support\Facades\DB;
 
 
 class CatalogueController extends Controller
@@ -17,10 +19,20 @@ class CatalogueController extends Controller
     {
         $query = Event::query();
 
+         // Tambahkan harga tiket minimum untuk setiap event
+         $query->addSelect([
+            'min_price' => Ticket::select(DB::raw('MIN(price)'))
+                ->whereColumn('tickets.id_event', 'events.id_event')
+                ->limit(1),
+        ]);
+
         // Filter berdasarkan pencarian
         if ($request->has('search') && $request->search != '') {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
+
+        // Filter untuk mengecualikan event dengan status Done
+        $query->where('status', '!=', 'Done');
 
         // Filter berdasarkan kategori
         if ($request->has('category') && $request->category != '') {
@@ -62,6 +74,9 @@ class CatalogueController extends Controller
             $categories = explode(',', $request->category);
             $query->whereIn('category', $categories);
         }
+
+        // Filter untuk mengecualikan event dengan status Done
+        $query->where('status', '!=', 'Done');
 
         // Menambahkan pengurutan dan pagination
         $events = $query->orderBy('date', 'desc')->paginate(8);

@@ -3,51 +3,70 @@
 @section('title', 'Detail Pesanan')
 
 @section('content')
-<div class="container mt-4">
-    <h1 class="text-2xl font-semibold mb-4">Detail Pesanan Anda</h1>
+<div class="container mx-auto mt-6 px-4">
+    <h1 class="text-2xl font-semibold mb-6 text-gray-800 text-center">Detail Pesanan Anda</h1>
 
-    <div class="card">
-        <div class="card-body px-5">
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="p-6">
             <!-- Gambar Event -->
             @if ($order->event->image ?? false)
-                <img src="{{ asset('storage/' . $order->event->image) }}" alt="Gambar Event" class="img-fluid mb-4">
+                <img src="{{ asset('storage/' . $order->event->image) }}" alt="Gambar Event" class="w-full h-64 object-cover rounded-md mb-6">
             @else
-                <img src="{{ asset('assets/img/placeholder.png') }}" alt="Gambar Tidak Tersedia" class="img-fluid mb-4">
+                <img src="{{ asset('assets/img/placeholder.png') }}" alt="Gambar Tidak Tersedia" class="w-full h-64 object-cover rounded-md mb-6">
             @endif
 
-            <h2 class="card-title fs-1 fw-bold">{{ $order->event->name ?? 'Nama Event Tidak Tersedia' }}</h2>
-            <div class="grid grid-cols-2">
-                <div>
-                    <p class="fs-4"><strong>Tipe Tiket:</strong> {{ $orderDetail->ticket->type ?? 'Tidak Tersedia' }}</p>
-                    <p class="fs-4"><strong>Jumlah Tiket:</strong> {{ $orderDetail->order->quantity ?? '0' }}</p>
-                    <p class="fs-4"><strong>Total Harga:</strong> Rp {{ number_format($order->total_price ?? 0, 0, ',', '.') }}</p>
-                </div>
+            <!-- Nama Event -->
+            <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">{{ $order->event->name ?? 'Nama Event Tidak Tersedia' }}</h2>
 
-                <div class="ms-auto">
-                    <p><strong>QR Code:</strong></p>
-                    @if ($qrCodePath ?? false)
-                        <img src="{{ $qrCodePath }}" alt="QR Code" style="width: 200px; height: 200px;">
-                    @else
-                        <p class="text-muted">QR Code Tidak Tersedia</p>
-                    @endif
+            <!-- Detail Tiket -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                @foreach ($order->orderDetails as $orderDetail)
+                <div class="bg-gray-100 p-4 rounded-lg shadow">
+                    <p class="text-lg text-gray-700"><strong>Tiket:</strong> {{ $orderDetail->ticket->type ?? 'Tidak Tersedia' }}</p>
+                    <p class="text-lg text-gray-700"><strong>Jumlah:</strong> {{ $orderDetail->order->quantity ?? 0 }}</p>
+                    <p class="text-lg text-gray-700"><strong>Harga:</strong> Rp {{ number_format($orderDetail->order->total_price ?? 0, 0, ',', '.') }}</p>
 
-                    <p class="text-center"><strong>Order ID:</strong> {{ $orderDetail->id_order_detail ?? 'Tidak Tersedia' }}</p>
-                    <p><strong>Status Pesanan:</strong>
-                        @if ($isTicketValid)
-                            <span class="badge bg-success">Verified</span>
-                        @elseif ($order->status == 'approved')
-                            <span class="badge bg-info">Receipt Sent</span>
+                    <!-- QR Code -->
+                    <div class="text-center mt-4">
+                        <p class="text-lg text-gray-700"><strong>QR Code:</strong></p>
+                        @if ($orderDetail->qr_code ?? false)
+                            <img src="{{ asset('storage/' . $orderDetail->qr_code) }}" alt="QR Code" class="mx-auto w-32 h-32">
                         @else
-                            <span class="badge bg-warning">Pending</span>
+                            <p class="text-gray-500">QR Code Tidak Tersedia</p>
                         @endif
-                    </p>
+                    </div>
+                    <!-- Status -->
+                    <div class="text-center mt-4">
+                        <p class="text-lg text-gray-700"><strong>Status:</strong></p>
+                        @if ($orderDetail->ticketValidation && $orderDetail->ticketValidation->is_valid)
+                            <span class="text-green-500 font-semibold">Aktif</span>
+                        @elseif ($orderDetail->status == 'expired')
+                            <span class="text-red-500 font-semibold">Kedaluwarsa</span>
+                        @else
+                            <span class="text-yellow-500 font-semibold">Menunggu</span>
+                        @endif
+                    </div>
                 </div>
+                @endforeach
             </div>
+
+            <!-- WhatsApp Group Link -->
+            @if($whatsappGroupLink)
+            <div class="mt-4 text-center">
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">WhatsApp Group Link</h3>
+                <a href="{{ $whatsappGroupLink }}" target="_blank"
+                    class="inline-block bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition duration-200">
+                    Join WhatsApp Group
+                </a>
+            </div>
+            @endif
         </div>
     </div>
 
-    <div class="mt-3">
-        <a href="{{ route('user.orders.index') }}" class="btn btn-secondary">Kembali ke Pesanan</a>
+    <div class="mt-4 mb-5 text-center">
+        <a href="{{ route('user.orders.index') }}" class="inline-block bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
+            Kembali ke Pesanan
+        </a>
     </div>
 </div>
 @endsection
